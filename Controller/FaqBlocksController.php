@@ -82,7 +82,6 @@ class FaqBlocksController extends FaqsAppController {
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
