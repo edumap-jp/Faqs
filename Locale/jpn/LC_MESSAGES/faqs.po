@@ -4,47 +4,48 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:03+0000\n"
-"PO-Revision-Date: 2015-05-06 00:58+0900\n"
+"PO-Revision-Date: 2015-06-01 17:59+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 1.7.5\n"
+"POT-Creation-Date: \n"
+"X-Generator: Poedit 1.8.1\n"
 
-#: Faqs/Controller/BlocksController.php:134
+#: Faqs/Controller/FaqBlocksController.php:126
 msgid "New FAQ %s"
 msgstr "新規FAQ%s"
 
-#: Faqs/Model/Faq.php:110 Faqs/Test/Case/Model/FaqTestValidateFaq.php:149;178
-#: Faqs/View/Elements/Blocks/delete_form.ctp:14;28
+#: Faqs/Model/Faq.php:110 Faqs/Test/Case/Model/FaqValidateFaqTest.php:149;178
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:14;28
 msgid "FAQ"
 msgstr ""
 
 #: Faqs/Model/FaqQuestion.php:115
-#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:357
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:357
 #: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
-#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:81
-#: Faqs/View/FaqQuestionOrders/edit.ctp:50
+#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:89
+#: Faqs/View/FaqQuestionOrders/edit.ctp:51
 msgid "Question"
 msgstr "質問"
 
 #: Faqs/Model/FaqQuestion.php:123
-#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:390
-#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:106
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:390
+#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:114
 msgid "Answer"
 msgstr "回答"
 
-#: Faqs/View/Blocks/index.ctp:37 Faqs/View/Elements/Blocks/edit_form.ctp:54
+#: Faqs/View/Elements/FaqBlocks/edit_form.ctp:32
+#: Faqs/View/FaqBlocks/index.ctp:37
 msgid "FAQ Name"
-msgstr "FAQ名称"
+msgstr "FAQ名"
 
-#: Faqs/View/FaqQuestions/index.ctp:30
+#: Faqs/View/FaqQuestions/index.ctp:28
 msgid "Sort question"
 msgstr "順序変更"
 
-#: Faqs/View/FaqQuestions/index.ctp:37
+#: Faqs/View/FaqQuestions/index.ctp:35
 msgid "Create question"
 msgstr "質問の作成"
