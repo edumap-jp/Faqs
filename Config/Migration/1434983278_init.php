@@ -134,7 +134,6 @@ class Init extends CakeMigration {
 		),
 	);
 
-
 /**
  * Before migration callback
  *
