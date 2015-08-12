@@ -51,7 +51,7 @@ class BlockRolePermissionsControllerEditTest extends FaqsControllerTestBase {
 		$blockId = '100';
 
 		$view = $this->testAction(
-				'/faqs/faq_block_role_permmisions/edit/' . $frameId . '/' . $blockId,
+				'/faqs/faq_block_role_permissions/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
