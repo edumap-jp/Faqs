@@ -35,9 +35,6 @@ class FaqsModelTestBase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block',
-		'plugin.blocks.block_role_permission',
-		'plugin.boxes.box',
 		'plugin.categories.category',
 		'plugin.categories.category_order',
 		'plugin.comments.comment',
@@ -45,13 +42,6 @@ class FaqsModelTestBase extends YACakeTestCase {
 		'plugin.faqs.faq_setting',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.plugin_manager.plugin',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.room',
-		'plugin.users.user_attributes_user',
-		'plugin.users.user',
 	);
 
 /**
