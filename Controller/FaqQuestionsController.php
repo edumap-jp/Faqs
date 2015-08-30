@@ -55,9 +55,9 @@ class FaqQuestionsController extends FaqsAppController {
  *
  * @var array
  */
-	public $helpers = array(
-		'NetCommons.Token'
-	);
+//	public $helpers = array(
+//		'NetCommons.Token'
+//	);
 
 /**
  * beforeFilter

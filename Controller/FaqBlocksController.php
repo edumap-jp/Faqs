@@ -101,12 +101,16 @@ class FaqBlocksController extends FaqsAppController {
 			$this->view = 'not_found';
 			return;
 		}
+//		$results = array(
+//			'faqs' => $faqs
+//		);
+//		$results = $this->camelizeKeyRecursive($results);
+//		$this->set($results);
+		$this->set('faqs', $faqs);
 
-		$results = array(
-			'faqs' => $faqs
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->request->data['Frame']['block_id'] = $this->viewVars['blockId'];
+		$this->request->data['Frame']['id'] = $this->viewVars['frameId'];
+
 	}
 
 /**
