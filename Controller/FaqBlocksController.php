@@ -36,7 +36,7 @@ class FaqBlocksController extends FaqsAppController {
 		'Frames.Frame',
 		'Faqs.Faq',
 		'Faqs.FaqSetting',
-		'Categories.Category',
+//		'Categories.Category',
 	);
 
 /**
@@ -45,6 +45,7 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
+		'Categories.CategoryEdit',
 		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -53,7 +54,7 @@ class FaqBlocksController extends FaqsAppController {
 			),
 		),
 		'Paginator',
-		'Categories.Categories',
+		//'Categories.Categories',
 	);
 
 /**
@@ -76,6 +77,11 @@ class FaqBlocksController extends FaqsAppController {
 
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
+
+		//CategoryEditComponentの削除
+		if ($this->params['action'] === 'index') {
+			$this->Components->unload('Categories.CategoryEdit');
+		}
 	}
 
 /**
@@ -110,7 +116,6 @@ class FaqBlocksController extends FaqsAppController {
 
 		$this->request->data['Frame']['block_id'] = $this->viewVars['blockId'];
 		$this->request->data['Frame']['id'] = $this->viewVars['frameId'];
-
 	}
 
 /**
@@ -122,6 +127,8 @@ class FaqBlocksController extends FaqsAppController {
 		$this->view = 'edit';
 
 		$this->set('blockId', null);
+		$this->set('categoryMaps', null);
+
 //		$faq = $this->Faq->create(
 //			array(
 //				'id' => null,
@@ -185,6 +192,11 @@ class FaqBlocksController extends FaqsAppController {
 //		}
 //		$this->Categories->initCategories();
 
+//		$categories = $this->Faq->getCategories($this->params['pass'][1], $this->viewVars['roomId']);
+//		//$this->set('categories', $categories);
+//		$categoryMaps = Hash::combine($categories, '{n}.Category.id', '{n}.Category.key');
+//		$this->set('categoryMaps', $categoryMaps);
+
 		if ($this->request->isPut()) {
 			$data = $this->__parseRequestData();
 //			$data['FaqSetting']['faq_key'] = $data['Faq']['key'];
@@ -206,13 +218,19 @@ class FaqBlocksController extends FaqsAppController {
 				$this->throwBadRequest();
 				return false;
 			}
-
-			$this->request->data = $faq;
+			$this->request->data = Hash::merge($this->request->data, $faq);
 			$this->request->data['Frame'] = array(
 				'id' => $this->viewVars['frameId'],
 				'key' => $this->viewVars['frameKey']
 			);
+
+			//$this->request->data['Categories'] = $this->Faq->getCategories($this->params['pass'][1], $this->viewVars['roomId']);
+			//$this->request->data['Categories'] = $categories;
+			//$this->request->data['CategoryMap'] = Hash::combine($categories, '{n}.Category.id', '{n}.Category.key');
+			//$this->set('categoryMaps', $categoryMaps);
 		}
+
+
 	}
 
 /**
@@ -249,7 +267,7 @@ class FaqBlocksController extends FaqsAppController {
  * @return array
  */
 	private function __parseRequestData() {
-		$data = $this->data;
+		$data = $this->request->data;
 		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
 			//$data['Block']['from'] = implode('-', $data['Block']['from']);
 			//$data['Block']['to'] = implode('-', $data['Block']['to']);

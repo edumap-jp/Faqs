@@ -25,6 +25,4 @@
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
-<?php echo $this->element('Categories.edit_form', array(
-		'categories' => isset($categories) ? $categories : null
-	));
+<?php echo $this->element('Categories.edit_form');

@@ -36,8 +36,14 @@ class Faq extends FaqsAppModel {
  */
 	public $actsAs = array(
 		'Blocks.Block' => array(
-			'name' => 'Faq.name'
+			'name' => 'Faq.name',
+			'loadModels' => array(
+				'Category' => 'Categories.Category',
+				'CategoryOrder' => 'Categories.CategoryOrder',
+				'Comment' => 'Comments.Comment',
+			)
 		),
+		'Categories.Category',
 		'Comments.Comment',
 		'NetCommons.OriginalKey'
 	);
@@ -92,8 +98,8 @@ class Faq extends FaqsAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -109,8 +115,8 @@ class Faq extends FaqsAppModel {
 				),
 			),
 			'name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ')),
 					'allowEmpty' => false,
 					'required' => true,
@@ -214,7 +220,7 @@ class Faq extends FaqsAppModel {
 		$this->loadModels([
 			'Faq' => 'Faqs.Faq',
 			'FaqSetting' => 'Faqs.FaqSetting',
-			'Category' => 'Categories.Category',
+			//'Category' => 'Categories.Category',
 			'Block' => 'Blocks.Block',
 			'Frame' => 'Frames.Frame',
 		]);
