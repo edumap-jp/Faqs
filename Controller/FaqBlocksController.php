@@ -33,10 +33,8 @@ class FaqBlocksController extends FaqsAppController {
  */
 	public $uses = array(
 		'Blocks.Block',
-		'Frames.Frame',
 		'Faqs.Faq',
 		'Faqs.FaqSetting',
-//		'Categories.Category',
 	);
 
 /**
@@ -54,7 +52,6 @@ class FaqBlocksController extends FaqsAppController {
 			),
 		),
 		'Paginator',
-		//'Categories.Categories',
 	);
 
 /**
@@ -107,11 +104,6 @@ class FaqBlocksController extends FaqsAppController {
 			$this->view = 'not_found';
 			return;
 		}
-//		$results = array(
-//			'faqs' => $faqs
-//		);
-//		$results = $this->camelizeKeyRecursive($results);
-//		$this->set($results);
 		$this->set('faqs', $faqs);
 
 		$this->request->data['Frame']['block_id'] = $this->viewVars['blockId'];
@@ -129,34 +121,14 @@ class FaqBlocksController extends FaqsAppController {
 		$this->set('blockId', null);
 		$this->set('categoryMaps', null);
 
-//		$faq = $this->Faq->create(
-//			array(
-//				'id' => null,
-//				'key' => null,
-//				'block_id' => null,
-//				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
-//			)
-//		);
-//		$block = $this->Block->create(
-//			array('id' => null, 'key' => null)
-//		);
-//
-//		$data = Hash::merge($faq, $block);
-
 		if ($this->request->isPost()) {
 			$data = $this->__parseRequestData();
 
 			if ($this->Faq->saveFaq($data)) {
-//				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-//				}
-//				return;
+				$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
 
-//			$data['Block']['id'] = null;
-//			$data['Block']['key'] = null;
-//			unset($data['Frame']);
 		} else {
 			//初期データセット
 			$this->request->data = $this->Faq->createFaq($this->viewVars['roomId']);
@@ -165,9 +137,6 @@ class FaqBlocksController extends FaqsAppController {
 				'key' => $this->viewVars['frameKey']
 			);
 		}
-
-//		$results = $this->camelizeKeyRecursive($data);
-//		$this->set($results);
 	}
 
 /**
@@ -176,42 +145,18 @@ class FaqBlocksController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-//		if (! $this->NetCommonsBlock->validateBlockId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
 		if (! isset($this->params['pass'][1])) {
 			$this->throwBadRequest();
 			return false;
 		}
 
-//		$this->set('blockId', (int)$this->params['pass'][1]);
-
-//		if (! $this->initFaq(['faqSetting'])) {
-//			return;
-//		}
-//		$this->Categories->initCategories();
-
-//		$categories = $this->Faq->getCategories($this->params['pass'][1], $this->viewVars['roomId']);
-//		//$this->set('categories', $categories);
-//		$categoryMaps = Hash::combine($categories, '{n}.Category.id', '{n}.Category.key');
-//		$this->set('categoryMaps', $categoryMaps);
-
 		if ($this->request->isPut()) {
 			$data = $this->__parseRequestData();
-//			$data['FaqSetting']['faq_key'] = $data['Faq']['key'];
-
 			if ($this->Faq->saveFaq($data)) {
-//				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-//				}
-//				return;
+				$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
-//			unset($data['Frame']);
-//
-//			$results = $this->camelizeKeyRecursive($data);
-//			$this->set($results);
+
 		} else {
 			//初期データセット
 			if (! $faq = $this->Faq->getFaq($this->params['pass'][1], $this->viewVars['roomId'])) {
@@ -223,14 +168,7 @@ class FaqBlocksController extends FaqsAppController {
 				'id' => $this->viewVars['frameId'],
 				'key' => $this->viewVars['frameKey']
 			);
-
-			//$this->request->data['Categories'] = $this->Faq->getCategories($this->params['pass'][1], $this->viewVars['roomId']);
-			//$this->request->data['Categories'] = $categories;
-			//$this->request->data['CategoryMap'] = Hash::combine($categories, '{n}.Category.id', '{n}.Category.key');
-			//$this->set('categoryMaps', $categoryMaps);
 		}
-
-
 	}
 
 /**
@@ -239,22 +177,9 @@ class FaqBlocksController extends FaqsAppController {
  * @return void
  */
 	public function delete() {
-//		if (! $this->NetCommonsBlock->validateBlockId()) {
-//			$this->throwBadRequest();
-//			return false;
-//		}
-//		$this->set('blockId', (int)$this->params['pass'][1]);
-
-//		if (! $this->initFaq()) {
-//			return;
-//		}
-
 		if ($this->request->isDelete()) {
 			if ($this->Faq->deleteFaq($this->data)) {
-//				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-//				}
-//				return;
+				$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
 			}
 		}
 

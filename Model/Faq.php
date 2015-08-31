@@ -220,9 +220,6 @@ class Faq extends FaqsAppModel {
 		$this->loadModels([
 			'Faq' => 'Faqs.Faq',
 			'FaqSetting' => 'Faqs.FaqSetting',
-			//'Category' => 'Categories.Category',
-			'Block' => 'Blocks.Block',
-			'Frame' => 'Frames.Frame',
 		]);
 
 		//トランザクションBegin
@@ -240,11 +237,7 @@ class Faq extends FaqsAppModel {
 		}
 
 		try {
-//			//ブロックの登録
-//			$block = $this->Block->saveByFrameId($data['Frame']['id']);
-
 			//登録処理
-//			$this->data['Faq']['block_id'] = (int)$block['Block']['id'];
 			if (! $faq = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -253,10 +246,6 @@ class Faq extends FaqsAppModel {
 			if (! $this->FaqSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-//			$data['Block']['id'] = (int)$block['Block']['id'];
-//			$data['Block']['key'] = $block['Block']['key'];
-//			$this->Category->saveCategories($data);
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -283,30 +272,6 @@ class Faq extends FaqsAppModel {
 		if ($this->validationErrors) {
 			return false;
 		}
-
-//		if (in_array('faqSetting', $contains, true)) {
-//			if (! $this->FaqSetting->validateFaqSetting($data)) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
-//				return false;
-//			}
-//		}
-//
-//		if (in_array('block', $contains, true)) {
-//			if (! $this->Block->validateBlock($data)) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-//				return false;
-//			}
-//		}
-//
-//		if (in_array('category', $contains, true)) {
-//			if (! isset($data['Categories'])) {
-//				$data['Categories'] = [];
-//			}
-//			if (! $data = $this->Category->validateCategories($data)) {
-//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Category->validationErrors);
-//				return false;
-//			}
-//		}
 		return true;
 	}
 
@@ -323,9 +288,6 @@ class Faq extends FaqsAppModel {
 			'FaqSetting' => 'Faqs.FaqSetting',
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			'Block' => 'Blocks.Block',
-			'Category' => 'Categories.Category',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
@@ -337,10 +299,9 @@ class Faq extends FaqsAppModel {
 			$this->alias . '.key' => $data['Faq']['key']
 		);
 		$faqs = $this->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 		$faqs = array_keys($faqs);
 
 		try {
@@ -361,13 +322,13 @@ class Faq extends FaqsAppModel {
 			}
 
 			//コメントの削除
-			$this->Comment->deleteByBlockKey($data['Block']['key']);
+			$this->deleteCommentsByBlockKey($data['Block']['key']);
 
 			//Categoryデータ削除
-			$this->Category->deleteByBlockKey($data['Block']['key']);
+			$this->deleteCategoriesByBlockKey($data['Block']['key']);
 
 			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
 			$dataSource->commit();
