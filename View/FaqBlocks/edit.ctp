@@ -17,7 +17,7 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'FaqBlocks',
+				'model' => 'FaqBlock',
 				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Faqs.FaqBlocks/edit_form',
 				'cancelUrl' => '/faqs/faq_blocks/index/' . $frameId
@@ -25,7 +25,7 @@
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'FaqBlocks',
+					'model' => 'FaqBlock',
 					'action' => 'delete/' . $frameId . '/' . $blockId,
 					'callback' => 'Faqs.FaqBlocks/delete_form'
 				)); ?>

@@ -35,6 +35,10 @@ class Faq extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'Faq.name'
+		),
+		'Comments.Comment',
 		'NetCommons.OriginalKey'
 	);
 
@@ -124,25 +128,79 @@ class Faq extends FaqsAppModel {
 	}
 
 /**
- * Get faq data
+ * Create announcement data
+ *
+ * @param int $roomId rooms.id
+ * @return array
+ */
+	public function createFaq($roomId) {
+		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
+
+		$faq = $this->create(array(
+			'id' => null,
+			'key' => null,
+			'block_id' => null,
+			'status' => null,
+			'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
+		));
+		$faq = Hash::merge($faq, $this->createBlock(array(
+			'room_id' => $roomId,
+		)));
+		$faq = Hash::merge($faq, $this->FaqSetting->create(array(
+			'id' => null,
+		)));
+
+		return $faq;
+	}
+
+/**
+ * Get Faq data
  *
  * @param int $blockId blocks.id
  * @param int $roomId rooms.id
  * @return array
  */
 	public function getFaq($blockId, $roomId) {
+		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
+
 		$conditions = array(
 			'Block.id' => $blockId,
 			'Block.room_id' => $roomId,
 		);
 
-		$faq = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
+		$faq = $this->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				$this->alias . '.*',
+				$this->Block->alias . '.*',
+				$this->FaqSetting->alias . '.*',
+			),
+			'joins' => array(
+				array(
+					'table' => $this->Block->table,
+					'alias' => $this->Block->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
+					),
+				),
+				array(
+					'table' => $this->FaqSetting->table,
+					'alias' => $this->FaqSetting->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.key' . ' = ' . $this->FaqSetting->alias . ' .faq_key',
+					),
+				),
+			),
+			'conditions' => $conditions,
+		));
 
-		return $faq;
+		if (! $faq) {
+			return $faq;
+		}
+
+		return $faq[0];
 	}
 
 /**
@@ -166,17 +224,21 @@ class Faq extends FaqsAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
-		try {
-			//バリデーション
-			if (! $this->validateFaq($data, ['faqSetting', 'block', 'category'])) {
-				return false;
-			}
+		//バリデーション
+		if (! $this->validateFaq($data)) {
+			return false;
+		}
+		if (! $this->FaqSetting->validateFaqSetting($data['FaqSetting'])) {
+			$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
+			return false;
+		}
 
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id']);
+		try {
+//			//ブロックの登録
+//			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
 			//登録処理
-			$this->data['Faq']['block_id'] = (int)$block['Block']['id'];
+//			$this->data['Faq']['block_id'] = (int)$block['Block']['id'];
 			if (! $faq = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -186,9 +248,9 @@ class Faq extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$data['Block']['id'] = (int)$block['Block']['id'];
-			$data['Block']['key'] = $block['Block']['key'];
-			$this->Category->saveCategories($data);
+//			$data['Block']['id'] = (int)$block['Block']['id'];
+//			$data['Block']['key'] = $block['Block']['key'];
+//			$this->Category->saveCategories($data);
 
 			//トランザクションCommit
 			$dataSource->commit();
@@ -207,39 +269,38 @@ class Faq extends FaqsAppModel {
  * validate faq
  *
  * @param array $data received post data
- * @param array $contains Optional validate sets
  * @return bool True on success, false on validation errors
  */
-	public function validateFaq($data, $contains = []) {
+	public function validateFaq($data) {
 		$this->set($data);
 		$this->validates();
 		if ($this->validationErrors) {
 			return false;
 		}
 
-		if (in_array('faqSetting', $contains, true)) {
-			if (! $this->FaqSetting->validateFaqSetting($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
-				return false;
-			}
-		}
-
-		if (in_array('block', $contains, true)) {
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-		}
-
-		if (in_array('category', $contains, true)) {
-			if (! isset($data['Categories'])) {
-				$data['Categories'] = [];
-			}
-			if (! $data = $this->Category->validateCategories($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Category->validationErrors);
-				return false;
-			}
-		}
+//		if (in_array('faqSetting', $contains, true)) {
+//			if (! $this->FaqSetting->validateFaqSetting($data)) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
+//				return false;
+//			}
+//		}
+//
+//		if (in_array('block', $contains, true)) {
+//			if (! $this->Block->validateBlock($data)) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+//				return false;
+//			}
+//		}
+//
+//		if (in_array('category', $contains, true)) {
+//			if (! isset($data['Categories'])) {
+//				$data['Categories'] = [];
+//			}
+//			if (! $data = $this->Category->validateCategories($data)) {
+//				$this->validationErrors = Hash::merge($this->validationErrors, $this->Category->validationErrors);
+//				return false;
+//			}
+//		}
 		return true;
 	}
 

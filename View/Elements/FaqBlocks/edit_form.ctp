@@ -12,41 +12,16 @@
 
 <?php echo $this->element('Blocks.form_hidden'); ?>
 
-<?php echo $this->Form->hidden('Faq.id', array(
-		'value' => isset($faq['id']) ? (int)$faq['id'] : null,
+<?php echo $this->Form->hidden('Faq.id'); ?>
+<?php echo $this->Form->hidden('Faq.key'); ?>
+<?php echo $this->Form->hidden('FaqSetting.id'); ?>
+<?php echo $this->Form->hidden('FaqSetting.faq_key'); ?>
+
+<?php echo $this->NetCommonsForm->input('Faq.name', array(
+		'type' => 'text',
+		'label' => __d('faqs', 'FAQ Name'),
+		'required' => true
 	)); ?>
-
-<?php echo $this->Form->hidden('Faq.key', array(
-		'value' => isset($faq['key']) ? $faq['key'] : null,
-	)); ?>
-
-<?php echo $this->Form->hidden('FaqSetting.id', array(
-		'value' => isset($faqSetting['id']) ? (int)$faqSetting['id'] : null,
-	)); ?>
-
-<div class="row form-group">
-	<div class="col-xs-12">
-		<?php echo $this->Form->input(
-				'Faq.name', array(
-					'type' => 'text',
-					'label' => __d('faqs', 'FAQ Name') . $this->element('NetCommons.required'),
-					'error' => false,
-					'class' => 'form-control',
-					'autofocus' => true,
-					'value' => (isset($faq['name']) ? $faq['name'] : '')
-				)
-			); ?>
-	</div>
-
-	<div class="col-xs-12">
-		<?php echo $this->element(
-			'NetCommons.errors', [
-				'errors' => $this->validationErrors,
-				'model' => 'Faq',
-				'field' => 'name',
-			]); ?>
-	</div>
-</div>
 
 <?php echo $this->element('Blocks.public_type'); ?>
 

@@ -10,7 +10,7 @@
  */
 ?>
 
-<div class="modal-body">
+<article class="block-setting-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
@@ -20,69 +20,49 @@
 			</a>
 		</div>
 
-		<div id="nc-faq-setting-<?php echo $frameId; ?>">
-			<?php echo $this->Form->create('', array(
-					'url' => '/frames/frames/edit/' . $frameId
-				)); ?>
+		<?php echo $this->Form->create('', array('url' => '/frames/frames/edit/' . $frameId)); ?>
 
-				<?php echo $this->Form->hidden('Frame.id', array(
-						'value' => $frameId,
-					)); ?>
+			<?php echo $this->Form->hidden('Frame.id'); ?>
 
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th></th>
-							<th>
-								<?php echo $this->Paginator->sort('Faq.name', __d('faqs', 'FAQ Name')); ?>
-							</th>
-							<th>
-								<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
-							</th>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th>
+							<?php echo $this->Paginator->sort('Block.name', __d('faqs', 'FAQ Name')); ?>
+						</th>
+						<th>
+							<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($faqs as $faq) : ?>
+						<tr<?php echo ($blockId === $faq['Block']['id'] ? ' class="active"' : ''); ?>>
+							<td>
+								<?php echo $this->NetCommonsForm->radio('Frame.block_id', array($faq['Block']['id'] => ''), array(
+										'onclick' => 'submit()',
+										'ng-click' => 'sending=true',
+										'ng-disabled' => 'sending'
+									)); ?>
+							</td>
+							<td>
+								<a href="<?php echo $this->Html->url('/faqs/faq_blocks/edit/' . $frameId . '/' . (int)$faq['Block']['id']); ?>">
+									<?php echo h($faq['Block']['name']); ?>
+								</a>
+							</td>
+							<td>
+								<?php echo $this->Date->dateFormat($faq['Block']['modified']); ?>
+							</td>
 						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($faqs as $faq) : ?>
-							<tr<?php echo ($blockId === $faq['block']['id'] ? ' class="active"' : ''); ?>>
-								<td>
-									<?php echo $this->Form->input('Frame.block_id',
-										array(
-											'type' => 'radio',
-											'name' => 'data[Frame][block_id]',
-											'options' => array((int)$faq['block']['id'] => ''),
-											'div' => false,
-											'legend' => false,
-											'label' => false,
-											'hiddenField' => false,
-											'checked' => (int)$faq['block']['id'] === (int)$blockId,
-											'onclick' => 'submit()'
-										)); ?>
-								</td>
-								<td>
-									<a href="<?php echo $this->Html->url('/faqs/faq_blocks/edit/' . $frameId . '/' . (int)$faq['block']['id']); ?>">
-										<?php echo h($faq['faq']['name']); ?>
-									</a>
-								</td>
-								<td>
-									<?php echo $this->Date->dateFormat($faq['block']['modified']); ?>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			<?php echo $this->Form->end(); ?>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php echo $this->Form->end(); ?>
 
-			<div class="text-center">
-				<?php echo $this->element('NetCommons.paginator', array(
-						'url' => Hash::merge(
-							array('controller' => 'faq_blocks', 'action' => 'index', $frameId),
-							$this->Paginator->params['named']
-						)
-					)); ?>
-			</div>
-		</div>
+		<?php echo $this->element('NetCommons.paginator'); ?>
 	</div>
-</div>
+</article>
 
 
 
