@@ -27,6 +27,15 @@ class FaqSetting extends FaqsAppModel {
 	public $validate = array();
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Blocks.BlockRolePermission',
+	);
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -69,10 +78,9 @@ class FaqSetting extends FaqsAppModel {
 		);
 
 		$faqSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 
 		return $faqSetting;
 	}
@@ -87,7 +95,6 @@ class FaqSetting extends FaqsAppModel {
 	public function saveFaqSetting($data) {
 		$this->loadModels([
 			'FaqSetting' => 'Faqs.FaqSetting',
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
 		]);
 
 		//トランザクションBegin
@@ -95,28 +102,18 @@ class FaqSetting extends FaqsAppModel {
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 
-		try {
-			if (! $this->validateFaqSetting($data)) {
-				return false;
-			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
-					return false;
-				}
-			}
+		if (! $this->validateFaqSetting($data)) {
+			return false;
+		}
 
+		try {
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
 			}
 
 			//トランザクションCommit
 			$dataSource->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$dataSource->rollback();

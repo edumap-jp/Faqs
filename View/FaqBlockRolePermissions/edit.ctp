@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php echo $this->Html->script('/faqs/js/faqs.js', false); ?>
+<?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
 
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
@@ -19,7 +19,7 @@
 		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'FaqBlockRolePermission',
+				'model' => 'FaqBlockRolePermission',
 				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Faqs.FaqBlockRolePermissions/edit_form',
 				'cancelUrl' => '/faqs/faq_blocks/index/' . $frameId,

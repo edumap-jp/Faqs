@@ -32,11 +32,6 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $uses = array(
-		'Roles.Role',
-		'Roles.DefaultRolePermission',
-		'Blocks.Block',
-		'Blocks.BlockRolePermission',
-		'Rooms.RolesRoom',
 		'Faqs.Faq',
 		'Faqs.FaqSetting'
 	);
@@ -61,9 +56,9 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  *
  * @var array
  */
-//	public $helpers = array(
-//		'NetCommons.Token'
-//	);
+	public $helpers = array(
+		'Blocks.BlockRolePermissionForm'
+	);
 
 /**
  * beforeFilter
@@ -83,48 +78,30 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
+		if (! $faq = $this->Faq->getFaq($this->params['pass'][1], $this->viewVars['roomId'])) {
 			$this->throwBadRequest();
 			return false;
 		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-		if (! $this->initFaq(['faqSetting'])) {
-			return;
-		}
-
-		if (! $block = $this->Block->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-			),
-		))) {
-			$this->throwBadRequest();
-			return false;
-		};
-		$this->set('blockId', $block['Block']['id']);
-		$this->set('blockKey', $block['Block']['key']);
+		$this->set('blockId', $faq['Block']['id']);
+		$this->set('blockKey', $faq['Block']['key']);
 
 		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
 			$this->viewVars['blockKey'],
 			['content_creatable', 'content_publishable']
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->FaqSetting->saveFaqSetting($data);
-			if ($this->handleValidationError($this->FaqSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-				}
+			if ($this->FaqSetting->saveFaqSetting($this->request->data)) {
+				$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
 				return;
 			}
-		}
+			$this->handleValidationError($this->FaqSetting->validationErrors);
 
-		$results = array(
-			'BlockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		} else {
+			$this->request->data['FaqSetting'] = $faq['FaqSetting'];
+			$this->request->data['Block'] = $faq['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+		}
 	}
 }
