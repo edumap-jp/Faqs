@@ -163,6 +163,9 @@ class FaqBlocksController extends FaqsAppController {
 				$this->throwBadRequest();
 				return false;
 			}
+			$this->set('blockId', $faq['Block']['id']);
+			$this->set('blockKey', $faq['Block']['key']);
+
 			$this->request->data = Hash::merge($this->request->data, $faq);
 			$this->request->data['Frame'] = array(
 				'id' => $this->viewVars['frameId'],
