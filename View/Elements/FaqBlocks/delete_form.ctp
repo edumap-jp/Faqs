@@ -18,7 +18,7 @@
 <?php echo $this->Form->hidden('Block.key'); ?>
 <?php echo $this->Form->hidden('Faq.key'); ?>
 
-<?php echo $this->NetCommonsForm->deleteButton(
+<?php echo $this->Button->delete(
 		__d('net_commons', 'Delete'),
 		sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'FAQ'))
 	);

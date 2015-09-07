@@ -81,7 +81,7 @@ class FaqQuestionOrdersController extends FaqsAppController {
 			//validationError
 			if ($this->handleValidationError($this->FaqQuestionOrder->validationErrors)) {
 				//リダイレクト
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 		}

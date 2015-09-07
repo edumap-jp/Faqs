@@ -164,7 +164,7 @@ class FaqQuestionsController extends FaqsAppController {
 
 			$this->FaqQuestion->saveFaqQuestion($data);
 			if ($this->handleValidationError($this->FaqQuestion->validationErrors)) {
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 
@@ -221,7 +221,7 @@ class FaqQuestionsController extends FaqsAppController {
 			$this->FaqQuestion->saveFaqQuestion($data);
 
 			if ($this->handleValidationError($this->FaqQuestion->validationErrors)) {
-				$this->redirectByFrameId();
+				$this->redirect(Current::backToPageUrl());
 				return;
 			}
 
@@ -261,7 +261,7 @@ class FaqQuestionsController extends FaqsAppController {
 			return;
 		}
 
-		$this->redirectByFrameId();
+		$this->redirect(Current::backToPageUrl());
 	}
 
 /**
