@@ -8,14 +8,17 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->script(array(
+	'/net_commons/js/wysiwyg.js',
+	'/faqs/js/faqs.js'
+));
+
+$faqQuestion = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQuestion']);
 ?>
 
-<?php echo $this->Html->script('/net_commons/js/wysiwyg.js', false); ?>
-<?php echo $this->Html->script('/faqs/js/faqs.js', false); ?>
-
-<div id="nc-faqs-<?php echo $frameId; ?>" class="nc-content-list"
-	 ng-controller="FaqQuestions"
-	 ng-init="initialize(<?php echo h(json_encode(array('frameId' => $frameId, 'faqQuestion' => $faqQuestion))); ?>)">
+<div class="nc-content-list" ng-controller="FaqQuestions"
+	ng-init="initialize(<?php echo h(json_encode(array('faqQuestion' => $faqQuestion))); ?>)">
 
 	<article>
 		<h1>
@@ -30,21 +33,19 @@
 
 					<hr />
 
-					<?php echo $this->element('Comments.form'); ?>
+					<?php echo $this->Workflow->inputComment('FaqQuestion.status'); ?>
+				</div>
 
-				</div>
-				<div class="panel-footer text-center">
-					<?php echo $this->element('NetCommons.workflow_buttons'); ?>
-				</div>
+				<?php echo $this->Workflow->buttons('FaqQuestion.status'); ?>
 			<?php echo $this->Form->end(); ?>
 
-			<?php if ($this->request->params['action'] === 'edit') : ?>
+			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('Faqs.FaqQuestion', $this->data)) : ?>
 				<div class="panel-footer text-right">
 					<?php echo $this->element('FaqQuestions/delete_form'); ?>
 				</div>
 			<?php endif; ?>
 		</div>
 
-		<?php echo $this->element('Comments.index'); ?>
+		<?php echo $this->Workflow->comments(); ?>
 	</article>
 </div>

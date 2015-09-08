@@ -45,7 +45,7 @@ class Faq extends FaqsAppModel {
 		),
 		'Categories.Category',
 		'Comments.Comment',
-		'NetCommons.OriginalKey'
+		'NetCommons.OriginalKey',
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -134,24 +134,24 @@ class Faq extends FaqsAppModel {
 	}
 
 /**
- * Create announcement data
+ * Create faq data
  *
  * @param int $roomId rooms.id
  * @return array
  */
-	public function createFaq($roomId) {
+	public function createFaq() {
 		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
 
-		$faq = $this->create(array(
-			'id' => null,
-			'key' => null,
-			'block_id' => null,
-			'status' => null,
-			'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
+		$faq = $this->createAll(array(
+			'Faq' => array(
+				'id' => null,
+				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
+			),
+			'Block' => array(
+				'room_id' => Current::read('Room.id'),
+				'language_id' => Current::read('Language.id'),
+			),
 		));
-		$faq = Hash::merge($faq, $this->createBlock(array(
-			'room_id' => $roomId,
-		)));
 		$faq = Hash::merge($faq, $this->FaqSetting->create(array(
 			'id' => null,
 		)));
@@ -162,16 +162,14 @@ class Faq extends FaqsAppModel {
 /**
  * Get Faq data
  *
- * @param int $blockId blocks.id
- * @param int $roomId rooms.id
  * @return array
  */
-	public function getFaq($blockId, $roomId) {
+	public function getFaq() {
 		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
 
 		$conditions = array(
-			'Block.id' => $blockId,
-			'Block.room_id' => $roomId,
+			'Block.id' => Current::read('Block.id'),
+			'Block.room_id' => Current::read('Block.room_id'),
 		);
 
 		$faq = $this->find('all', array(
@@ -223,15 +221,16 @@ class Faq extends FaqsAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		//バリデーション
-		if (! $this->validateFaq($data)) {
+		$this->set($data);
+		if (! $this->validates()) {
 			return false;
 		}
-		if (! $this->FaqSetting->validateFaqSetting($data['FaqSetting'])) {
+
+		$this->FaqSetting->set($data['FaqSetting']);
+		if (! $this->FaqSetting->validates()) {
 			$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
 			return false;
 		}
@@ -248,13 +247,11 @@ class Faq extends FaqsAppModel {
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
@@ -266,14 +263,14 @@ class Faq extends FaqsAppModel {
  * @param array $data received post data
  * @return bool True on success, false on validation errors
  */
-	public function validateFaq($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
+	//public function validateFaq($data) {
+	//	$this->set($data);
+	//	$this->validates();
+	//	if ($this->validationErrors) {
+	//		return false;
+	//	}
+	//	return true;
+	//}
 
 /**
  * Delete faq
@@ -291,9 +288,7 @@ class Faq extends FaqsAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		$conditions = array(
 			$this->alias . '.key' => $data['Faq']['key']
@@ -331,13 +326,11 @@ class Faq extends FaqsAppModel {
 			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

@@ -1,5 +1,6 @@
 <?php
 /**
+ * 後で削除
  * Select element of faq questions index
  *
  * @author Noriko Arai <arai@nii.ac.jp>

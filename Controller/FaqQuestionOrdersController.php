@@ -28,7 +28,6 @@ class FaqQuestionOrdersController extends FaqsAppController {
 		'Faqs.Faq',
 		'Faqs.FaqQuestion',
 		'Faqs.FaqQuestionOrder',
-		'Categories.Category',
 	);
 
 /**
@@ -37,11 +36,10 @@ class FaqQuestionOrdersController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentEditable' => array('edit'),
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'content_editable',
 			),
 		),
 		'Categories.Categories',
@@ -49,49 +47,52 @@ class FaqQuestionOrdersController extends FaqsAppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		//FAQデータ取得
+		if (! Current::read('Block.id')) {
+			$this->autoRender = false;
+			return;
+		}
+		if (! $faq = $this->Faq->getFaq()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('faq', $faq['Faq']);
+	}
+
+/**
  * edit
  *
  * @return void
  */
 	public function edit() {
-		$this->Categories->initCategories();
-
-		if (! $this->initFaq()) {
-			return;
-		}
-
-		$this->Paginator->settings = array(
-			'FaqQuestion' => array(
-				'order' => array('FaqQuestionOrder.weight' => 'asc'),
-				'conditions' => array(
-					'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
-					'FaqQuestion.is_latest' => true,
-				),
-				'limit' => -1
-			)
-		);
-		$faqQuestions = $this->Paginator->paginate('FaqQuestion');
-
-		//POST処理
 		if ($this->request->isPost()) {
-			//登録処理
-			$data = $this->data;
+				if ($this->FaqQuestionOrder->saveFaqQuestionOrders($this->data)) {
+					$this->redirect(Current::backToPageUrl());
+				}
+				$this->handleValidationError($this->FaqQuestionOrder->validationErrors);
 
-			$this->FaqQuestionOrder->saveFaqQuestionOrders($data);
-			//validationError
-			if ($this->handleValidationError($this->FaqQuestionOrder->validationErrors)) {
-				//リダイレクト
-				$this->redirect(Current::backToPageUrl());
-				return;
-			}
+		} else {
+			$this->Paginator->settings = array(
+				'FaqQuestion' => array(
+					'recursive' => 0,
+					'order' => array('FaqQuestionOrder.weight' => 'asc'),
+					'conditions' => $this->FaqQuestion->getWorkflowConditions(array(
+						'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
+					)),
+					'limit' => PHP_INT_MAX
+				)
+			);
+			$this->request->data['FaqQuestions'] = $this->Paginator->paginate('FaqQuestion');
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Faq'] = $this->viewVars['faq'];
 		}
-
-		$results = array(
-			'faqQuestions' => $faqQuestions
-		);
-		//Viewにセット
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
 	}
 
 }

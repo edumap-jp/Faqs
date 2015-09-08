@@ -20,5 +20,6 @@
 
 <?php echo $this->Button->delete(
 		__d('net_commons', 'Delete'),
-		sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'FAQ'))
+		sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'FAQ')),
+		array('addClass' => 'pull-right')
 	);

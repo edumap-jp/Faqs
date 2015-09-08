@@ -37,7 +37,7 @@ class FaqsAppController extends AppController {
  * @return bool True on success, False on failure
  */
 	public function initFaq($contains = []) {
-		if (! $faq = $this->Faq->getFaq($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+		if (! $faq = $this->Faq->getFaq()) {
 			$this->throwBadRequest();
 			return false;
 		}
@@ -54,7 +54,7 @@ class FaqsAppController extends AppController {
 			$this->set($faqSetting);
 		}
 
-		$this->set('userId', (int)$this->Auth->user('id'));
+//		$this->set('userId', (int)$this->Auth->user('id'));
 
 		return true;
 	}
@@ -81,7 +81,7 @@ class FaqsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'faq_blocks',
 						'action' => 'index',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 					)
 				),
 			),
@@ -96,7 +96,7 @@ class FaqsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'faq_blocks',
 						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 						$blockId
 					)
 				),
@@ -105,7 +105,7 @@ class FaqsAppController extends AppController {
 						'plugin' => $this->params['plugin'],
 						'controller' => 'faq_block_role_permissions',
 						'action' => 'edit',
-						$this->viewVars['frameId'],
+						Current::read('Frame.id'),
 						$blockId
 					)
 				),

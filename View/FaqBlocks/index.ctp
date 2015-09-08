@@ -15,12 +15,10 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/faqs/faq_blocks/add/' . $frameId);?>">
-				<span class="glyphicon glyphicon-plus"> </span>
-			</a>
+			<?php echo $this->Button->addLink(); ?>
 		</div>
 
-		<?php echo $this->Form->create('', array('url' => '/frames/frames/edit/' . $frameId)); ?>
+		<?php echo $this->Form->create('', array('url' => '/frames/frames/edit/' . $this->data['Frame']['id'])); ?>
 
 			<?php echo $this->Form->hidden('Frame.id'); ?>
 
@@ -38,7 +36,7 @@
 				</thead>
 				<tbody>
 					<?php foreach ($faqs as $faq) : ?>
-						<tr<?php echo ($blockId === $faq['Block']['id'] ? ' class="active"' : ''); ?>>
+						<tr<?php echo ($this->data['Frame']['block_id'] === $faq['Block']['id'] ? ' class="active"' : ''); ?>>
 							<td>
 								<?php echo $this->NetCommonsForm->radio('Frame.block_id', array($faq['Block']['id'] => ''), array(
 										'onclick' => 'submit()',
@@ -47,9 +45,7 @@
 									)); ?>
 							</td>
 							<td>
-								<a href="<?php echo $this->Html->url('/faqs/faq_blocks/edit/' . $frameId . '/' . (int)$faq['Block']['id']); ?>">
-									<?php echo h($faq['Block']['name']); ?>
-								</a>
+								<?php echo $this->NetCommonsForm->editLink($faq['Block']['id'], $faq['Block']['name']); ?>
 							</td>
 							<td>
 								<?php echo $this->Date->dateFormat($faq['Block']['modified']); ?>

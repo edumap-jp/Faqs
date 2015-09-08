@@ -8,9 +8,9 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
+echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
+?>
 
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
@@ -20,9 +20,9 @@
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'FaqBlockRolePermission',
-				'action' => 'edit' . '/' . $frameId . '/' . $blockId,
+				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Faqs.FaqBlockRolePermissions/edit_form',
-				'cancelUrl' => '/faqs/faq_blocks/index/' . $frameId,
+				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
 			)); ?>
 	</div>
 </div>

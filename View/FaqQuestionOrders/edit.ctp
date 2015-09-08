@@ -8,9 +8,11 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-?>
 
-<?php echo $this->Html->script('/faqs/js/faqs.js'); ?>
+echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
+
+$faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQuestions']);
+?>
 
 <div ng-controller="FaqQuestionOrders" class="nc-content-list"
 	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions])); ?>)">
@@ -23,21 +25,10 @@
 		<?php echo $this->Form->create('FaqQuestionOrder', array('novalidate' => true)); ?>
 			<?php $this->Form->unlockField('FaqQuestionOrders'); ?>
 
-			<?php echo $this->Form->hidden('Block.id', array(
-					'value' => $blockId,
-				)); ?>
-
-			<?php echo $this->Form->hidden('Block.key', array(
-					'value' => $blockKey,
-				)); ?>
-
-			<?php echo $this->Form->hidden('Faq.id', array(
-					'value' => $faq['id'],
-				)); ?>
-
-			<?php echo $this->Form->hidden('Faq.key', array(
-					'value' => $faq['key'],
-				)); ?>
+			<?php echo $this->Form->hidden('Block.id'); ?>
+			<?php echo $this->Form->hidden('Block.key'); ?>
+			<?php echo $this->Form->hidden('Faq.id'); ?>
+			<?php echo $this->Form->hidden('Faq.key'); ?>
 
 			<div ng-hide="faqQuestions.length">
 				<p><?php echo __d('net_commons', 'Not found.'); ?></p>
@@ -84,15 +75,7 @@
 			</table>
 
 			<div class="text-center">
-				<button type="button" class="btn btn-default btn-workflow" onclick="location.href = '/<?php echo $cancelUrl; ?>'">
-					<span class="glyphicon glyphicon-remove"></span>
-					<?php echo __d('net_commons', 'Cancel'); ?>
-				</button>
-
-				<?php echo $this->Form->button(__d('net_commons', 'OK'), array(
-						'class' => 'btn btn-primary btn-workflow',
-						'name' => 'save',
-					)); ?>
+				<?php echo $this->Button->cancelAndSave(__d('net_commons', 'Cancel'), __d('net_commons', 'OK')); ?>
 			</div>
 
 		<?php echo $this->Form->end(); ?>

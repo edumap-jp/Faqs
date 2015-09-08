@@ -28,8 +28,6 @@ class FaqQuestionsController extends FaqsAppController {
 		'Faqs.Faq',
 		'Faqs.FaqQuestion',
 		'Faqs.FaqQuestionOrder',
-		'Categories.Category',
-		'Comments.Comment',
 	);
 
 /**
@@ -38,14 +36,7 @@ class FaqQuestionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsWorkflow',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'contentCreatable' => array('add', 'edit', 'delete'),
-			),
-		),
+		'NetCommons.Permission',
 		'Paginator',
 		'Categories.Categories',
 	);
@@ -55,9 +46,9 @@ class FaqQuestionsController extends FaqsAppController {
  *
  * @var array
  */
-//	public $helpers = array(
-//		'NetCommons.Token'
-//	);
+	public $helpers = array(
+		'Workflow.Workflow',
+	);
 
 /**
  * beforeFilter
@@ -66,7 +57,17 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Categories->initCategories();
+
+		//FAQデータ取得
+		if (! Current::read('Block.id')) {
+			$this->autoRender = false;
+			return;
+		}
+		if (! $faq = $this->Faq->getFaq()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('faq', $faq['Faq']);
 	}
 
 /**
@@ -75,33 +76,20 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function index() {
-		if (! $this->viewVars['blockId']) {
-			$this->autoRender = false;
-			return;
-		}
-		if (! $this->initFaq()) {
-			return;
-		}
-
 		//条件
-		$conditions = $this->__setConditions();
-
-		if (isset($this->params['named']['status'])) {
-			$conditions['FaqQuestion.status'] = (int)$this->params['named']['status'];
-		}
+		$conditions = array(
+			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
+		);
 		if (isset($this->params['named']['category_id'])) {
-			$conditions['FaqQuestion.category_id'] = (int)$this->params['named']['category_id'];
+			$conditions['FaqQuestion.category_id'] = $this->params['named']['category_id'];
 		}
 
 		//取得
-		$faqQuestions = $this->FaqQuestion->getFaqQuestions($conditions);
-
-		$results = array(
-			'faqQuestions' => $faqQuestions
-		);
-		//Viewにセット
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$faqQuestions = $this->FaqQuestion->getWorkflowContents('all', array(
+			'recursive' => 0,
+			'conditions' => $conditions
+		));
+		$this->set('faqQuestions', $faqQuestions);
 	}
 
 /**
@@ -110,14 +98,26 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function view() {
+		//参照権限チェック
+		if (! $this->FaqQuestion->canReadWorkflowContent()) {
+			$this->throwBadRequest();
+			return false;
+		}
+
 		$faqQuestionKey = null;
 		if (isset($this->params['pass'][1])) {
 			$faqQuestionKey = $this->params['pass'][1];
 		}
-		$this->set('faqQuestionKey', $faqQuestionKey);
 
-		//データ取得
-		$this->__initFaqQuestion();
+		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->FaqQuestion->alias . '.faq_id' => $this->viewVars['faq']['id'],
+				$this->FaqQuestion->alias . '.key' => $faqQuestionKey
+			)
+		));
+
+		$this->set('faqQuestion', $faqQuestion);
 	}
 
 /**
@@ -128,58 +128,44 @@ class FaqQuestionsController extends FaqsAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		//データ取得
-		if (! $this->initFaq()) {
-			return;
+		//投稿権限チェック
+		if (! $this->FaqQuestion->canCreateWorkflowContent()) {
+			$this->throwBadRequest();
+			return false;
 		}
 
-		$faqQuestion = $this->FaqQuestion->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'faq_id' => $this->viewVars['faq']['id'],
-				'category_id' => null,
-				'question' => null,
-				'answer' => null,
-			)
-		);
-		$faqQuestionOrder = $this->FaqQuestionOrder->create(
-			array(
-				'id' => null,
-				'faq_key' => $this->viewVars['faq']['key'],
-				'faq_question_key' => null,
-			)
-		);
-
-		//POSTの場合、登録処理
-		$data = array();
 		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+			//登録処理
+			if (! $status = $this->Workflow->parseStatus()) {
 				return;
 			}
-			$data = Hash::merge(
-				$this->data,
-				['FaqQuestion' => ['status' => $status]]
-			);
+			$data = $this->data;
+			$data['FaqQuestion']['status'] = $status;
+			unset($data['FaqQuestion']['id']);
 
-			$this->FaqQuestion->saveFaqQuestion($data);
-			if ($this->handleValidationError($this->FaqQuestion->validationErrors)) {
+			if ($this->FaqQuestion->saveFaqQuestion($data)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
+			$this->handleValidationError($this->FaqQuestion->validationErrors);
 
-			unset($data['Faq']);
-			$data['contentStatus'] = null;
-			$data['comments'] = null;
+		} else {
+			//表示処理
+			$this->request->data = Hash::merge($this->request->data,
+				$this->FaqQuestion->create(array(
+					'id' => null,
+					'faq_id' => $this->viewVars['faq']['id'],
+					'language_id' => Current::read('Language.id'),
+				)),
+				$this->FaqQuestionOrder->create(array(
+					'id' => null,
+					'faq_key' => $this->viewVars['faq']['key'],
+				))
+			);
+			$this->request->data['Faq'] = $this->viewVars['faq'];
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
-
-		//Viewにセット
-		$data = Hash::merge(
-			$faqQuestion, $faqQuestionOrder, $data,
-			['contentStatus' => null, 'comments' => []]
-		);
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
 	}
 
 /**
@@ -188,50 +174,50 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		$faqQuestionKey = null;
-		if (isset($this->params['pass'][1])) {
-			$faqQuestionKey = $this->params['pass'][1];
-		}
-		$this->set('faqQuestionKey', $faqQuestionKey);
-
 		//データ取得
-		if (! $this->__initFaqQuestion(['comments'])) {
-			return;
+		$faqQuestionKey = $this->params['pass'][1];
+		if ($this->request->isPut()) {
+			$faqQuestionKey = $this->data['FaqQuestion']['key'];
+		}
+		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				$this->FaqQuestion->alias . '.faq_id' => $this->viewVars['faq']['id'],
+				$this->FaqQuestion->alias . '.key' => $faqQuestionKey
+			)
+		));
+
+		//編集権限チェック
+		if (! $this->FaqQuestion->canEditWorkflowContent($faqQuestion)) {
+			$this->throwBadRequest();
+			return false;
 		}
 
-		$data = Hash::merge(
-			$this->viewVars,
-			['contentStatus' => $this->viewVars['faqQuestion']['status']]
-		);
-
-		//POSTの場合、登録処理
-		if ($this->request->isPost()) {
-			if (! $status = $this->NetCommonsWorkflow->parseStatus()) {
+		if ($this->request->isPut()) {
+			//登録処理
+			if (! $status = $this->Workflow->parseStatus()) {
 				return;
 			}
-			$data = Hash::merge(
-				$this->data,
-				array('FaqQuestion' => array(
-					'status' => $status,
-					'created_user' => $this->viewVars['faqQuestion']['createdUser']
-				))
-			);
+			$data = $this->data;
+			$data['FaqQuestion']['status'] = $status;
 			unset($data['FaqQuestion']['id']);
 
-			$this->FaqQuestion->saveFaqQuestion($data);
-
-			if ($this->handleValidationError($this->FaqQuestion->validationErrors)) {
+			if ($this->FaqQuestion->saveFaqQuestion($data)) {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
+			$this->handleValidationError($this->FaqQuestion->validationErrors);
 
-			unset($data['Faq']);
-			$data['contentStatus'] = null;
-			$data['comments'] = null;
+		} else {
+			//表示処理
+			$this->request->data = $faqQuestion;
+			$this->request->data['Faq'] = $this->viewVars['faq'];
+			$this->request->data['Frame'] = Current::read('Frame');
+			$this->request->data['Block'] = Current::read('Block');
 		}
 
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		$comments = $this->FaqQuestion->getCommentsByContentKey($this->request->data['FaqQuestion']['key']);
+		$this->set('comments', $comments);
 	}
 
 /**
@@ -240,20 +226,24 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function delete() {
-		$faqQuestionKey = null;
-		if (isset($this->params['pass'][1])) {
-			$faqQuestionKey = $this->params['pass'][1];
-		}
-		$this->set('faqQuestionKey', $faqQuestionKey);
-
-		//データ取得
-		if (! $this->__initFaqQuestion()) {
-			return;
-		}
-
 		if (! $this->request->isDelete()) {
 			$this->throwBadRequest();
 			return;
+		}
+
+		//データ取得
+		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				$this->FaqQuestion->alias . '.faq_id' => $this->data['FaqQuestion']['faq_id'],
+				$this->FaqQuestion->alias . '.key' => $this->data['FaqQuestion']['key']
+			)
+		));
+
+		//削除権限チェック
+		if (! $this->FaqQuestion->canDeleteWorkflowContent($faqQuestion)) {
+			$this->throwBadRequest();
+			return false;
 		}
 
 		if (! $this->FaqQuestion->deleteFaqQuestion($this->data)) {
@@ -262,78 +252,5 @@ class FaqQuestionsController extends FaqsAppController {
 		}
 
 		$this->redirect(Current::backToPageUrl());
-	}
-
-/**
- * Get conditions function for getting the FaqQuestion data.
- *
- * @return array Conditions data
- */
-	private function __setConditions() {
-		//言語の指定
-		$activeConditions = array(
-			'FaqQuestion.is_active' => true,
-		);
-		$latestConditons = array();
-
-		if ($this->viewVars['contentEditable']) {
-			$activeConditions = array();
-			$latestConditons = array(
-				'FaqQuestion.is_latest' => true,
-			);
-		} elseif ($this->viewVars['contentCreatable']) {
-			$activeConditions = array(
-				'FaqQuestion.is_active' => true,
-				'FaqQuestion.created_user !=' => (int)$this->viewVars['userId'],
-			);
-			$latestConditons = array(
-				'FaqQuestion.is_latest' => true,
-				'FaqQuestion.created_user' => (int)$this->viewVars['userId'],
-			);
-		}
-
-		$conditions = array(
-			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
-			'OR' => array($activeConditions, $latestConditons)
-		);
-
-		return $conditions;
-	}
-
-/**
- * Function do set into view with getting the FaqQuestion data.
- *
- * @param array $contains Optional result sets
- * @return bool True on success, False on failure
- */
-	private function __initFaqQuestion($contains = []) {
-		if (! $this->initFaq($contains)) {
-			return false;
-		}
-
-		$conditions = $this->__setConditions();
-		if (! $faqQuestion = $this->FaqQuestion->getFaqQuestion(
-			$this->viewVars['faq']['id'],
-			$this->viewVars['faqQuestionKey'],
-			$conditions
-		)) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$faqQuestion = $this->camelizeKeyRecursive($faqQuestion);
-		$this->set($faqQuestion);
-
-		if (in_array('comments', $contains, true)) {
-			$comments = $this->Comment->getComments(
-				array(
-					'plugin_key' => $this->params['plugin'],
-					'content_key' => $this->viewVars['faqQuestionKey'],
-				)
-			);
-			$comments = $this->camelizeKeyRecursive($comments);
-			$this->set(['comments' => $comments]);
-		}
-
-		return true;
 	}
 }

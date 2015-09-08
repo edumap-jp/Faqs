@@ -147,34 +147,37 @@ class FaqQuestionOrder extends FaqsAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		if (! $this->validateMany($data['FaqQuestionOrders'])) {
+			return false;
+		}
+
+//		$indexes = array_keys($data['FaqQuestionOrder']);
+//		foreach ($indexes as $i) {
+//			if (! $this->validateFaqQuestionOrder($data['FaqQuestionOrder'][$i])) {
+//				return false;
+//			}
+//		}
 
 		try {
-			//バリデーション
-			$indexes = array_keys($data['FaqQuestionOrders']);
-			foreach ($indexes as $i) {
-				if (! $this->validateFaqQuestionOrder($data['FaqQuestionOrders'][$i])) {
-					return false;
-				}
-			}
-
 			//登録処理
-			foreach ($indexes as $i) {
-				if (! $this->save($data['FaqQuestionOrders'][$i], false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
+//			foreach ($indexes as $i) {
+//				if (! $this->save($data['FaqQuestionOrder'][$i], false)) {
+//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+//				}
+//			}
+			if (! $this->saveMany($data['FaqQuestionOrders'], ['validate' => false])) {
+				return false;
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

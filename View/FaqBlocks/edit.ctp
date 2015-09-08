@@ -19,13 +19,13 @@
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'Faq',
 				'callback' => 'Faqs.FaqBlocks/edit_form',
-				'cancelUrl' => '/faqs/faq_blocks/index/' . $frameId
+				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
 			<?php echo $this->element('Blocks.delete_form', array(
 					'model' => 'FaqBlock',
-					'action' => 'delete/' . $frameId . '/' . $blockId,
+					'action' => 'delete/' . Current::read('Frame.id') . '/' . Current::read('Block.id'),
 					'callback' => 'Faqs.FaqBlocks/delete_form'
 				)); ?>
 		<?php endif; ?>

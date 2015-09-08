@@ -42,13 +42,19 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockPermissionEditable' => array('edit')
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
+		//'NetCommons.NetCommonsBlock',
+		//'NetCommons.NetCommonsRoomRole' => array(
+		//	//コンテンツの権限設定
+		//	'allowedActions' => array(
+		//		'blockPermissionEditable' => array('edit')
+		//	),
+		//),
 	);
 
 /**
@@ -78,22 +84,21 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $faq = $this->Faq->getFaq($this->params['pass'][1], $this->viewVars['roomId'])) {
+		CurrentFrame::setBlock($this->request->params['pass'][1]);
+
+		if (! $faq = $this->Faq->getFaq()) {
 			$this->throwBadRequest();
 			return false;
 		}
-		$this->set('blockId', $faq['Block']['id']);
-		$this->set('blockKey', $faq['Block']['key']);
 
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable']
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable')
 		);
 		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
 			if ($this->FaqSetting->saveFaqSetting($this->request->data)) {
-				$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
+				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 				return;
 			}
 			$this->handleValidationError($this->FaqSetting->validationErrors);
@@ -102,6 +107,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 			$this->request->data['FaqSetting'] = $faq['FaqSetting'];
 			$this->request->data['Block'] = $faq['Block'];
 			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 }

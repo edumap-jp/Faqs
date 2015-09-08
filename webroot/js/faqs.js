@@ -11,6 +11,7 @@
  * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('FaqIndex', function($scope) {
+
   /**
    * Switching display of answer
    *
