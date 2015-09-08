@@ -98,11 +98,10 @@ class FaqSetting extends FaqsAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
-		if (! $this->validateFaqSetting($data)) {
+		$this->set($data);
+		if (! $this->validates()) {
 			return false;
 		}
 
@@ -112,31 +111,13 @@ class FaqSetting extends FaqsAppModel {
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
 	}
-
-/**
- * validate faqSettings
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
-
 }

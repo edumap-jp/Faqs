@@ -31,35 +31,6 @@ class FaqsAppController extends AppController {
 	);
 
 /**
- * initFaq
- *
- * @param array $contains Optional result sets
- * @return bool True on success, False on failure
- */
-	public function initFaq($contains = []) {
-		if (! $faq = $this->Faq->getFaq()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$faq = $this->camelizeKeyRecursive($faq);
-		$this->set($faq);
-
-		if (in_array('faqSetting', $contains, true)) {
-			if (! $faqSetting = $this->FaqSetting->getFaqSetting($faq['faq']['key'])) {
-				$faqSetting = $this->FaqSetting->create(
-					array('id' => null)
-				);
-			}
-			$faqSetting = $this->camelizeKeyRecursive($faqSetting);
-			$this->set($faqSetting);
-		}
-
-//		$this->set('userId', (int)$this->Auth->user('id'));
-
-		return true;
-	}
-
-/**
  * initTabs
  *
  * @param string $mainActiveTab Main active tab

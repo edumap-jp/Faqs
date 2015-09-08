@@ -50,24 +50,8 @@ class FaqBlocksController extends FaqsAppController {
 				'index,add,edit,delete' => 'block_editable',
 			),
 		),
-		//'NetCommons.NetCommonsBlock',
-		//'NetCommons.NetCommonsRoomRole' => array(
-		//	//コンテンツの権限設定
-		//	'allowedActions' => array(
-		//		'blockEditable' => array('index', 'add', 'edit', 'delete')
-		//	),
-		//),
 		'Paginator',
 	);
-
-/**
- * use helpers
- *
- * @var array
- */
-	//public $helpers = array(
-	//	'NetCommons.Date',
-	//);
 
 /**
  * beforeFilter

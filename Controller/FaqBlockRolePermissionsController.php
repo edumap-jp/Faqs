@@ -48,13 +48,6 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 				'edit' => 'block_permission_editable',
 			),
 		),
-		//'NetCommons.NetCommonsBlock',
-		//'NetCommons.NetCommonsRoomRole' => array(
-		//	//コンテンツの権限設定
-		//	'allowedActions' => array(
-		//		'blockPermissionEditable' => array('edit')
-		//	),
-		//),
 	);
 
 /**

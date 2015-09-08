@@ -98,21 +98,6 @@ class FaqQuestionOrder extends FaqsAppModel {
 	}
 
 /**
- * validate of faq question order
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqQuestionOrder($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
-
-/**
  * getMaxWeight
  *
  * @param string $faqKey faqs.key
@@ -150,25 +135,13 @@ class FaqQuestionOrder extends FaqsAppModel {
 		$this->begin();
 
 		//バリデーション
-		if (! $this->validateMany($data['FaqQuestionOrders'])) {
+		if (! $this->validateMany($data['FaqQuestions'])) {
 			return false;
 		}
 
-//		$indexes = array_keys($data['FaqQuestionOrder']);
-//		foreach ($indexes as $i) {
-//			if (! $this->validateFaqQuestionOrder($data['FaqQuestionOrder'][$i])) {
-//				return false;
-//			}
-//		}
-
 		try {
 			//登録処理
-//			foreach ($indexes as $i) {
-//				if (! $this->save($data['FaqQuestionOrder'][$i], false)) {
-//					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//				}
-//			}
-			if (! $this->saveMany($data['FaqQuestionOrders'], ['validate' => false])) {
+			if (! $this->saveMany($data['FaqQuestions'], ['validate' => false])) {
 				return false;
 			}
 

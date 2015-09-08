@@ -29,7 +29,6 @@ class FaqQuestion extends FaqsAppModel {
  */
 	public $actsAs = array(
 		'Comments.Comment',
-//		'NetCommons.Publishable',
 		'NetCommons.OriginalKey',
 		'Workflow.Workflow',
 	);
@@ -169,21 +168,6 @@ class FaqQuestion extends FaqsAppModel {
 	}
 
 /**
- * Get FaqQuestions
- *
- * @param array $conditions findAll conditions
- * @return array FaqQuestions
- */
-	//public function getFaqQuestions($conditions) {
-	//	$faqQuestions = $this->find('all', array(
-	//			'recursive' => 0,
-	//			'conditions' => $conditions,
-	//		)
-	//	);
-	//	return $faqQuestions;
-	//}
-
-/**
  * Get FaqQuestion
  *
  * @param int $faqId faqs.id
@@ -215,7 +199,6 @@ class FaqQuestion extends FaqsAppModel {
 		$this->loadModels([
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			//'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
@@ -233,23 +216,6 @@ class FaqQuestion extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			////FaqQuestionOrder登録
-			//if (! $data['FaqQuestionOrder']['faq_question_key']) {
-			//	$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $faqQuestion[$this->alias]['key'];
-			//	$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($data['Faq']['key']) + 1;
-			//}
-			//if (! $this->FaqQuestionOrder->save(null, false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
-			////Comment登録
-			//if (isset($data['Comment']) && $this->Comment->data) {
-			//	$this->Comment->data[$this->Comment->name]['block_key'] = $data['Block']['key'];
-			//	$this->Comment->data[$this->Comment->name]['content_key'] = $faqQuestion[$this->name]['key'];
-			//	if (! $this->Comment->save(null, false)) {
-			//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//	}
-			//}
-
 			//トランザクションCommit
 			$this->commit();
 
@@ -259,34 +225,6 @@ class FaqQuestion extends FaqsAppModel {
 		}
 
 		return $faqQuestion;
-	}
-
-/**
- * validate of FaqQuestion
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqQuestion($data, $contains = []) {
-		//$this->set($data);
-		//$this->validates();
-		//if ($this->validationErrors) {
-		//	return false;
-		//}
-		//if (in_array('faqQuestionOrder', $contains, true)) {
-		//	if (! $this->FaqQuestionOrder->validateFaqQuestionOrder($data)) {
-		//		$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqQuestionOrder->validationErrors);
-		//		return false;
-		//	}
-		//}
-		//if (in_array('comment', $contains, true) && isset($data['Comment'])) {
-		//	if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-		//		$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-		//		return false;
-		//	}
-		//}
-		return true;
 	}
 
 /**
@@ -300,7 +238,6 @@ class FaqQuestion extends FaqsAppModel {
 		$this->loadModels([
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			//'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin

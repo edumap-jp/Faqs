@@ -12,10 +12,11 @@
 echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
 
 $faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQuestions']);
+$faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQuestion.key')));
 ?>
 
 <div ng-controller="FaqQuestionOrders" class="nc-content-list"
-	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions])); ?>)">
+	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions, 'faqQuestionsMap' => $faqQuestionsMap])); ?>)">
 
 	<article>
 		<h1>
@@ -23,7 +24,12 @@ $faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQu
 		</h1>
 
 		<?php echo $this->Form->create('FaqQuestionOrder', array('novalidate' => true)); ?>
-			<?php $this->Form->unlockField('FaqQuestionOrders'); ?>
+			<?php foreach ($faqQuestionsMap as $key => $value) : ?>
+				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.id'); ?>
+				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_key'); ?>
+				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_question_key'); ?>
+				<?php $this->Form->unlockField('FaqQuestions.' . $value . '.FaqQuestionOrder.weight'); ?>
+			<?php endforeach; ?>
 
 			<?php echo $this->Form->hidden('Block.id'); ?>
 			<?php echo $this->Form->hidden('Block.key'); ?>
@@ -59,10 +65,7 @@ $faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQu
 								<span class="glyphicon glyphicon-arrow-down"></span>
 							</button>
 
-							<input type="hidden" name="data[FaqQuestionOrders][{{$index}}][FaqQuestionOrder][id]" ng-value="q.faqQuestionOrder.id">
-							<input type="hidden" name="data[FaqQuestionOrders][{{$index}}][FaqQuestionOrder][faq_key]" ng-value="q.faqQuestionOrder.faqKey">
-							<input type="hidden" name="data[FaqQuestionOrders][{{$index}}][FaqQuestionOrder][faq_question_key]" ng-value="q.faqQuestionOrder.faqQuestionKey">
-							<input type="hidden" name="data[FaqQuestionOrders][{{$index}}][FaqQuestionOrder][weight]" ng-value="{{$index + 1}}">
+							<input type="hidden" name="data[FaqQuestions][{{getIndex(q.faqQuestion.key)}}][FaqQuestionOrder][weight]" ng-value="{{$index + 1}}">
 						</td>
 						<td>
 							{{q.faqQuestion.question}}

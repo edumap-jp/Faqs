@@ -258,21 +258,6 @@ class Faq extends FaqsAppModel {
 	}
 
 /**
- * validate faq
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	//public function validateFaq($data) {
-	//	$this->set($data);
-	//	$this->validates();
-	//	if ($this->validationErrors) {
-	//		return false;
-	//	}
-	//	return true;
-	//}
-
-/**
  * Delete faq
  *
  * @param array $data received post data

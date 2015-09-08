@@ -47,31 +47,15 @@ class FaqQuestionOrdersController extends FaqsAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
-		//FAQデータ取得
-		if (! Current::read('Block.id')) {
-			$this->autoRender = false;
-			return;
-		}
-		if (! $faq = $this->Faq->getFaq()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('faq', $faq['Faq']);
-	}
-
-/**
  * edit
  *
  * @return void
  */
 	public function edit() {
+		if (! $this->__prepare()) {
+			return;
+		}
+
 		if ($this->request->isPost()) {
 				if ($this->FaqQuestionOrder->saveFaqQuestionOrders($this->data)) {
 					$this->redirect(Current::backToPageUrl());
@@ -93,6 +77,25 @@ class FaqQuestionOrdersController extends FaqsAppController {
 			$this->request->data['Frame'] = Current::read('Frame');
 			$this->request->data['Faq'] = $this->viewVars['faq'];
 		}
+	}
+
+/**
+ * Prepare
+ *
+ * @return void
+ */
+	private function __prepare() {
+		//FAQデータ取得
+		if (! Current::read('Block.id')) {
+			$this->autoRender = false;
+			return false;
+		}
+		if (! $faq = $this->Faq->getFaq()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('faq', $faq['Faq']);
+		return true;
 	}
 
 }
