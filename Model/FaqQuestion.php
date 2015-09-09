@@ -99,8 +99,8 @@ class FaqQuestion extends FaqsAppModel {
 				),
 			),
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -111,16 +111,16 @@ class FaqQuestion extends FaqsAppModel {
 			//status to set in PublishableBehavior.
 
 			'question' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Question')),
 					'allowEmpty' => false,
 					'required' => true,
 				),
 			),
 			'answer' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Answer')),
 					'allowEmpty' => false,
 					'required' => true,

@@ -71,7 +71,7 @@ class FaqSettingValidateFaqSettingTest extends FaqSettingTestBase {
 	}
 
 /**
- * Expect FaqSetting `faq_key` error by notEmpty error on update
+ * Expect FaqSetting `faq_key` error by notBlank error on update
  *
  * @return void
  */

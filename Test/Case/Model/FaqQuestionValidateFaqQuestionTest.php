@@ -286,7 +286,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect FaqQuestion `faq_id` error by notEmpty error on update
+ * Expect FaqQuestion `faq_id` error by notBlank error on update
  *
  * @return void
  */
@@ -315,7 +315,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect FaqQuestion `key` error by notEmpty error on update
+ * Expect FaqQuestion `key` error by notBlank error on update
  *
  * @return void
  */
@@ -348,7 +348,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect FaqQuestion `question` error by notEmpty error on update
+ * Expect FaqQuestion `question` error by notBlank error on update
  *
  * @return void
  */
@@ -381,7 +381,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect FaqQuestion `answer` error by notEmpty error on update
+ * Expect FaqQuestion `answer` error by notBlank error on update
  *
  * @return void
  */
