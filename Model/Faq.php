@@ -130,13 +130,45 @@ class Faq extends FaqsAppModel {
 			),
 		));
 
-		return parent::beforeValidate($options);
+		if (! parent::beforeValidate($options)) {
+			return false;
+		}
+
+		if (isset($this->data['FaqSetting'])) {
+			$this->FaqSetting->set($this->data['FaqSetting']);
+			if (! $this->FaqSetting->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
+				return false;
+			}
+		}
+	}
+
+/**
+ * Called after each successful save operation.
+ *
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
+ */
+	public function afterSave($created, $options = array()) {
+		//FaqSetting登録
+		if (isset($this->FaqSetting->data['FaqSetting'])) {
+			if (! $this->FaqSetting->data['FaqSetting']['faq_key']) {
+				$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
+			}
+			if (! $this->FaqSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		parent::afterSave($created, $options);
 	}
 
 /**
  * Create faq data
  *
- * @param int $roomId rooms.id
  * @return array
  */
 	public function createFaq() {
@@ -167,11 +199,6 @@ class Faq extends FaqsAppModel {
 	public function getFaq() {
 		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
 
-		$conditions = array(
-			'Block.id' => Current::read('Block.id'),
-			'Block.room_id' => Current::read('Block.room_id'),
-		);
-
 		$faq = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
@@ -197,13 +224,12 @@ class Faq extends FaqsAppModel {
 					),
 				),
 			),
-			'conditions' => $conditions,
+			'conditions' => $this->getBlockConditionById(),
 		));
 
 		if (! $faq) {
 			return $faq;
 		}
-
 		return $faq[0];
 	}
 
@@ -229,23 +255,11 @@ class Faq extends FaqsAppModel {
 			return false;
 		}
 
-		$this->FaqSetting->set($data['FaqSetting']);
-		if (! $this->FaqSetting->validates()) {
-			$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
-			return false;
-		}
-
 		try {
 			//登録処理
-			if (! $faq = $this->save(null, false)) {
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			$this->FaqSetting->data['FaqSetting']['faq_key'] = $faq['Faq']['key'];
-			if (! $this->FaqSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
 			//トランザクションCommit
 			$this->commit();
 
@@ -300,12 +314,6 @@ class Faq extends FaqsAppModel {
 			if (! $this->FaqQuestionOrder->deleteAll(array($this->FaqQuestionOrder->alias . '.faq_key' => $data['Faq']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//コメントの削除
-			$this->deleteCommentsByBlockKey($data['Block']['key']);
-
-			//Categoryデータ削除
-			$this->deleteCategoriesByBlockKey($data['Block']['key']);
 
 			//Blockデータ削除
 			$this->deleteBlock($data['Block']['key']);

@@ -101,8 +101,7 @@ class FaqBlocksController extends FaqsAppController {
 
 		if ($this->request->isPost()) {
 			//登録処理
-			$data = $this->request->data;
-			if ($this->Faq->saveFaq($data)) {
+			if ($this->Faq->saveFaq($this->data)) {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
@@ -122,8 +121,7 @@ class FaqBlocksController extends FaqsAppController {
 	public function edit() {
 		if ($this->request->isPut()) {
 			//登録処理
-			$data = $this->request->data;
-			if ($this->Faq->saveFaq($data)) {
+			if ($this->Faq->saveFaq($this->data)) {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
@@ -131,7 +129,6 @@ class FaqBlocksController extends FaqsAppController {
 		} else {
 			//表示処理(初期データセット)
 			CurrentFrame::setBlock($this->request->params['pass'][1]);
-
 			if (! $faq = $this->Faq->getFaq()) {
 				$this->throwBadRequest();
 				return false;
