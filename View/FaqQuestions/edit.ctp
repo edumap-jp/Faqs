@@ -39,7 +39,7 @@ $faqQuestion = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQue
 				<?php echo $this->Workflow->buttons('FaqQuestion.status'); ?>
 			<?php echo $this->Form->end(); ?>
 
-			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('Faqs.FaqQuestion', $this->data)) : ?>
+			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('FaqQuestion', $this->data)) : ?>
 				<div class="panel-footer text-right">
 					<?php echo $this->element('FaqQuestions/delete_form'); ?>
 				</div>

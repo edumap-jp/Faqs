@@ -18,10 +18,12 @@
 <?php echo $this->Form->hidden('FaqQuestion.id'); ?>
 <?php echo $this->Form->hidden('FaqQuestion.faq_id'); ?>
 <?php echo $this->Form->hidden('FaqQuestion.key'); ?>
+<?php echo $this->Form->hidden('FaqQuestion.status'); ?>
 <?php echo $this->Form->hidden('FaqQuestion.language_id'); ?>
 <?php echo $this->Form->hidden('FaqQuestionOrder.id'); ?>
 <?php echo $this->Form->hidden('FaqQuestionOrder.faq_key'); ?>
 <?php echo $this->Form->hidden('FaqQuestionOrder.faq_question_key'); ?>
+
 <?php echo $this->Category->select('FaqQuestion.category_id', array('empty' => true)); ?>
 
 <?php echo $this->NetCommonsForm->input('FaqQuestion.question', array(

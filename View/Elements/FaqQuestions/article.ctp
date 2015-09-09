@@ -54,7 +54,7 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 			<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
 		</div>
 
-		<?php if ($this->Workflow->canEdit('Faqs.FaqQuestion', $faqQuestion)) : ?>
+		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
 			<div class="text-right">
 				<?php echo $this->Button->editLink($faqQuestion['FaqQuestion']['key'], '', null, array(
 						'tooltip' => true,
