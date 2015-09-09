@@ -32,7 +32,6 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
 		'Faqs.Faq',
 		'Faqs.FaqSetting',
 	);
@@ -80,7 +79,6 @@ class FaqBlocksController extends FaqsAppController {
 			'Faq' => array(
 				'order' => array('Block.id' => 'desc'),
 				'conditions' => $this->Faq->getBlockConditions(),
-				//'limit' => 1
 			)
 		);
 
