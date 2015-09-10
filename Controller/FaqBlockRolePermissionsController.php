@@ -60,15 +60,14 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 	);
 
 /**
- * beforeFilter
+ * beforeRender
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
+		parent::beforeRender();
 	}
 
 /**

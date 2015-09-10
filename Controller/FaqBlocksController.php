@@ -69,13 +69,21 @@ class FaqBlocksController extends FaqsAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
-
 		//CategoryEditComponentの削除
 		if ($this->params['action'] === 'index') {
 			$this->Components->unload('Categories.CategoryEdit');
 		}
+	}
+
+/**
+ * beforeRender
+ *
+ * @return void
+ */
+	public function beforeRender() {
+		//タブの設定
+		$this->initTabs('block_index', 'block_settings');
+		parent::beforeRender();
 	}
 
 /**
