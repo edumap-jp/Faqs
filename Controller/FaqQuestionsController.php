@@ -145,12 +145,9 @@ class FaqQuestionsController extends FaqsAppController {
 			//表示処理
 			$this->request->data = Hash::merge($this->request->data,
 				$this->FaqQuestion->create(array(
-					'id' => null,
 					'faq_id' => $this->viewVars['faq']['id'],
-					'language_id' => Current::read('Language.id'),
 				)),
 				$this->FaqQuestionOrder->create(array(
-					'id' => null,
 					'faq_key' => $this->viewVars['faq']['key'],
 				))
 			);

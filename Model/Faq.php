@@ -176,17 +176,10 @@ class Faq extends FaqsAppModel {
 
 		$faq = $this->createAll(array(
 			'Faq' => array(
-				'id' => null,
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
 			),
-			'Block' => array(
-				'room_id' => Current::read('Room.id'),
-				'language_id' => Current::read('Language.id'),
-			),
 		));
-		$faq = Hash::merge($faq, $this->FaqSetting->create(array(
-			'id' => null,
-		)));
+		$faq = Hash::merge($faq, $this->FaqSetting->create());
 
 		return $faq;
 	}
@@ -252,6 +245,7 @@ class Faq extends FaqsAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates()) {
+			$this->rollback();
 			return false;
 		}
 

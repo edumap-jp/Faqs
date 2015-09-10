@@ -53,6 +53,15 @@ class FaqBlocksController extends FaqsAppController {
 	);
 
 /**
+ * use helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Blocks.BlockForm',
+	);
+
+/**
  * beforeFilter
  *
  * @return void

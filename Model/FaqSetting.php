@@ -102,6 +102,7 @@ class FaqSetting extends FaqsAppModel {
 
 		$this->set($data);
 		if (! $this->validates()) {
+			$this->rollback();
 			return false;
 		}
 
