@@ -51,15 +51,31 @@ class FaqQuestionsController extends FaqsAppController {
 	);
 
 /**
+ * beforeRender
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		if (! Current::read('Block.id')) {
+			$this->setAction('emptyRender');
+			return false;
+		}
+
+		if (! $faq = $this->Faq->getFaq()) {
+			$this->setAction('throwBadRequest');
+			return false;
+		}
+		$this->set('faq', $faq['Faq']);
+	}
+
+/**
  * index
  *
  * @return void
  */
 	public function index() {
-		if (! $this->__prepare()) {
-			return;
-		}
-
 		//条件
 		$conditions = array(
 			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
@@ -82,10 +98,6 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function view() {
-		if (! $this->__prepare()) {
-			return;
-		}
-
 		//参照権限チェック
 		if (! $this->FaqQuestion->canReadWorkflowContent()) {
 			$this->throwBadRequest();
@@ -114,10 +126,6 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function add() {
-		if (! $this->__prepare()) {
-			return;
-		}
-
 		$this->view = 'edit';
 
 		//投稿権限チェック
@@ -163,10 +171,6 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->__prepare()) {
-			return;
-		}
-
 		//データ取得
 		$faqQuestionKey = $this->params['pass'][1];
 		if ($this->request->isPut()) {
@@ -245,24 +249,5 @@ class FaqQuestionsController extends FaqsAppController {
 		}
 
 		$this->redirect(Current::backToPageUrl());
-	}
-
-/**
- * Prepare
- *
- * @return void
- */
-	private function __prepare() {
-		//FAQデータ取得
-		if (! Current::read('Block.id')) {
-			$this->autoRender = false;
-			return false;
-		}
-		if (! $faq = $this->Faq->getFaq()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('faq', $faq['Faq']);
-		return true;
 	}
 }
