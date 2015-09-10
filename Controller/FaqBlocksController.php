@@ -120,6 +120,7 @@ class FaqBlocksController extends FaqsAppController {
 			//登録処理
 			if ($this->Faq->saveFaq($this->data)) {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				return;
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
 
@@ -140,6 +141,7 @@ class FaqBlocksController extends FaqsAppController {
 			//登録処理
 			if ($this->Faq->saveFaq($this->data)) {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				return;
 			}
 			$this->handleValidationError($this->Faq->validationErrors);
 
@@ -164,6 +166,7 @@ class FaqBlocksController extends FaqsAppController {
 		if ($this->request->isDelete()) {
 			if ($this->Faq->deleteFaq($this->data)) {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				return;
 			}
 		}
 

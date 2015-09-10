@@ -59,6 +59,7 @@ class FaqQuestionOrdersController extends FaqsAppController {
 		if ($this->request->isPost()) {
 				if ($this->FaqQuestionOrder->saveFaqQuestionOrders($this->data)) {
 					$this->redirect(Current::backToPageUrl());
+					return;
 				}
 				$this->handleValidationError($this->FaqQuestionOrder->validationErrors);
 
