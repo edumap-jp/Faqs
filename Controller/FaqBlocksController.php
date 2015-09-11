@@ -149,7 +149,7 @@ class FaqBlocksController extends FaqsAppController {
 			//表示処理(初期データセット)
 			CurrentFrame::setBlock($this->request->params['pass'][1]);
 			if (! $faq = $this->Faq->getFaq()) {
-				$this->setAction('throwBadRequest');
+				$this->throwBadRequest();
 				return false;
 			}
 			$this->request->data = Hash::merge($this->request->data, $faq);
@@ -170,7 +170,7 @@ class FaqBlocksController extends FaqsAppController {
 			}
 		}
 
-		$this->setAction('throwBadRequest');
+		$this->throwBadRequest();
 	}
 
 }

@@ -79,7 +79,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 		CurrentFrame::setBlock($this->request->params['pass'][1]);
 
 		if (! $faq = $this->Faq->getFaq()) {
-			$this->setAction('throwBadRequest');
+			$this->throwBadRequest();
 			return false;
 		}
 
