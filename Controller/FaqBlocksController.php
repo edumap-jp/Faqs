@@ -119,7 +119,7 @@ class FaqBlocksController extends FaqsAppController {
 		if ($this->request->isPost()) {
 			//登録処理
 			if ($this->Faq->saveFaq($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
@@ -140,7 +140,7 @@ class FaqBlocksController extends FaqsAppController {
 		if ($this->request->isPut()) {
 			//登録処理
 			if ($this->Faq->saveFaq($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
@@ -165,7 +165,7 @@ class FaqBlocksController extends FaqsAppController {
 	public function delete() {
 		if ($this->request->isDelete()) {
 			if ($this->Faq->deleteFaq($this->data)) {
-				$this->redirect(Current::backToIndexUrl('default_setting_action'));
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
 		}

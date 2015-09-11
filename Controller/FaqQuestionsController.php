@@ -136,15 +136,12 @@ class FaqQuestionsController extends FaqsAppController {
 
 		if ($this->request->isPost()) {
 			//登録処理
-			if (! $status = $this->Workflow->parseStatus()) {
-				return;
-			}
 			$data = $this->data;
-			$data['FaqQuestion']['status'] = $status;
+			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
@@ -192,15 +189,12 @@ class FaqQuestionsController extends FaqsAppController {
 
 		if ($this->request->isPut()) {
 			//登録処理
-			if (! $status = $this->Workflow->parseStatus()) {
-				return;
-			}
 			$data = $this->data;
-			$data['FaqQuestion']['status'] = $status;
+			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				$this->redirect(Current::backToPageUrl());
+				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
@@ -248,6 +242,6 @@ class FaqQuestionsController extends FaqsAppController {
 			return;
 		}
 
-		$this->redirect(Current::backToPageUrl());
+		$this->redirect(NetCommonsUrl::backToPageUrl());
 	}
 }

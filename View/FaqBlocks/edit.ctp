@@ -19,7 +19,7 @@
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'Faq',
 				'callback' => 'Faqs.FaqBlocks/edit_form',
-				'cancelUrl' => Current::backToIndexUrl('default_setting_action'),
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
