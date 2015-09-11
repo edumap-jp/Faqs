@@ -77,7 +77,7 @@ class FaqQuestionOrdersController extends FaqsAppController {
 					$this->redirect(Current::backToPageUrl());
 					return;
 				}
-				$this->handleValidationError($this->FaqQuestionOrder->validationErrors);
+				$this->NetCommons->handleValidationError($this->FaqQuestionOrder->validationErrors);
 
 		} else {
 			$this->Paginator->settings = array(

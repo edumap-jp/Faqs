@@ -122,7 +122,7 @@ class FaqBlocksController extends FaqsAppController {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->handleValidationError($this->Faq->validationErrors);
+			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
@@ -143,13 +143,13 @@ class FaqBlocksController extends FaqsAppController {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->handleValidationError($this->Faq->validationErrors);
+			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
 
 		} else {
 			//表示処理(初期データセット)
 			CurrentFrame::setBlock($this->request->params['pass'][1]);
 			if (! $faq = $this->Faq->getFaq()) {
-				$this->throwBadRequest();
+				$this->setAction('throwBadRequest');
 				return false;
 			}
 			$this->request->data = Hash::merge($this->request->data, $faq);
@@ -170,7 +170,7 @@ class FaqBlocksController extends FaqsAppController {
 			}
 		}
 
-		$this->throwBadRequest();
+		$this->setAction('throwBadRequest');
 	}
 
 }

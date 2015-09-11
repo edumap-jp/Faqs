@@ -76,12 +76,12 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
+		CurrentFrame::setBlock($this->request->params['pass'][1]);
+
 		if (! $faq = $this->Faq->getFaq()) {
 			$this->setAction('throwBadRequest');
 			return false;
 		}
-
-		CurrentFrame::setBlock($this->request->params['pass'][1]);
 
 		$permissions = $this->Workflow->getBlockRolePermissions(
 			array('content_creatable', 'content_publishable')
@@ -93,7 +93,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 				$this->redirect(Current::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$this->handleValidationError($this->FaqSetting->validationErrors);
+			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
 
 		} else {
 			$this->request->data['FaqSetting'] = $faq['FaqSetting'];

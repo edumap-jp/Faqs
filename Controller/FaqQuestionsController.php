@@ -147,7 +147,7 @@ class FaqQuestionsController extends FaqsAppController {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
-			$this->handleValidationError($this->FaqQuestion->validationErrors);
+			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
 		} else {
 			//表示処理
@@ -203,7 +203,7 @@ class FaqQuestionsController extends FaqsAppController {
 				$this->redirect(Current::backToPageUrl());
 				return;
 			}
-			$this->handleValidationError($this->FaqQuestion->validationErrors);
+			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
 		} else {
 			//表示処理
