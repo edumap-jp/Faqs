@@ -14,7 +14,8 @@ echo $this->NetCommonsHtml->script(array(
 	'/faqs/js/faqs.js'
 ));
 
-$faqQuestion = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQuestion']);
+$faqQuestion = array();
+$faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 ?>
 
 <div class="nc-content-list" ng-controller="FaqQuestions"

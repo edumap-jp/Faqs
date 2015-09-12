@@ -13,29 +13,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$viewUrl = $this->Html->url(array(
-		'controller' => 'faq_questions',
-		'action' => 'view',
-		Current::read('Frame.id'),
-		$faqQuestion['FaqQuestion']['key']
-	));
-
-//後で削除
-//$editUrl = $this->Html->url(array(
-//		'controller' => 'faq_questions',
-//		'action' => 'edit',
-//		Current::read('Frame.id'),
-//		$faqQuestion['FaqQuestion']['key']
-//	));
-
 $answerKey = 'faq-answer-' . Current::read('Frame.id') . '-' . $faqQuestion['FaqQuestion']['id'];
-
 $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 ?>
 
 <article>
 	<h2>
-		<a href="<?php echo $viewUrl; ?>" onclick="return false;"
+		<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $faqQuestion['FaqQuestion']['key'])); ?>"
+			onclick="return false;"
 			ng-click="displayAnswer('#<?php echo $answerKey; ?>')">
 
 			<span class="glyphicon glyphicon-question-sign"> </span>

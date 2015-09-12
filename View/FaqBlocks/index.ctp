@@ -43,7 +43,7 @@
 								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $faq['Block']['id']); ?>
 							</td>
 							<td>
-								<?php echo $this->NetCommonsForm->editLink($faq['Block']['name'], array('block_id' => $faq['Block']['id'])); ?>
+								<?php echo $this->NetCommonsHtml->editLink($faq['Block']['name'], array('block_id' => $faq['Block']['id'])); ?>
 							</td>
 							<td>
 								<?php echo $this->Date->dateFormat($faq['Block']['modified']); ?>
