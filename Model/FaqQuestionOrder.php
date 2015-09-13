@@ -38,8 +38,8 @@ class FaqQuestionOrder extends FaqsAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'faq_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -47,8 +47,8 @@ class FaqQuestionOrder extends FaqsAppModel {
 				),
 			),
 			'faq_question_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -98,21 +98,6 @@ class FaqQuestionOrder extends FaqsAppModel {
 	}
 
 /**
- * validate of faq question order
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqQuestionOrder($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
-
-/**
  * getMaxWeight
  *
  * @param string $faqKey faqs.key
@@ -147,34 +132,26 @@ class FaqQuestionOrder extends FaqsAppModel {
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		if (! $this->validateMany($data['FaqQuestions'])) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			//バリデーション
-			$indexes = array_keys($data['FaqQuestionOrders']);
-			foreach ($indexes as $i) {
-				if (! $this->validateFaqQuestionOrder($data['FaqQuestionOrders'][$i])) {
-					return false;
-				}
-			}
-
 			//登録処理
-			foreach ($indexes as $i) {
-				if (! $this->save($data['FaqQuestionOrders'][$i], false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
+			if (! $this->saveMany($data['FaqQuestions'], ['validate' => false])) {
+				return false;
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

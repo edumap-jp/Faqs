@@ -8,6 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
+echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
 ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
@@ -18,7 +20,7 @@
 
 		<hr>
 		<?php echo $this->element('FaqQuestions/article', array(
-				'faqQuestion' => ['faqQuestion' => $faqQuestion],
+				'faqQuestion' => $faqQuestion,
 			)); ?>
 
 		<hr>

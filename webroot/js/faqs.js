@@ -11,6 +11,7 @@
  * @param {function($scope)} Controller
  */
 NetCommonsApp.controller('FaqIndex', function($scope) {
+
   /**
    * Switching display of answer
    *
@@ -76,6 +77,7 @@ NetCommonsApp.controller('FaqQuestionOrders', function($scope) {
    */
   $scope.initialize = function(data) {
     $scope.faqQuestions = data.faqQuestions;
+    $scope.faqQuestionsMap = data.faqQuestionsMap;
   };
 
   /**
@@ -93,6 +95,15 @@ NetCommonsApp.controller('FaqQuestionOrders', function($scope) {
     var targetQuestion = angular.copy($scope.faqQuestions[index]);
     $scope.faqQuestions[index] = destQuestion;
     $scope.faqQuestions[dest] = targetQuestion;
+  };
+
+  /**
+   * Get index
+   *
+   * @return {void}
+   */
+  $scope.getIndex = function(key) {
+    return $scope.faqQuestionsMap[key];
   };
 
 });

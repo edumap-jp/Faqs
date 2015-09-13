@@ -28,8 +28,9 @@ class FaqQuestion extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.Publishable',
+		'Comments.Comment',
 		'NetCommons.OriginalKey',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -98,8 +99,8 @@ class FaqQuestion extends FaqsAppModel {
 				),
 			),
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -110,16 +111,16 @@ class FaqQuestion extends FaqsAppModel {
 			//status to set in PublishableBehavior.
 
 			'question' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Question')),
 					'allowEmpty' => false,
 					'required' => true,
 				),
 			),
 			'answer' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Answer')),
 					'allowEmpty' => false,
 					'required' => true,
@@ -127,22 +128,44 @@ class FaqQuestion extends FaqsAppModel {
 			),
 		));
 
-		return parent::beforeValidate($options);
+		if (! parent::beforeValidate($options)) {
+			return false;
+		}
+
+		if (isset($this->data['FaqQuestionOrder'])) {
+			$this->FaqQuestionOrder->set($this->data['FaqQuestionOrder']);
+			if (! $this->FaqQuestionOrder->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqQuestionOrder->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 /**
- * Get FaqQuestions
+ * Called after each successful save operation.
  *
- * @param array $conditions findAll conditions
- * @return array FaqQuestions
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @throws InternalErrorException
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
  */
-	public function getFaqQuestions($conditions) {
-		$faqQuestions = $this->find('all', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-		return $faqQuestions;
+	public function afterSave($created, $options = array()) {
+		//FaqQuestionOrder登録
+		if (isset($this->FaqQuestionOrder->data['FaqQuestionOrder'])) {
+			if (! $this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key']) {
+				$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $this->data[$this->alias]['key'];
+				$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($this->data['Faq']['key']) + 1;
+			}
+			if (! $this->FaqQuestionOrder->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		parent::afterSave($created, $options);
 	}
 
 /**
@@ -177,81 +200,33 @@ class FaqQuestion extends FaqsAppModel {
 		$this->loadModels([
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		//バリデーション
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			//バリデーション
-			if (! $this->validateFaqQuestion($data, ['faqQuestionOrder', 'comment'])) {
-				return false;
-			}
-
 			//FaqQuestion登録
 			if (! $faqQuestion = $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//FaqQuestionOrder登録
-			if (! $data['FaqQuestionOrder']['faq_question_key']) {
-				$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $faqQuestion[$this->alias]['key'];
-				$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($data['Faq']['key']) + 1;
-			}
-			if (! $this->FaqQuestionOrder->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			//Comment登録
-			if (isset($data['Comment']) && $this->Comment->data) {
-				$this->Comment->data[$this->Comment->name]['block_key'] = $data['Block']['key'];
-				$this->Comment->data[$this->Comment->name]['content_key'] = $faqQuestion[$this->name]['key'];
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
-
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return $faqQuestion;
-	}
-
-/**
- * validate of FaqQuestion
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqQuestion($data, $contains = []) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		if (in_array('faqQuestionOrder', $contains, true)) {
-			if (! $this->FaqQuestionOrder->validateFaqQuestionOrder($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqQuestionOrder->validationErrors);
-				return false;
-			}
-		}
-		if (in_array('comment', $contains, true) && isset($data['Comment'])) {
-			if (! $this->Comment->validateByStatus($data, array('plugin' => $this->plugin, 'caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
-				return false;
-			}
-		}
-		return true;
 	}
 
 /**
@@ -265,42 +240,30 @@ class FaqQuestion extends FaqsAppModel {
 		$this->loadModels([
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['FaqQuestion']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$this->FaqQuestionOrder->data = array(
-				$this->FaqQuestionOrder->name => array(
-					'faq_question_key' => $data['FaqQuestion']['key'],
-				)
-			);
-			if (! $this->FaqQuestionOrder->deleteAll(
-				$this->FaqQuestionOrder->data[$this->FaqQuestionOrder->name], false
-			)) {
+			$conditions = array('faq_question_key' => $data['FaqQuestion']['key']);
+			if (! $this->FaqQuestionOrder->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//コメントの削除
-			$this->Comment->deleteByContentKey($data['FaqQuestion']['key']);
+			$this->deleteCommentsByContentKey($data['FaqQuestion']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

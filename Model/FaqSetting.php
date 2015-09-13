@@ -27,6 +27,15 @@ class FaqSetting extends FaqsAppModel {
 	public $validate = array();
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Blocks.BlockRolePermission',
+	);
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -38,8 +47,8 @@ class FaqSetting extends FaqsAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'faq_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -69,10 +78,9 @@ class FaqSetting extends FaqsAppModel {
 		);
 
 		$faqSetting = $this->find('first', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 
 		return $faqSetting;
 	}
@@ -87,59 +95,30 @@ class FaqSetting extends FaqsAppModel {
 	public function saveFaqSetting($data) {
 		$this->loadModels([
 			'FaqSetting' => 'Faqs.FaqSetting',
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		$this->set($data);
+		if (! $this->validates()) {
+			$this->rollback();
+			return false;
+		}
 
 		try {
-			if (! $this->validateFaqSetting($data)) {
-				return false;
-			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->validateBlockRolePermissions($value)) {
-					$this->validationErrors = Hash::merge($this->validationErrors, $this->BlockRolePermission->validationErrors);
-					return false;
-				}
-			}
-
 			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			foreach ($data[$this->BlockRolePermission->alias] as $value) {
-				if (! $this->BlockRolePermission->saveMany($value, ['validate' => false])) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;
 	}
-
-/**
- * validate faqSettings
- *
- * @param array $data received post data
- * @return bool True on success, false on validation errors
- */
-	public function validateFaqSetting($data) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-		return true;
-	}
-
 }

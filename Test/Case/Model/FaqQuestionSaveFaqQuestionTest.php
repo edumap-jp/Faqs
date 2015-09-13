@@ -94,7 +94,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		//データ生成
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED
+				'status' => WorkflowComponent::STATUS_PUBLISHED
 			)
 		));
 
@@ -144,7 +144,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 
@@ -200,7 +200,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 			'FaqQuestion' => array(
 				'id' => null,
 				'key' => null,
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			),
 			'FaqQuestionOrder' => array(
 				'id' => null,
@@ -265,7 +265,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		//データ生成
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED
+				'status' => WorkflowComponent::STATUS_PUBLISHED
 			)
 		));
 		unset($data['FaqQuestion']['id']);
@@ -320,7 +320,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED
+				'status' => WorkflowComponent::STATUS_PUBLISHED
 			)
 		));
 
@@ -351,7 +351,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 
@@ -378,7 +378,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 
@@ -434,7 +434,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		//データ生成
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_DISAPPROVED
+				'status' => WorkflowComponent::STATUS_DISAPPROVED
 			)
 		));
 		unset($data['FaqQuestion']['id']);
@@ -489,7 +489,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_DISAPPROVED
+				'status' => WorkflowComponent::STATUS_DISAPPROVED
 			)
 		));
 
@@ -520,7 +520,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT
+				'status' => WorkflowComponent::STATUS_IN_DRAFT
 			)
 		));
 
@@ -573,7 +573,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
 				'id' => null,
-				'status' => NetCommonsBlockComponent::STATUS_IN_DRAFT
+				'status' => WorkflowComponent::STATUS_IN_DRAFT
 			)
 		));
 
@@ -627,7 +627,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 
@@ -650,7 +650,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 
@@ -673,7 +673,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 
 		$data = Hash::merge($this->__defaultData, array(
 			'FaqQuestion' => array(
-				'status' => NetCommonsBlockComponent::STATUS_APPROVED
+				'status' => WorkflowComponent::STATUS_APPROVED
 			)
 		));
 

@@ -13,53 +13,39 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$viewUrl = $this->Html->url(array(
-		'controller' => 'faq_questions',
-		'action' => 'view',
-		$frameId,
-		$faqQuestion['faqQuestion']['key']
-	));
-
-$editUrl = $this->Html->url(array(
-		'controller' => 'faq_questions',
-		'action' => 'edit',
-		$frameId,
-		$faqQuestion['faqQuestion']['key']
-	));
-
-$answerKey = 'faq-answer-' . $frameId . '-' . $faqQuestion['faqQuestion']['id'];
-
+$answerKey = 'faq-answer-' . Current::read('Frame.id') . '-' . $faqQuestion['FaqQuestion']['id'];
 $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 ?>
 
 <article>
 	<h2>
-		<a href="<?php echo $viewUrl; ?>" onclick="return false;"
+		<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $faqQuestion['FaqQuestion']['key'])); ?>"
+			onclick="return false;"
 			ng-click="displayAnswer('#<?php echo $answerKey; ?>')">
 
 			<span class="glyphicon glyphicon-question-sign"> </span>
-			<?php echo h($faqQuestion['faqQuestion']['question']); ?>
+			<?php echo h($faqQuestion['FaqQuestion']['question']); ?>
 		</a>
 
 		<small>
-			<?php echo $this->element('NetCommons.status_label',
-					array('status' => $faqQuestion['faqQuestion']['status'])); ?>
+			<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
 		</small>
 	</h2>
 
 	<div id="<?php echo $answerKey; ?>"
-		class="<?php echo $hidden; ?>">
+			class="<?php echo $hidden; ?>">
 
 		<div>
-			<?php echo $faqQuestion['faqQuestion']['answer']; ?>
+			<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
 		</div>
 
-		<div class="text-right">
-			<a href="<?php echo $editUrl; ?>" class="btn btn-primary btn-xs"
-			   tooltip="<?php echo __d('net_commons', 'Edit'); ?>">
-
-				<span class="glyphicon glyphicon-edit"> </span>
-			</a>
-		</div>
+		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
+			<div class="text-right">
+				<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key']), array(
+						'tooltip' => true,
+						'iconSize' => 'btn-xs'
+					)); ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </article>

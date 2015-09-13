@@ -35,7 +35,17 @@ class Faq extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.OriginalKey'
+		'Blocks.Block' => array(
+			'name' => 'Faq.name',
+			'loadModels' => array(
+				'Category' => 'Categories.Category',
+				'CategoryOrder' => 'Categories.CategoryOrder',
+				'Comment' => 'Comments.Comment',
+			)
+		),
+		'Categories.Category',
+		'Comments.Comment',
+		'NetCommons.OriginalKey',
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -88,8 +98,8 @@ class Faq extends FaqsAppModel {
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
 			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
@@ -105,8 +115,8 @@ class Faq extends FaqsAppModel {
 				),
 			),
 			'name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ')),
 					'allowEmpty' => false,
 					'required' => true,
@@ -120,33 +130,105 @@ class Faq extends FaqsAppModel {
 			),
 		));
 
-		return parent::beforeValidate($options);
+		if (! parent::beforeValidate($options)) {
+			return false;
+		}
+
+		if (isset($this->data['FaqSetting'])) {
+			$this->FaqSetting->set($this->data['FaqSetting']);
+			if (! $this->FaqSetting->validates()) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
+				return false;
+			}
+		}
 	}
 
 /**
- * Get faq data
+ * Called after each successful save operation.
  *
- * @param int $blockId blocks.id
- * @param int $roomId rooms.id
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return void
+ * @throws InternalErrorException
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
+ * @see Model::save()
+ */
+	public function afterSave($created, $options = array()) {
+		//FaqSetting登録
+		if (isset($this->FaqSetting->data['FaqSetting'])) {
+			if (! $this->FaqSetting->data['FaqSetting']['faq_key']) {
+				$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
+			}
+			if (! $this->FaqSetting->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+
+		parent::afterSave($created, $options);
+	}
+
+/**
+ * Create Faq data
+ *
  * @return array
  */
-	public function getFaq($blockId, $roomId) {
-		$conditions = array(
-			'Block.id' => $blockId,
-			'Block.room_id' => $roomId,
-		);
+	public function createFaq() {
+		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
 
-		$faq = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
+		$faq = $this->createAll(array(
+			'Faq' => array(
+				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
+			),
+		));
+		$faq = Hash::merge($faq, $this->FaqSetting->create());
 
 		return $faq;
 	}
 
 /**
- * Save faq
+ * Get Faq data
+ *
+ * @return array
+ */
+	public function getFaq() {
+		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
+
+		$faq = $this->find('all', array(
+			'recursive' => -1,
+			'fields' => array(
+				$this->alias . '.*',
+				$this->Block->alias . '.*',
+				$this->FaqSetting->alias . '.*',
+			),
+			'joins' => array(
+				array(
+					'table' => $this->Block->table,
+					'alias' => $this->Block->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
+					),
+				),
+				array(
+					'table' => $this->FaqSetting->table,
+					'alias' => $this->FaqSetting->alias,
+					'type' => 'INNER',
+					'conditions' => array(
+						$this->alias . '.key' . ' = ' . $this->FaqSetting->alias . ' .faq_key',
+					),
+				),
+			),
+			'conditions' => $this->getBlockConditionById(),
+		));
+
+		if (! $faq) {
+			return $faq;
+		}
+		return $faq[0];
+	}
+
+/**
+ * Save Faq
  *
  * @param array $data received post data
  * @return bool True on success, false on validation errors
@@ -156,90 +238,31 @@ class Faq extends FaqsAppModel {
 		$this->loadModels([
 			'Faq' => 'Faqs.Faq',
 			'FaqSetting' => 'Faqs.FaqSetting',
-			'Category' => 'Categories.Category',
-			'Block' => 'Blocks.Block',
-			'Frame' => 'Frames.Frame',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
-		try {
-			//バリデーション
-			if (! $this->validateFaq($data, ['faqSetting', 'block', 'category'])) {
-				return false;
-			}
-
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id']);
-
-			//登録処理
-			$this->data['Faq']['block_id'] = (int)$block['Block']['id'];
-			if (! $faq = $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$this->FaqSetting->data['FaqSetting']['faq_key'] = $faq['Faq']['key'];
-			if (! $this->FaqSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$data['Block']['id'] = (int)$block['Block']['id'];
-			$data['Block']['key'] = $block['Block']['key'];
-			$this->Category->saveCategories($data);
-
-			//トランザクションCommit
-			$dataSource->commit();
-
-		} catch (Exception $ex) {
-			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
-		}
-
-		return true;
-	}
-
-/**
- * validate faq
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on validation errors
- */
-	public function validateFaq($data, $contains = []) {
+		//バリデーション
 		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
+		if (! $this->validates()) {
+			$this->rollback();
 			return false;
 		}
 
-		if (in_array('faqSetting', $contains, true)) {
-			if (! $this->FaqSetting->validateFaqSetting($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
-				return false;
+		try {
+			//登録処理
+			if (! $this->save(null, false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
+			//トランザクションCommit
+			$this->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$this->rollback($ex);
 		}
 
-		if (in_array('block', $contains, true)) {
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-		}
-
-		if (in_array('category', $contains, true)) {
-			if (! isset($data['Categories'])) {
-				$data['Categories'] = [];
-			}
-			if (! $data = $this->Category->validateCategories($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Category->validationErrors);
-				return false;
-			}
-		}
 		return true;
 	}
 
@@ -256,24 +279,18 @@ class Faq extends FaqsAppModel {
 			'FaqSetting' => 'Faqs.FaqSetting',
 			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-			'Block' => 'Blocks.Block',
-			'Category' => 'Categories.Category',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
-		$this->setDataSource('master');
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		$conditions = array(
 			$this->alias . '.key' => $data['Faq']['key']
 		);
 		$faqs = $this->find('list', array(
-				'recursive' => -1,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => -1,
+			'conditions' => $conditions,
+		));
 		$faqs = array_keys($faqs);
 
 		try {
@@ -293,23 +310,15 @@ class Faq extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//コメントの削除
-			$this->Comment->deleteByBlockKey($data['Block']['key']);
-
-			//Categoryデータ削除
-			$this->Category->deleteByBlockKey($data['Block']['key']);
-
 			//Blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

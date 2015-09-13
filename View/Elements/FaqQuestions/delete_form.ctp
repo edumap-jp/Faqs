@@ -13,28 +13,18 @@
 <?php echo $this->Form->create('FaqQuestion', array(
 			'type' => 'delete',
 			'controller' => 'faq_questions',
-			'action' => 'delete/' . $frameId . '/' . h($faqQuestion['key'])
+			'action' => 'delete/' . Current::read('Frame.id') . '/' . h($this->data['FaqQuestion']['key'])
 		)); ?>
 
-	<?php echo $this->Form->hidden('Faq.key', array(
-			'value' => $faq['key'],
-		)); ?>
+	<?php echo $this->Form->hidden('Frame.id'); ?>
+	<?php echo $this->Form->hidden('Block.id'); ?>
 
-	<?php echo $this->Form->hidden('FaqQuestion.id', array(
-			'value' => isset($faqQuestion['id']) ? (int)$faqQuestion['id'] : null,
-		)); ?>
+	<?php echo $this->Form->hidden('Faq.key'); ?>
+	<?php echo $this->Form->hidden('FaqQuestion.id'); ?>
+	<?php echo $this->Form->hidden('FaqQuestion.faq_id'); ?>
+	<?php echo $this->Form->hidden('FaqQuestion.key'); ?>
 
-	<?php echo $this->Form->hidden('FaqQuestion.faq_id', array(
-			'value' => $faq['id'],
-		)); ?>
-
-	<?php echo $this->Form->hidden('FaqQuestion.key', array(
-			'value' => $faqQuestion['key'],
-		)); ?>
-
-	<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"> </span>', array(
-			'name' => 'delete',
-			'class' => 'btn btn-danger',
-			'onclick' => 'return confirm(\'' . sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'Question')) . '\')'
-		)); ?>
+	<?php echo $this->Button->delete('',
+			sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'Question'))
+		); ?>
 <?php echo $this->Form->end();

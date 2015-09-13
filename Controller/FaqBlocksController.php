@@ -3,7 +3,7 @@
  * BlocksController
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -14,7 +14,7 @@ App::uses('FaqsAppController', 'Faqs.Controller');
 /**
  * BlocksController
  *
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Controller
  */
 class FaqBlocksController extends FaqsAppController {
@@ -32,11 +32,8 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $uses = array(
-		'Blocks.Block',
-		'Frames.Frame',
 		'Faqs.Faq',
 		'Faqs.FaqSetting',
-		'Categories.Category',
 	);
 
 /**
@@ -45,15 +42,14 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+		'Categories.CategoryEdit',
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
-		'Categories.Categories',
 	);
 
 /**
@@ -62,7 +58,7 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Date',
+		'Blocks.BlockForm',
 	);
 
 /**
@@ -72,10 +68,22 @@ class FaqBlocksController extends FaqsAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->deny('index');
 
+		//CategoryEditComponentの削除
+		if ($this->params['action'] === 'index') {
+			$this->Components->unload('Categories.CategoryEdit');
+		}
+	}
+
+/**
+ * beforeRender
+ *
+ * @return void
+ */
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'block_settings');
+		parent::beforeRender();
 	}
 
 /**
@@ -87,26 +95,17 @@ class FaqBlocksController extends FaqsAppController {
 		$this->Paginator->settings = array(
 			'Faq' => array(
 				'order' => array('Block.id' => 'desc'),
-				'conditions' => array(
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-					'Block.plugin_key ' => $this->params['plugin'],
-				),
-				//'limit' => 1
+				'conditions' => $this->Faq->getBlockConditions(),
 			)
 		);
 
 		$faqs = $this->Paginator->paginate('Faq');
 		if (! $faqs) {
-			$this->view = 'not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
-
-		$results = array(
-			'faqs' => $faqs
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->set('faqs', $faqs);
+		$this->request->data['Frame'] = Current::read('Frame');
 	}
 
 /**
@@ -117,38 +116,19 @@ class FaqBlocksController extends FaqsAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		$this->set('blockId', null);
-		$faq = $this->Faq->create(
-			array(
-				'id' => null,
-				'key' => null,
-				'block_id' => null,
-				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
-			)
-		);
-		$block = $this->Block->create(
-			array('id' => null, 'key' => null)
-		);
-
-		$data = Hash::merge($faq, $block);
-
 		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-
-			$this->Faq->saveFaq($data);
-			if ($this->handleValidationError($this->Faq->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-				}
+			//登録処理
+			if ($this->Faq->saveFaq($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			$data['Block']['id'] = null;
-			$data['Block']['key'] = null;
-			unset($data['Frame']);
-		}
+			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
 
-		$results = $this->camelizeKeyRecursive($data);
-		$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			$this->request->data = $this->Faq->createFaq();
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 
 /**
@@ -157,32 +137,23 @@ class FaqBlocksController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->initFaq(['faqSetting'])) {
-			return;
-		}
-		$this->Categories->initCategories();
-
-		if ($this->request->isPost()) {
-			$data = $this->__parseRequestData();
-			$data['FaqSetting']['faq_key'] = $data['Faq']['key'];
-
-			$this->Faq->saveFaq($data);
-			if ($this->handleValidationError($this->Faq->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-				}
+		if ($this->request->isPut()) {
+			//登録処理
+			if ($this->Faq->saveFaq($this->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-			unset($data['Frame']);
+			$this->NetCommons->handleValidationError($this->Faq->validationErrors);
 
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
+		} else {
+			//表示処理(初期データセット)
+			CurrentFrame::setBlock($this->request->params['pass'][1]);
+			if (! $faq = $this->Faq->getFaq()) {
+				$this->throwBadRequest();
+				return false;
+			}
+			$this->request->data = Hash::merge($this->request->data, $faq);
+			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
 
@@ -192,43 +163,14 @@ class FaqBlocksController extends FaqsAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->initFaq()) {
-			return;
-		}
-
 		if ($this->request->isDelete()) {
 			if ($this->Faq->deleteFaq($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-				}
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
 		}
 
 		$this->throwBadRequest();
-	}
-
-/**
- * Parse data from request
- *
- * @return array
- */
-	private function __parseRequestData() {
-		$data = $this->data;
-		if ($data['Block']['public_type'] === Block::TYPE_LIMITED) {
-			//$data['Block']['from'] = implode('-', $data['Block']['from']);
-			//$data['Block']['to'] = implode('-', $data['Block']['to']);
-		} else {
-			unset($data['Block']['from'], $data['Block']['to']);
-		}
-
-		return $data;
 	}
 
 }

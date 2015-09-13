@@ -10,27 +10,23 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('FaqSetting.id', array(
-		'value' => isset($faqSetting['id']) ? (int)$faqSetting['id'] : null,
+<?php echo $this->Form->hidden('FaqSetting.id'); ?>
+<?php echo $this->Form->hidden('FaqSetting.faq_key'); ?>
+<?php echo $this->Form->hidden('Block.id'); ?>
+<?php echo $this->Form->hidden('Block.key'); ?>
+
+<?php echo $this->element('Blocks.block_creatable_setting', array(
+		'settingPermissions' => array(
+			'content_creatable' => __d('blocks', 'Content creatable roles'),
+		),
 	)); ?>
 
-<?php echo $this->Form->hidden('FaqSetting.faq_key', array(
-		'value' => isset($faqSetting['faqKey']) ? $faqSetting['faqKey'] : null,
-	)); ?>
-
-<?php echo $this->Form->hidden('Block.id', array(
-		'value' => $blockId,
-	)); ?>
-
-<?php echo $this->element('Blocks.block_role_setting', array(
-		'roles' => $roles,
+<?php echo $this->element('Blocks.block_approval_setting', array(
 		'model' => 'FaqSetting',
 		'useWorkflow' => 'use_workflow',
-		'creatablePermissions' => array(
-			'contentCreatable' => __d('blocks', 'Content creatable roles'),
-		),
 		'options' => array(
 			Block::NEED_APPROVAL => __d('blocks', 'Need approval'),
 			Block::NOT_NEED_APPROVAL => __d('blocks', 'Not need approval'),
 		),
 	));
+

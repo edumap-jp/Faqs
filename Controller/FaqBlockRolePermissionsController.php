@@ -32,11 +32,6 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $uses = array(
-		'Roles.Role',
-		'Roles.DefaultRolePermission',
-		'Blocks.Block',
-		'Blocks.BlockRolePermission',
-		'Rooms.RolesRoom',
 		'Faqs.Faq',
 		'Faqs.FaqSetting'
 	);
@@ -47,11 +42,10 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockPermissionEditable' => array('edit')
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'edit' => 'block_permission_editable',
 			),
 		),
 	);
@@ -62,19 +56,18 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token'
+		'Blocks.BlockRolePermissionForm'
 	);
 
 /**
- * beforeFilter
+ * beforeRender
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-
+	public function beforeRender() {
 		//タブの設定
 		$this->initTabs('block_index', 'role_permissions');
+		parent::beforeRender();
 	}
 
 /**
@@ -83,48 +76,30 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
+		CurrentFrame::setBlock($this->request->params['pass'][1]);
+
+		if (! $faq = $this->Faq->getFaq()) {
 			$this->throwBadRequest();
 			return false;
 		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-		if (! $this->initFaq(['faqSetting'])) {
-			return;
-		}
 
-		if (! $block = $this->Block->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Block.id' => $this->viewVars['blockId'],
-			),
-		))) {
-			$this->throwBadRequest();
-			return false;
-		};
-		$this->set('blockId', $block['Block']['id']);
-		$this->set('blockKey', $block['Block']['key']);
-
-		$permissions = $this->NetCommonsBlock->getBlockRolePermissions(
-			$this->viewVars['blockKey'],
-			['content_creatable', 'content_publishable']
+		$permissions = $this->Workflow->getBlockRolePermissions(
+			array('content_creatable', 'content_publishable')
 		);
+		$this->set('roles', $permissions['Roles']);
 
 		if ($this->request->isPost()) {
-			$data = $this->data;
-			$this->FaqSetting->saveFaqSetting($data);
-			if ($this->handleValidationError($this->FaqSetting->validationErrors)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/faqs/faq_blocks/index/' . $this->viewVars['frameId']);
-				}
+			if ($this->FaqSetting->saveFaqSetting($this->request->data)) {
+				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;
 			}
-		}
+			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
 
-		$results = array(
-			'BlockRolePermissions' => $permissions['BlockRolePermissions'],
-			'roles' => $permissions['Roles'],
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		} else {
+			$this->request->data['FaqSetting'] = $faq['FaqSetting'];
+			$this->request->data['Block'] = $faq['Block'];
+			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data['Frame'] = Current::read('Frame');
+		}
 	}
 }

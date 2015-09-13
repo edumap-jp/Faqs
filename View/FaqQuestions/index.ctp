@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-<?php echo $this->Html->script('/faqs/js/faqs.js', false); ?>
+<?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js', false); ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
 	<article>
@@ -21,26 +21,24 @@
 
 		<div class="clearfix">
 			<div class="pull-left">
-				<?php echo $this->element('FaqQuestions/select_category'); ?>
+				<?php echo $this->Category->dropDownToggle(array(
+						'empty' => true,
+						'displayMenu' => true,
+					)); ?>
 			</div>
 			<div class="pull-right">
-				<?php if ($contentEditable) : ?>
+				<?php if (Current::permission('content_editable')) : ?>
 					<span class="nc-tooltip " tooltip="<?php echo __d('faqs', 'Sort question'); ?>">
-						<a href="<?php echo $this->Html->url('/faqs/faq_question_orders/edit/' . $frameId); ?>" class="btn btn-default">
+						<a href="<?php echo $this->Html->url('/faqs/faq_question_orders/edit/' . Current::read('Frame.id')); ?>" class="btn btn-default">
 							<span class="glyphicon glyphicon-sort"> </span>
 						</a>
 					</span>
 				<?php endif; ?>
-				<?php if ($contentCreatable) : ?>
-					<span class="nc-tooltip " tooltip="<?php echo __d('faqs', 'Create question'); ?>">
-						<a href="<?php echo $this->Html->url('/faqs/faq_questions/add/' . $frameId); ?>" class="btn btn-success">
-							<span class="glyphicon glyphicon-plus"> </span>
-						</a>
-					</span>
+				<?php if (Current::permission('content_creatable')) : ?>
+					<?php echo $this->Button->addLink('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
 				<?php endif; ?>
 			</div>
 		</div>
-
 
 		<hr>
 		<?php foreach($faqQuestions as $faqQuestion): ?>

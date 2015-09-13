@@ -72,7 +72,7 @@ class FaqQuestionOrderValidateFaqQuestionOrderTest extends FaqQuestionOrderTestB
 	}
 
 /**
- * Expect FaqQuestionOrder `faq_key` error by notEmpty error on update
+ * Expect FaqQuestionOrder `faq_key` error by notBlank error on update
  *
  * @return void
  */
@@ -100,7 +100,7 @@ class FaqQuestionOrderValidateFaqQuestionOrderTest extends FaqQuestionOrderTestB
 	}
 
 /**
- * Expect FaqQuestionOrder `faq_key` error by notEmpty error on update
+ * Expect FaqQuestionOrder `faq_key` error by notBlank error on update
  *
  * @return void
  */
@@ -128,7 +128,7 @@ class FaqQuestionOrderValidateFaqQuestionOrderTest extends FaqQuestionOrderTestB
 	}
 
 /**
- * Expect FaqQuestion `faq_id` error by notEmpty error on update
+ * Expect FaqQuestion `faq_id` error by notBlank error on update
  *
  * @return void
  */

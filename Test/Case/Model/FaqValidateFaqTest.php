@@ -112,7 +112,7 @@ class FaqValidateFaqTest extends FaqTestBase {
 	}
 
 /**
- * Expect Faq `key` error by notEmpty error on update
+ * Expect Faq `key` error by notBlank error on update
  *
  * @return void
  */
@@ -140,7 +140,7 @@ class FaqValidateFaqTest extends FaqTestBase {
 	}
 
 /**
- * Expect Faq `name` error by notEmpty error on create
+ * Expect Faq `name` error by notBlank error on create
  *
  * @return void
  */
@@ -169,7 +169,7 @@ class FaqValidateFaqTest extends FaqTestBase {
 	}
 
 /**
- * Expect Faq `name` error by notEmpty error on update
+ * Expect Faq `name` error by notBlank error on update
  *
  * @return void
  */
