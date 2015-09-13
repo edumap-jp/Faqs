@@ -149,6 +149,7 @@ class FaqQuestion extends FaqsAppModel {
  * @param bool $created True if this save created a new record
  * @param array $options Options passed from Model::save().
  * @return void
+ * @throws InternalErrorException
  * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
  * @see Model::save()
  */
