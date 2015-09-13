@@ -43,7 +43,7 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 			<div class="text-right">
 				<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key']), array(
 						'tooltip' => true,
-						'iconSize' => 'xs'
+						'iconSize' => 'btn-xs'
 					)); ?>
 			</div>
 		<?php endif; ?>
