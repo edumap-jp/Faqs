@@ -11,10 +11,10 @@
 ?>
 
 <div class="block-setting-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+	<?php echo $this->Block->mainTabs(BlockTabsComponent::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->Block->blockTabs(BlockTabsComponent::BLOCK_TAB_PERMISSION); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'FaqBlockRolePermission',
