@@ -42,6 +42,10 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 		'Categories.CategoryEdit',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
@@ -73,17 +77,6 @@ class FaqBlocksController extends FaqsAppController {
 		if ($this->params['action'] === 'index') {
 			$this->Components->unload('Categories.CategoryEdit');
 		}
-	}
-
-/**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		//タブの設定
-		$this->initTabs('block_index', 'block_settings');
-		parent::beforeRender();
 	}
 
 /**

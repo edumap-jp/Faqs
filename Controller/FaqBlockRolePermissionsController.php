@@ -42,6 +42,10 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -58,17 +62,6 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 	public $helpers = array(
 		'Blocks.BlockRolePermissionForm'
 	);
-
-/**
- * beforeRender
- *
- * @return void
- */
-	public function beforeRender() {
-		//タブの設定
-		$this->initTabs('block_index', 'role_permissions');
-		parent::beforeRender();
-	}
 
 /**
  * edit
