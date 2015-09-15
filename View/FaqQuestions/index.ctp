@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-<?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js', false); ?>
+<?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
 	<article>
