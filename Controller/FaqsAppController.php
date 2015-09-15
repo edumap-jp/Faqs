@@ -25,7 +25,6 @@ class FaqsAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
 		'Pages.PageLayout',
 		'Security',
 	);
