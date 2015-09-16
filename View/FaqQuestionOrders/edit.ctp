@@ -23,7 +23,7 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 			<small><?php echo h($faq['name']); ?></small>
 		</h1>
 
-		<?php echo $this->Form->create('FaqQuestionOrder', array('novalidate' => true)); ?>
+		<?php echo $this->NetCommonsForm->create('FaqQuestionOrder'); ?>
 			<?php foreach ($faqQuestionsMap as $key => $value) : ?>
 				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.id'); ?>
 				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_key'); ?>
