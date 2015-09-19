@@ -36,7 +36,12 @@ class FaqQuestionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.Permission',
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'add,edit,delete' => 'content_creatable',
+			),
+		),
 		'Paginator',
 		'Categories.Categories',
 	);
@@ -127,12 +132,6 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public function add() {
 		$this->view = 'edit';
-
-		//投稿権限チェック
-		if (! $this->FaqQuestion->canCreateWorkflowContent()) {
-			$this->throwBadRequest();
-			return false;
-		}
 
 		if ($this->request->isPost()) {
 			//登録処理
