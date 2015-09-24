@@ -8,8 +8,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-
 /**
  * Faqs All Test Suite
  *
@@ -27,8 +25,6 @@ class AllFaqsTest extends CakeTestSuite {
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
 		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
-
-		NetCommonsCakeTestCase::$plugin = Inflector::underscore($plugin);
 
 		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
 		$Folder = new Folder($directory);
