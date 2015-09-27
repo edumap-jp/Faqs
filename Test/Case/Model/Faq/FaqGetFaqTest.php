@@ -19,7 +19,7 @@ App::uses('FaqTestBase', 'Faqs.Test/Case/Model/Faq');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
  */
-class GetFaqTest extends FaqTestBase {
+class FaqGetFaqTest extends FaqTestBase {
 
 /**
  * 正常テスト
@@ -53,7 +53,7 @@ class GetFaqTest extends FaqTestBase {
  *
  * @return void
  */
-	public function testGetFaqNoBlockId() {
+	public function testGetFaqWOBlockId() {
 		//事前データセット
 		Current::$current['Block']['id'] = '99999';
 		Current::$current['Room']['id'] = '1';

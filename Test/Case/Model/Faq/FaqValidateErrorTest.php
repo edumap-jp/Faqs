@@ -19,7 +19,7 @@ App::uses('FaqTestBase', 'Faqs.Test/Case/Model/Faq');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
  */
-class ValidateErrorTest extends FaqTestBase {
+class FaqValidateErrorTest extends FaqTestBase {
 
 /**
  * Faq.nameのnotBlankエラー

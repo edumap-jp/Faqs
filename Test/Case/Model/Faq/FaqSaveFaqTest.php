@@ -19,7 +19,7 @@ App::uses('FaqTestBase', 'Faqs.Test/Case/Model/Faq');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
  */
-class SaveFaqTest extends FaqTestBase {
+class FaqSaveFaqTest extends FaqTestBase {
 
 /**
  * 正常テスト
@@ -59,7 +59,6 @@ class SaveFaqTest extends FaqTestBase {
 		Current::$current['Block']['id'] = null;
 		Current::$current['Room']['id'] = '1';
 		Current::$current['Language']['id'] = '2';
-		Current::$current['Room']['id'] = '1';
 
 		$data = Hash::merge(array(
 			'Frame' => array(
