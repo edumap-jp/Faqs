@@ -1,6 +1,6 @@
 <?php
 /**
- * Common code for test of Faqs
+ * Faqテストの共通クラス
  *
  * @property Faq $Faq
  *
@@ -14,7 +14,7 @@
 App::uses('FaqsModelTestBase', 'Faqs.Test/Case/Model');
 
 /**
- * Common code for test of Faqs
+ * Faqテストの共通クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model

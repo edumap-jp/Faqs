@@ -22,7 +22,7 @@ App::uses('FaqTestBase', 'Faqs.Test/Case/Model/Faq');
 class FaqGetFaqTest extends FaqTestBase {
 
 /**
- * 正常テスト
+ * Faq::getFaq()のテスト
  *
  * @return void
  */
@@ -49,7 +49,7 @@ class FaqGetFaqTest extends FaqTestBase {
 	}
 
 /**
- * ブロックIDなし
+ * Faq::getFaq()のブロックIDなしテスト
  *
  * @return void
  */

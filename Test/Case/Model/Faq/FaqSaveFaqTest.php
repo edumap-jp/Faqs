@@ -22,7 +22,7 @@ App::uses('FaqTestBase', 'Faqs.Test/Case/Model/Faq');
 class FaqSaveFaqTest extends FaqTestBase {
 
 /**
- * 正常テスト
+ * Faq::saveFaq()のテスト
  *
  * @return void
  */
@@ -49,7 +49,7 @@ class FaqSaveFaqTest extends FaqTestBase {
 	}
 
 /**
- * FAQ追加テスト
+ * Faq::saveFaq()のFAQ追加テスト
  *
  * @param array $data Test data
  * @return void
@@ -110,7 +110,7 @@ class FaqSaveFaqTest extends FaqTestBase {
 	}
 
 /**
- * フレームに配置した直後のテスト(Frame.block_idがnullのテスト)
+ * Faq::saveFaq()のフレームに配置した直後のテスト(Frame.block_idがnullのテスト)
  *
  * @return void
  */
@@ -129,7 +129,7 @@ class FaqSaveFaqTest extends FaqTestBase {
 	}
 
 /**
- * Faq->save()のエラー
+ * Faq->save()のExceptionエラー
  * e.g.) connection error
  *
  * @return  void
@@ -148,7 +148,7 @@ class FaqSaveFaqTest extends FaqTestBase {
 	}
 
 /**
- * FaqSetting->save()のエラー
+ * FaqSetting->save()のExceptionエラー
  * e.g.) connection error
  *
  * @return  void
