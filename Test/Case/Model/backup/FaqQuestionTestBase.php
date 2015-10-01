@@ -30,7 +30,7 @@ class FaqQuestionTestBase extends FaqsModelTestBase {
 		parent::setUp();
 		$this->FaqQuestion = ClassRegistry::init('Faqs.FaqQuestion');
 		$this->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->Comment = ClassRegistry::init('Comments.Comment');
+		$this->Comment = ClassRegistry::init('Workflow.Comment');
 		$this->Block = ClassRegistry::init('Blocks.Block');
 	}
 

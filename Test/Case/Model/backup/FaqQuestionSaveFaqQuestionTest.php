@@ -677,7 +677,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 			)
 		));
 
-		$this->Comment = $this->getMockForModel('Comments.Comment', array('save'));
+		$this->Comment = $this->getMockForModel('Workflow.Comment', array('save'));
 		$this->Comment->expects($this->any())
 			->method('save')
 			->will($this->returnValue(false));

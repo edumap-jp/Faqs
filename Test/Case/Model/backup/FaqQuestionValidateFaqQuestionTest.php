@@ -57,7 +57,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	public function setUp() {
 		parent::setUp();
 		$this->FaqQuestion->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->FaqQuestion->Comment = ClassRegistry::init('Comments.Comment');
+		$this->FaqQuestion->Comment = ClassRegistry::init('Workflow.Comment');
 	}
 
 /**

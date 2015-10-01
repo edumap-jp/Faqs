@@ -32,7 +32,7 @@ class FaqsControllerTestBase extends YAControllerTestCase {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
-		'plugin.comments.comment',
+		'plugin.workflow.comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
 		'plugin.faqs.faq_question',
