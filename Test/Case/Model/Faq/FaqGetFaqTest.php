@@ -58,8 +58,6 @@ class FaqGetFaqTest extends FaqTestBase {
 		Current::$current['Block']['id'] = '99999';
 		Current::$current['Room']['id'] = '1';
 		Current::$current['Language']['id'] = '2';
-		$faqId = '2';
-		$faqKey = 'faq_1';
 
 		//期待値
 		$expected = false;

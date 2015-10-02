@@ -37,7 +37,7 @@ class FaqsModelTestBase extends YACakeTestCase {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
-		'plugin.workflow.comment',
+		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
 		'plugin.faqs.faq_question',
