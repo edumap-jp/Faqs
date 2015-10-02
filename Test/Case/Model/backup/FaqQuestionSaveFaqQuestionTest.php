@@ -66,8 +66,6 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		'Faq' => array(
 			'block_id' => '100',
 			'name' => 'faq name 100',
-			'is_auto_translated' => false,
-			'translation_engine' => null,
 			'created_user' => '0',
 		),
 		'FaqQuestion' => array(

@@ -42,8 +42,6 @@ class FaqGetFaqTest extends FaqTestBase {
 				'key' => 'faq_1',
 				'block_id' => $blockId,
 				'name' => 'faq name 100',
-				'is_auto_translated' => false,
-				'translation_engine' => null,
 			),
 		);
 
