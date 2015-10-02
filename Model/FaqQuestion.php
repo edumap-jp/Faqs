@@ -29,7 +29,7 @@ class FaqQuestion extends FaqsAppModel {
  */
 	public $actsAs = array(
 		'NetCommons.OriginalKey',
-		'Workflow.Comment',
+		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
 	);
 

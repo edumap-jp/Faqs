@@ -44,7 +44,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 			'faq_key' => 'faq_1',
 			'faq_question_key' => 'faq_question_1',
 		),
-		'Comment' => array(
+		'WorkflowComment' => array(
 			'comment' => 'Add comment',
 		)
 	);
@@ -57,7 +57,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	public function setUp() {
 		parent::setUp();
 		$this->FaqQuestion->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->FaqQuestion->Comment = ClassRegistry::init('Workflow.Comment');
+		$this->FaqQuestion->WorkflowComment = ClassRegistry::init('Workflow.WorkflowComment');
 	}
 
 /**
@@ -67,7 +67,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
  */
 	public function tearDown() {
 		unset($this->FaqQuestion->FaqQuestionOrder);
-		unset($this->FaqQuestion->Comment);
+		unset($this->FaqQuestion->WorkflowComment);
 		parent::tearDown();
 	}
 
@@ -444,7 +444,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect Comment validation error
+ * Expect WorkflowComment validation error
  *
  * @return void
  */
@@ -470,7 +470,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 		);
 
 		//テスト実施
-		$data['Comment'][$field] = '';
+		$data['WorkflowComment'][$field] = '';
 		$this->__assertValidationError($field, $data, $expected);
 	}
 

@@ -40,12 +40,12 @@ class Faq extends FaqsAppModel {
 			'loadModels' => array(
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
-				'Comment' => 'Workflow.Comment',
+				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
-		'Workflow.Comment',
+		'Workflow.WorkflowComment',
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
