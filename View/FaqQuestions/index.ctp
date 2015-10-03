@@ -29,7 +29,7 @@
 			<div class="pull-right">
 				<?php if (Current::permission('content_editable')) : ?>
 					<span class="nc-tooltip " tooltip="<?php echo __d('faqs', 'Sort question'); ?>">
-						<a href="<?php echo $this->Html->url('/faqs/faq_question_orders/edit/' . Current::read('Frame.id')); ?>" class="btn btn-default">
+						<a href="<?php echo $this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit')); ?>" class="btn btn-default">
 							<span class="glyphicon glyphicon-sort"> </span>
 						</a>
 					</span>

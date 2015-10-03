@@ -16,15 +16,15 @@
 			'action' => 'delete/' . Current::read('Frame.id') . '/' . h($this->data['FaqQuestion']['key'])
 		)); ?>
 
-	<?php echo $this->Form->hidden('Frame.id'); ?>
-	<?php echo $this->Form->hidden('Block.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 
-	<?php echo $this->Form->hidden('Faq.key'); ?>
-	<?php echo $this->Form->hidden('FaqQuestion.id'); ?>
-	<?php echo $this->Form->hidden('FaqQuestion.faq_id'); ?>
-	<?php echo $this->Form->hidden('FaqQuestion.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('Faq.key'); ?>
+	<?php echo $this->NetCommonsForm->hidden('FaqQuestion.id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('FaqQuestion.faq_id'); ?>
+	<?php echo $this->NetCommonsForm->hidden('FaqQuestion.key'); ?>
 
 	<?php echo $this->Button->delete('',
 			sprintf(__d('net_commons', 'Deleting the %s. Are you sure to proceed?'), __d('faqs', 'Question'))
 		); ?>
-<?php echo $this->Form->end();
+<?php echo $this->NetCommonsForm->end();

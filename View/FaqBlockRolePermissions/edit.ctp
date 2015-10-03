@@ -18,7 +18,6 @@
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'model' => 'FaqBlockRolePermission',
-				'action' => 'edit' . '/' . $this->data['Frame']['id'] . '/' . $this->data['Block']['id'],
 				'callback' => 'Faqs.FaqBlockRolePermissions/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>

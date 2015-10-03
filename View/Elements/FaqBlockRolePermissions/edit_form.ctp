@@ -10,10 +10,10 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('FaqSetting.id'); ?>
-<?php echo $this->Form->hidden('FaqSetting.faq_key'); ?>
-<?php echo $this->Form->hidden('Block.id'); ?>
-<?php echo $this->Form->hidden('Block.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqSetting.faq_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
 <?php echo $this->element('Blocks.block_creatable_setting', array(
 		'settingPermissions' => array(

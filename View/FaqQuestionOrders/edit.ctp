@@ -25,16 +25,16 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 
 		<?php echo $this->NetCommonsForm->create('FaqQuestionOrder'); ?>
 			<?php foreach ($faqQuestionsMap as $key => $value) : ?>
-				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.id'); ?>
-				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_key'); ?>
-				<?php echo $this->Form->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_question_key'); ?>
-				<?php $this->Form->unlockField('FaqQuestions.' . $value . '.FaqQuestionOrder.weight'); ?>
+				<?php echo $this->NetCommonsForm->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.id'); ?>
+				<?php echo $this->NetCommonsForm->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_key'); ?>
+				<?php echo $this->NetCommonsForm->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.faq_question_key'); ?>
+				<?php $this->NetCommonsForm->unlockField('FaqQuestions.' . $value . '.FaqQuestionOrder.weight'); ?>
 			<?php endforeach; ?>
 
-			<?php echo $this->Form->hidden('Block.id'); ?>
-			<?php echo $this->Form->hidden('Block.key'); ?>
-			<?php echo $this->Form->hidden('Faq.id'); ?>
-			<?php echo $this->Form->hidden('Faq.key'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Faq.id'); ?>
+			<?php echo $this->NetCommonsForm->hidden('Faq.key'); ?>
 
 			<div ng-hide="faqQuestions.length">
 				<p><?php echo __d('net_commons', 'Not found.'); ?></p>
@@ -81,6 +81,6 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 				<?php echo $this->Button->cancelAndSave(__d('net_commons', 'Cancel'), __d('net_commons', 'OK')); ?>
 			</div>
 
-		<?php echo $this->Form->end(); ?>
+		<?php echo $this->NetCommonsForm->end(); ?>
 	</article>
 </div>
