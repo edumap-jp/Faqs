@@ -82,6 +82,7 @@ class FaqValidateFaqTest extends FaqTestBase {
  * @param array $data Save data
  * @param array $expected Expected value
  * @return void
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	private function __assertValidationError($field, $data, $expected) {
 		//初期処理

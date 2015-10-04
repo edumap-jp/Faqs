@@ -18,7 +18,7 @@ App::uses('FaqQuestionTestBase', 'Faqs.Test/Case/Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 
@@ -78,6 +78,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
  * @param array $data Save data
  * @param array $expected Expected value
  * @return void
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	private function __assertValidationError($field, $data, $expected) {
 		//初期処理

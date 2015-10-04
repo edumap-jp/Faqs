@@ -18,7 +18,7 @@ App::uses('FaqQuestionTestBase', 'Faqs.Test/Case/Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 
