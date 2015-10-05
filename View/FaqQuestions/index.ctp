@@ -34,9 +34,8 @@
 						</a>
 					</span>
 				<?php endif; ?>
-				<?php if (Current::permission('content_creatable')) : ?>
-					<?php echo $this->Button->addLink('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
-				<?php endif; ?>
+
+				<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
 			</div>
 		</div>
 
