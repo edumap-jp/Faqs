@@ -59,14 +59,15 @@ class FaqFixture extends CakeTestFixture {
 		//FAQ 2
 		array(
 			'id' => '3',
-			'block_id' => '3',
+			'block_id' => '4',
 			'key' => 'faq_2',
 			'name' => 'Faq name 2',
 		),
+		//FAQ 3
 		array(
 			'id' => '4',
-			'block_id' => '4',
-			'key' => 'faq_2',
+			'block_id' => '6',
+			'key' => 'faq_3',
 			'name' => 'Faq name 2',
 		),
 	);

@@ -49,45 +49,50 @@ class FaqQuestionFixture extends CakeTestFixture {
  * @var array
  */
 	public $records = array(
+		//FAQ 1  日本語
+		//質問1
 		array(
 			'id' => '1',
-			'faq_id' => '1',
+			'faq_id' => '2',
 			'key' => 'faq_question_1',
 			'language_id' => '2',
-			'category_id' => '100',
+			'category_id' => '1',
 			'status' => '1',
 			'is_active' => true,
-			'is_latest' => true,
+			'is_latest' => false,
 			'question' => 'Question value',
 			'answer' => 'Answer value',
 		),
 		array(
 			'id' => '2',
-			'faq_id' => '1',
-			'key' => 'faq_question_2',
+			'faq_id' => '2',
+			'key' => 'faq_question_1',
 			'language_id' => '2',
-			'category_id' => '100',
-			'status' => '1',
-			'is_active' => true,
-			'is_latest' => false,
+			'category_id' => '1',
+			'status' => '4',
+			'is_active' => false,
+			'is_latest' => true,
 			'question' => 'Question value 2',
 			'answer' => 'Answer value 2',
 		),
+		//質問2(一般が書いた質問)
 		array(
 			'id' => '3',
-			'faq_id' => '1',
+			'faq_id' => '2',
 			'key' => 'faq_question_2',
 			'language_id' => '2',
-			'category_id' => '100',
+			'category_id' => '1',
 			'status' => '3',
 			'is_active' => false,
 			'is_latest' => true,
 			'question' => 'Question value 3',
 			'answer' => 'Answer value 3',
+			'created_user' => '4'
 		),
+		//質問3
 		array(
 			'id' => '4',
-			'faq_id' => '1',
+			'faq_id' => '2',
 			'key' => 'faq_question_3',
 			'language_id' => '2',
 			'category_id' => null,
