@@ -112,7 +112,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
  * editアクションのGETテスト(ログインなし)用DataProvider
  *
  * ### 戻り値
- *  - hasDelete: 削除ボタン(リンク)の有無
  *  - urlOptions: URLオプション
  *  - assert: テストの期待値
  *  - exception: Exception
@@ -125,7 +124,7 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 		$results = array();
 
 		//ログインなし
-		$results[0] = array('hasDelete' => null,
+		$results[0] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => null, 'exception' => 'ForbiddenException'
 		);
@@ -150,21 +149,24 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 
 		//作成権限のみ
 		//--他人の記事
-		$results[0] = array('hasDelete' => null,
+		$results[0] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => null,
 			'exception' => 'BadRequestException'
 		);
-		$results[1] = array('hasDelete' => null,
+		$results[1] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => null,
 			'exception' => 'BadRequestException', 'return' => 'json'
 		);
 		//--自分の記事
-		$results[2] = array('hasDelete' => true,
+		$results[2] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => 'faq_question_2'),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
+		$results[3] = Hash::merge($results[2], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
+		));
 
 		return $results;
 	}
@@ -188,10 +190,13 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 		//編集権限あり
 		//--コンテンツあり
 		$base = 0;
-		$results[0] = array('hasDelete' => false,
+		$results[0] = array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
+		array_push($results, Hash::merge($results[$base], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => false, 'url' => array()),
+		)));
 		array_push($results, Hash::merge($results[$base], array(
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => $data['Frame']['id']),
 		)));
@@ -217,8 +222,7 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 			'assert' => array('method' => 'assertInput', 'type' => 'textarea', 'name' => 'data[FaqQuestion][answer]', 'value' => null),
 		)));
 		//--コンテンツなし
-		$base = 8;
-		$results[8] = array('hasDelete' => null,
+		$results[count($results)] = array(
 			'urlOptions' => array('frame_id' => '14', 'block_id' => null, 'key' => null),
 			'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
 			'exception' => null, 'return' => 'viewFile'
@@ -244,12 +248,15 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 		$results = array();
 
 		//フレーム削除テスト
-		$results[0] = array('hasDelete' => true,
+		$results[0] = array(
 			'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 		array_push($results, Hash::merge($results[0], array(
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => '12'),
+		)));
+		array_push($results, Hash::merge($results[0], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
 		)));
 
 		//フレームIDなし(不正)テスト
@@ -260,6 +267,9 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 			'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
 		)));
+		array_push($results, Hash::merge($results[0], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
+		)));
 
 		//フレームID指定なしテスト
 		array_push($results, Hash::merge($results[0], array(
@@ -268,6 +278,9 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 		array_push($results, Hash::merge($results[0], array(
 			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
+		)));
+		array_push($results, Hash::merge($results[0], array(
+			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
 		)));
 
 		return $results;

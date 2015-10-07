@@ -75,7 +75,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'question' => 'Question value 2',
 			'answer' => 'Answer value 2',
 		),
-		//質問2(一般が書いた質問)
+		//質問2(一般が書いた質問＆一度も公開していない)
 		array(
 			'id' => '3',
 			'faq_id' => '2',
@@ -101,6 +101,33 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'question' => 'Question value 4',
 			'answer' => 'Answer value 4',
+		),
+		//質問4(一般が書いた質問＆一度公開している)
+		array(
+			'id' => '5',
+			'faq_id' => '2',
+			'key' => 'faq_question_4',
+			'language_id' => '2',
+			'category_id' => '1',
+			'status' => '1',
+			'is_active' => true,
+			'is_latest' => true,
+			'question' => 'Question value 5',
+			'answer' => 'Answer value 5',
+			'created_user' => '4'
+		),
+		array(
+			'id' => '6',
+			'faq_id' => '2',
+			'key' => 'faq_question_4',
+			'language_id' => '2',
+			'category_id' => '1',
+			'status' => '3',
+			'is_active' => false,
+			'is_latest' => true,
+			'question' => 'Question value 6',
+			'answer' => 'Answer value 6',
+			'created_user' => '4'
 		),
 	);
 
