@@ -16,7 +16,7 @@ App::uses('WorkflowControllerEditTest', 'Workflow.TestSuite');
  * FaqQuestionsController Test Case
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\FaqQuestions\Test\Case\Controller
+ * @package NetCommons\Faqs\Test\Case\Controller\FaqQuestionsController
  */
 class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 
@@ -135,7 +135,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
  * editアクションのGETテスト(作成権限のみ)用DataProvider
  *
  * ### 戻り値
- *  - hasDelete: 削除ボタン(リンク)の有無
  *  - urlOptions: URLオプション
  *  - assert: テストの期待値
  *  - exception: Exception
@@ -175,7 +174,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
  * editアクションのGETテスト(編集権限、公開権限なし)用DataProvider
  *
  * ### 戻り値
- *  - hasDelete: 削除ボタン(リンク)の有無
  *  - urlOptions: URLオプション
  *  - assert: テストの期待値
  *  - exception: Exception
@@ -235,7 +233,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
  * editアクションのGETテスト(公開権限あり)用DataProvider
  *
  * ### 戻り値
- *  - hasDelete: 削除ボタン(リンク)の有無
  *  - urlOptions: URLオプション
  *  - assert: テストの期待値
  *  - exception: Exception
@@ -247,34 +244,11 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 		$data = $this->__getData();
 		$results = array();
 
-		//フレーム削除テスト
+		//フレームID指定なしテスト
 		$results[0] = array(
-			'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
+			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
-		array_push($results, Hash::merge($results[0], array(
-			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => '12'),
-		)));
-		array_push($results, Hash::merge($results[0], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
-		)));
-
-		//フレームIDなし(不正)テスト
-		array_push($results, Hash::merge($results[0], array(
-			'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-		)));
-		array_push($results, Hash::merge($results[0], array(
-			'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
-		)));
-		array_push($results, Hash::merge($results[0], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
-		)));
-
-		//フレームID指定なしテスト
-		array_push($results, Hash::merge($results[0], array(
-			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-		)));
 		array_push($results, Hash::merge($results[0], array(
 			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
@@ -331,16 +305,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_EDITOR,
 				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			),
-			//フレーム削除テスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			),
-			//フレームなしテスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			),
 			//フレームID指定なしテスト
 			array(
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
@@ -354,7 +318,6 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
  *
  * ### 戻り値
  *  - data: 登録データ
- *  - role: ロール
  *  - urlOptions: URLオプション
  *  - validationError: バリデーションエラー
  *
@@ -363,7 +326,7 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 	public function dataProviderEditValidationError() {
 		$data = $this->__getData();
 		$result = array(
-			'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
+			'data' => $data,
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 		);
 

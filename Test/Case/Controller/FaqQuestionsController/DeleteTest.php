@@ -16,7 +16,7 @@ App::uses('WorkflowControllerDeleteTest', 'Workflow.TestSuite');
  * FaqQuestionsController Test Case
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\FaqQuestions\Test\Case\Controller
+ * @package NetCommons\Faqs\Test\Case\Controller\FaqQuestionsController
  */
 class FaqQuestionsControllerDeleteTest extends WorkflowControllerDeleteTest {
 
@@ -188,16 +188,6 @@ class FaqQuestionsControllerDeleteTest extends WorkflowControllerDeleteTest {
 				'exception' => 'BadRequestException'
 			),
 			//公開権限あり
-			//フレーム削除テスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			),
-			//フレームなしテスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			),
 			//フレームID指定なしテスト
 			array(
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,

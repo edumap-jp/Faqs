@@ -16,7 +16,7 @@ App::uses('WorkflowControllerAddTest', 'Workflow.TestSuite');
  * FaqQuestionsController Test Case
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\FaqQuestions\Test\Case\Controller
+ * @package NetCommons\Faqs\Test\Case\Controller\FaqQuestionsController
  */
 class FaqQuestionsControllerAddTest extends WorkflowControllerAddTest {
 
@@ -171,26 +171,6 @@ class FaqQuestionsControllerAddTest extends WorkflowControllerAddTest {
 			'assert' => array('method' => 'assertInput', 'type' => 'textarea', 'name' => 'data[FaqQuestion][answer]', 'value' => null),
 		)));
 
-		//フレーム削除テスト
-		array_push($results, Hash::merge($results[$base], array(
-			'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id']),
-			'assert' => array('method' => 'assertNotEmpty'),
-		)));
-		array_push($results, Hash::merge($results[$base], array(
-			'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id']),
-			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => '12'),
-		)));
-
-		//フレームIDなし(不正)テスト
-		array_push($results, Hash::merge($results[$base], array(
-			'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id']),
-			'assert' => array('method' => 'assertNotEmpty'),
-		)));
-		array_push($results, Hash::merge($results[$base], array(
-			'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id']),
-			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
-		)));
-
 		//フレームID指定なしテスト
 		array_push($results, Hash::merge($results[$base], array(
 			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id']),
@@ -231,16 +211,6 @@ class FaqQuestionsControllerAddTest extends WorkflowControllerAddTest {
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_GENERAL_USER,
 				'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id']),
 			),
-			//フレーム削除テスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '12', 'block_id' => $data['Block']['id']),
-			),
-			//フレームなしテスト
-			array(
-				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
-				'urlOptions' => array('frame_id' => '999999', 'block_id' => $data['Block']['id']),
-			),
 			//フレームID指定なしテスト
 			array(
 				'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
@@ -254,7 +224,6 @@ class FaqQuestionsControllerAddTest extends WorkflowControllerAddTest {
  *
  * ### 戻り値
  *  - data: 登録データ
- *  - role: ロール
  *  - urlOptions: URLオプション
  *  - validationError: バリデーションエラー
  *
@@ -263,7 +232,7 @@ class FaqQuestionsControllerAddTest extends WorkflowControllerAddTest {
 	public function dataProviderAddValidationError() {
 		$data = $this->__getData();
 		$result = array(
-			'data' => $data, 'role' => Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR,
+			'data' => $data,
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id']),
 		);
 

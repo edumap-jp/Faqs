@@ -17,7 +17,7 @@ App::uses('WorkflowDeleteTest', 'Workflow.TestSuite');
  * FaqQuestion::deleteFaqQuestion()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\Faqs\Test\Case\Model\Announcement
+ * @package NetCommons\Faqs\Test\Case\Model\FaqQuestion
  */
 class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
 
@@ -44,11 +44,25 @@ class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
 	);
 
 /**
+ * Model name
+ *
+ * @var array
+ */
+	public $_modelName = 'FaqQuestion';
+
+/**
+ * Method name
+ *
+ * @var array
+ */
+	public $_methodName = 'deleteFaqQuestion';
+
+/**
  * data
  *
  * @var array
  */
-	public $data = array(
+	private $__data = array(
 		'Block' => array(
 			'id' => '2',
 			'key' => 'block_1',
@@ -63,16 +77,13 @@ class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
  *
  * ### 戻り値
  *  - data: 削除データ
- *  - model: モデル名
- *  - method: メソッド
  *  - associationModels: 削除確認の関連モデル array(model => conditions)
  *
  * @return void
  */
 	public function dataProviderDelete() {
 		return array(
-			array($this->data, 'FaqQuestion', 'deleteFaqQuestion',
-				array('FaqQuestionOrder' => array('faq_question_key' => $this->data['FaqQuestion']['key']))
+			array($this->__data, array('FaqQuestionOrder' => array('faq_question_key' => $this->__data['FaqQuestion']['key']))
 			),
 		);
 	}
@@ -82,8 +93,6 @@ class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
  *
  * ### 戻り値
  *  - data 登録データ
- *  - model モデル名
- *  - method メソッド
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
@@ -91,8 +100,8 @@ class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
  */
 	public function dataProviderDeleteOnExceptionError() {
 		return array(
-			array($this->data, 'FaqQuestion', 'deleteFaqQuestion', 'Faqs.FaqQuestion', 'deleteAll'),
-			array($this->data, 'FaqQuestion', 'deleteFaqQuestion', 'Faqs.FaqQuestionOrder', 'deleteAll'),
+			array($this->__data, 'Faqs.FaqQuestion', 'deleteAll'),
+			array($this->__data, 'Faqs.FaqQuestionOrder', 'deleteAll'),
 		);
 	}
 
