@@ -187,4 +187,47 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 		);
 	}
 
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+
+		//FaqQuestionOrderのテスト前のデータ取得
+		if (isset($data['FaqQuestionOrder']['id'])) {
+			$before = $this->FaqQuestionOrder->find('first', array(
+				'recursive' => -1,
+				'conditions' => array('faq_question_key' => $data[$this->$model->alias]['key']),
+			));
+			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified');
+			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified_user');
+		}
+
+		//テスト実施
+		$latest = parent::testSave($data);
+
+		//登録処理後のFaqQuestionOrderのチェック
+		if (isset($data['FaqQuestionOrder']['id'])) {
+			$after = $this->FaqQuestionOrder->find('first', array(
+				'recursive' => -1,
+				'conditions' => array('faq_question_key' => $data[$this->$model->alias]['key']),
+			));
+			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified');
+			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified_user');
+
+			$this->assertEquals($after, $before);
+		} else {
+			$after = $this->FaqQuestionOrder->find('first', array(
+				'recursive' => -1,
+				'order' => array('id' => 'desc')
+			));
+
+			$this->assertEquals($after['FaqQuestionOrder']['faq_question_key'], $latest[$this->$model->alias]['key']);
+		}
+	}
+
 }
