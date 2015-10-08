@@ -92,8 +92,8 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 				'language_id' => '2',
 				'category_id' => '2',
 				'status' => null,
-				'question' => 'Modify question',
-				'answer' => 'Modify answer',
+				'question' => 'Save question',
+				'answer' => 'Save answer',
 			),
 			'FaqQuestionOrder' => array(
 				'id' => '1',
