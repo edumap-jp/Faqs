@@ -48,14 +48,14 @@ class FaqQuestionDeleteFaqQuestionTest extends WorkflowDeleteTest {
  *
  * @var array
  */
-	public $_modelName = 'FaqQuestion';
+	protected $_modelName = 'FaqQuestion';
 
 /**
  * Method name
  *
  * @var array
  */
-	public $_methodName = 'deleteFaqQuestion';
+	protected $_methodName = 'deleteFaqQuestion';
 
 /**
  * data

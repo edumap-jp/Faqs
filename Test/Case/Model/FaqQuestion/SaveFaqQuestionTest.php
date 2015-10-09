@@ -48,14 +48,14 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
  *
  * @var array
  */
-	public $_modelName = 'FaqQuestion';
+	protected $_modelName = 'FaqQuestion';
 
 /**
  * Method name
  *
  * @var array
  */
-	public $_methodName = 'saveFaqQuestion';
+	protected $_methodName = 'saveFaqQuestion';
 
 /**
  * テストDataの取得
@@ -181,7 +181,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 			array($this->__getData(), 'answer', '',
 				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Answer'))),
 			array($this->__getData(), 'key', '',
-				'message' => __d('net_commons', 'Invalid request.'),),
+				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'faq_id', 'aaa',
 				__d('net_commons', 'Invalid request.')),
 		);
@@ -205,6 +205,25 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 			));
 			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified');
 			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified_user');
+		} else {
+			$max = $this->FaqQuestionOrder->find('first', array(
+				'recursive' => -1,
+				'fields' => 'id',
+				'order' => array('id' => 'desc')
+			));
+			$maxId = $max['FaqQuestionOrder']['id'] + 1;
+
+			$max = $this->FaqQuestionOrder->find('first', array(
+				'recursive' => -1,
+				'fields' => 'weight',
+				'conditions' => array('faq_key' => $data['FaqQuestionOrder']['faq_key']),
+				'order' => array('weight' => 'desc')
+			));
+			$maxWeight = $max['FaqQuestionOrder']['weight'] + 1;
+
+			$before['FaqQuestionOrder'] = $data['FaqQuestionOrder'];
+			$before['FaqQuestionOrder']['id'] = (string)$maxId;
+			$before['FaqQuestionOrder']['weight'] = (string)$maxWeight;
 		}
 
 		//テスト実施
@@ -216,18 +235,22 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 				'recursive' => -1,
 				'conditions' => array('faq_question_key' => $data[$this->$model->alias]['key']),
 			));
-			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified');
-			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified_user');
 
-			$this->assertEquals($after, $before);
 		} else {
+			$before['FaqQuestionOrder']['faq_question_key'] = $latest[$this->$model->alias]['key'];
+
 			$after = $this->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'order' => array('id' => 'desc')
 			));
-
-			$this->assertEquals($after['FaqQuestionOrder']['faq_question_key'], $latest[$this->$model->alias]['key']);
+			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'created');
+			$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'created_user');
 		}
+
+		$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified');
+		$after['FaqQuestionOrder'] = Hash::remove($after['FaqQuestionOrder'], 'modified_user');
+
+		$this->assertEquals($after['FaqQuestionOrder'], $before['FaqQuestionOrder']);
 	}
 
 }
