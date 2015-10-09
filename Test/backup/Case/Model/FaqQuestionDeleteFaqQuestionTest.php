@@ -46,7 +46,7 @@ class FaqQuestionDeleteFaqQuestionTest extends FaqQuestionTestBase {
 	public function setUp() {
 		parent::setUp();
 		$this->FaqQuestion->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->FaqQuestion->Comment = ClassRegistry::init('Comments.Comment');
+		$this->FaqQuestion->WorkflowComment = ClassRegistry::init('Workflow.WorkflowComment');
 	}
 
 /**
@@ -56,7 +56,7 @@ class FaqQuestionDeleteFaqQuestionTest extends FaqQuestionTestBase {
  */
 	public function tearDown() {
 		unset($this->FaqQuestion->FaqQuestionOrder);
-		unset($this->FaqQuestion->Comment);
+		unset($this->FaqQuestion->WorkflowComment);
 		parent::tearDown();
 	}
 

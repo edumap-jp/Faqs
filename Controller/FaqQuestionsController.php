@@ -42,7 +42,6 @@ class FaqQuestionsController extends FaqsAppController {
 				'add,edit,delete' => 'content_creatable',
 			),
 		),
-		'Paginator',
 		'Categories.Categories',
 	);
 

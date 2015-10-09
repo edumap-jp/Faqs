@@ -50,8 +50,6 @@ class FaqQuestionGetFaqQuestionTest extends FaqQuestionTestBase {
 			'key' => 'faq_1',
 			'block_id' => '100',
 			'name' => 'faq name 100',
-			'is_auto_translated' => false,
-			'translation_engine' => null,
 		),
 		'Category' => array(
 			'id' => '100',

@@ -28,8 +28,8 @@ class FaqQuestion extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'Comments.Comment',
 		'NetCommons.OriginalKey',
+		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
 	);
 
@@ -95,7 +95,7 @@ class FaqQuestion extends FaqsAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
-					'on' => 'update', // Limit validation to 'create' or 'update' operations
+					//'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
 			'key' => array(

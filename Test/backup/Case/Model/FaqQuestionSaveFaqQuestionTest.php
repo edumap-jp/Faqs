@@ -18,7 +18,7 @@ App::uses('FaqQuestionTestBase', 'Faqs.Test/Case/Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 
@@ -52,7 +52,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 			'faq_key' => 'faq_1',
 			'faq_question_key' => 'faq_question_1',
 		),
-		'Comment' => array(
+		'WorkflowComment' => array(
 			'comment' => 'Add comment',
 		)
 	);
@@ -66,8 +66,6 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 		'Faq' => array(
 			'block_id' => '100',
 			'name' => 'faq name 100',
-			'is_auto_translated' => false,
-			'translation_engine' => null,
 			'created_user' => '0',
 		),
 		'FaqQuestion' => array(
@@ -121,13 +119,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -176,13 +174,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -240,13 +238,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '4',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -298,13 +296,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -409,13 +407,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -467,13 +465,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -551,13 +549,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -604,13 +602,13 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 				'weight' => '1',
 			),
 		));
-		$expected = Hash::remove($expected, 'Comment');
+		$expected = Hash::remove($expected, 'WorkflowComment');
 		$expected = Hash::remove($expected, 'Block');
 
 		//テスト実施
 		$this->_assertArray($expected, $result, 2, ['created', 'modified', 'modified_user']);
 
-		$this->assertEquals(1, $this->Comment->find('count', array(
+		$this->assertEquals(1, $this->WorkflowComment->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('content_key' => $faqQuestionKey),
 		)));
@@ -663,7 +661,7 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect to fail on Comment->save()
+ * Expect to fail on WorkflowComment->save()
  * e.g.) connection error
  *
  * @return  void
@@ -677,8 +675,8 @@ class FaqQuestionSaveFaqQuestionTest extends FaqQuestionTestBase {
 			)
 		));
 
-		$this->Comment = $this->getMockForModel('Comments.Comment', array('save'));
-		$this->Comment->expects($this->any())
+		$this->WorkflowComment = $this->getMockForModel('Workflow.WorkflowComment', array('save'));
+		$this->WorkflowComment->expects($this->any())
 			->method('save')
 			->will($this->returnValue(false));
 

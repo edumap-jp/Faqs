@@ -10,19 +10,19 @@
  */
 ?>
 
-<?php echo $this->Form->hidden('Frame.id'); ?>
-<?php echo $this->Form->hidden('Block.id'); ?>
-<?php echo $this->Form->hidden('Block.key'); ?>
-<?php echo $this->Form->hidden('Faq.id'); ?>
-<?php echo $this->Form->hidden('Faq.key'); ?>
-<?php echo $this->Form->hidden('FaqQuestion.id'); ?>
-<?php echo $this->Form->hidden('FaqQuestion.faq_id'); ?>
-<?php echo $this->Form->hidden('FaqQuestion.key'); ?>
-<?php echo $this->Form->hidden('FaqQuestion.status'); ?>
-<?php echo $this->Form->hidden('FaqQuestion.language_id'); ?>
-<?php echo $this->Form->hidden('FaqQuestionOrder.id'); ?>
-<?php echo $this->Form->hidden('FaqQuestionOrder.faq_key'); ?>
-<?php echo $this->Form->hidden('FaqQuestionOrder.faq_question_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Faq.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Faq.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestion.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestion.faq_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestion.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestion.status'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestion.language_id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestionOrder.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestionOrder.faq_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqQuestionOrder.faq_question_key'); ?>
 
 <?php echo $this->Category->select('FaqQuestion.category_id', array('empty' => true)); ?>
 

@@ -69,8 +69,6 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		CurrentFrame::setBlock($this->request->params['pass'][1]);
-
 		if (! $faq = $this->Faq->getFaq()) {
 			$this->throwBadRequest();
 			return false;

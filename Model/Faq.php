@@ -40,12 +40,12 @@ class Faq extends FaqsAppModel {
 			'loadModels' => array(
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
-				'Comment' => 'Comments.Comment',
+				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'Categories.Category',
-		'Comments.Comment',
 		'NetCommons.OriginalKey',
+		'Workflow.WorkflowComment',
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -96,6 +96,10 @@ class Faq extends FaqsAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
+		$this->loadModels([
+			'FaqSetting' => 'Faqs.FaqSetting',
+		]);
+
 		$this->validate = Hash::merge($this->validate, array(
 			'key' => array(
 				'notBlank' => array(
@@ -120,12 +124,6 @@ class Faq extends FaqsAppModel {
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ')),
 					'allowEmpty' => false,
 					'required' => true,
-				),
-			),
-			'is_auto_translated' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
 		));
@@ -222,7 +220,7 @@ class Faq extends FaqsAppModel {
 		));
 
 		if (! $faq) {
-			return $faq;
+			return false;
 		}
 		return $faq[0];
 	}

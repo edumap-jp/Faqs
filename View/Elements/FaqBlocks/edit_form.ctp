@@ -12,10 +12,10 @@
 
 <?php echo $this->element('Blocks.form_hidden'); ?>
 
-<?php echo $this->Form->hidden('Faq.id'); ?>
-<?php echo $this->Form->hidden('Faq.key'); ?>
-<?php echo $this->Form->hidden('FaqSetting.id'); ?>
-<?php echo $this->Form->hidden('FaqSetting.faq_key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Faq.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('Faq.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqSetting.id'); ?>
+<?php echo $this->NetCommonsForm->hidden('FaqSetting.faq_key'); ?>
 
 <?php echo $this->NetCommonsForm->input('Faq.name', array(
 		'type' => 'text',

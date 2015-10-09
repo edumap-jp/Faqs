@@ -24,11 +24,9 @@ class FaqFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'faq key | FAQキー | Hash値 | ', 'charset' => 'utf8'),
 		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'faq key | FAQキー | Hash値 | ', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'FAQ name | FAQ名称 | | ', 'charset' => 'utf8'),
-		'is_auto_translated' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'translation type. 0:original , 1:auto translation | 翻訳タイプ 0:オリジナル、1:自動翻訳 | | '),
-		'translation_engine' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'translation engine | 翻訳エンジン | | ', 'charset' => 'utf8'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
@@ -45,30 +43,32 @@ class FaqFixture extends CakeTestFixture {
  * @var array
  */
 	public $records = array(
+		//FAQ 1
 		array(
 			'id' => '1',
+			'block_id' => '1',
 			'key' => 'faq_1',
-			'block_id' => '100',
-			'name' => 'faq name 100',
-			//'is_auto_translated' => 1,
-			//'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'name' => 'Faq name 1',
 		),
 		array(
 			'id' => '2',
-			'key' => 'faq_2',
-			'block_id' => '101',
-			'name' => 'faq name 101',
-			//'is_auto_translated' => 1,
-			//'translation_engine' => 'Lorem ipsum dolor sit amet',
+			'block_id' => '2',
+			'key' => 'faq_1',
+			'name' => 'Faq name 1',
 		),
+		//FAQ 2
 		array(
 			'id' => '3',
+			'block_id' => '4',
+			'key' => 'faq_2',
+			'name' => 'Faq name 2',
+		),
+		//FAQ 3
+		array(
+			'id' => '4',
+			'block_id' => '6',
 			'key' => 'faq_3',
-			'block_id' => '102',
-			'name' => 'faq name 102',
-			//'is_auto_translated' => 1,
-			//'translation_engine' => 'Lorem ipsum dolor sit amet',
-
+			'name' => 'Faq name 2',
 		),
 	);
 

@@ -18,7 +18,7 @@ App::uses('FaqQuestionTestBase', 'Faqs.Test/Case/Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 
@@ -44,7 +44,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 			'faq_key' => 'faq_1',
 			'faq_question_key' => 'faq_question_1',
 		),
-		'Comment' => array(
+		'WorkflowComment' => array(
 			'comment' => 'Add comment',
 		)
 	);
@@ -57,7 +57,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	public function setUp() {
 		parent::setUp();
 		$this->FaqQuestion->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->FaqQuestion->Comment = ClassRegistry::init('Comments.Comment');
+		$this->FaqQuestion->WorkflowComment = ClassRegistry::init('Workflow.WorkflowComment');
 	}
 
 /**
@@ -67,7 +67,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
  */
 	public function tearDown() {
 		unset($this->FaqQuestion->FaqQuestionOrder);
-		unset($this->FaqQuestion->Comment);
+		unset($this->FaqQuestion->WorkflowComment);
 		parent::tearDown();
 	}
 
@@ -78,6 +78,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
  * @param array $data Save data
  * @param array $expected Expected value
  * @return void
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	private function __assertValidationError($field, $data, $expected) {
 		//初期処理
@@ -444,7 +445,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 	}
 
 /**
- * Expect Comment validation error
+ * Expect WorkflowComment validation error
  *
  * @return void
  */
@@ -470,7 +471,7 @@ class FaqQuestionValidateFaqQuestionTest extends FaqQuestionTestBase {
 		);
 
 		//テスト実施
-		$data['Comment'][$field] = '';
+		$data['WorkflowComment'][$field] = '';
 		$this->__assertValidationError($field, $data, $expected);
 	}
 

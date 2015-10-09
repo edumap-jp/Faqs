@@ -61,8 +61,6 @@ class FaqSaveFaqTest extends FaqTestBase {
 			'name' => '',
 		),
 		'Faq' => array(
-			'is_auto_translated' => false,
-			'translation_engine' => null,
 		),
 		'FaqSetting' => array(
 			'use_workflow' => true,

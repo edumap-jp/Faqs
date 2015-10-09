@@ -30,7 +30,7 @@ class FaqQuestionTestBase extends FaqsModelTestBase {
 		parent::setUp();
 		$this->FaqQuestion = ClassRegistry::init('Faqs.FaqQuestion');
 		$this->FaqQuestionOrder = ClassRegistry::init('Faqs.FaqQuestionOrder');
-		$this->Comment = ClassRegistry::init('Comments.Comment');
+		$this->WorkflowComment = ClassRegistry::init('Workflow.WorkflowComment');
 		$this->Block = ClassRegistry::init('Blocks.Block');
 	}
 
@@ -42,7 +42,7 @@ class FaqQuestionTestBase extends FaqsModelTestBase {
 	public function tearDown() {
 		unset($this->FaqQuestion);
 		unset($this->FaqQuestionOrder);
-		unset($this->Comment);
+		unset($this->WorkflowComment);
 		unset($this->Block);
 		parent::tearDown();
 	}
