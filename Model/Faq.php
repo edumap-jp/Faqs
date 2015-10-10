@@ -128,10 +128,6 @@ class Faq extends FaqsAppModel {
 			),
 		));
 
-		if (! parent::beforeValidate($options)) {
-			return false;
-		}
-
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
 			if (! $this->FaqSetting->validates()) {
@@ -139,6 +135,8 @@ class Faq extends FaqsAppModel {
 				return false;
 			}
 		}
+
+		return parent::beforeValidate($options);
 	}
 
 /**
