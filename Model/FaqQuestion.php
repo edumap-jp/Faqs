@@ -33,12 +33,9 @@ class FaqQuestion extends FaqsAppModel {
 			'associations' => array(
 				'faq_id' => array(
 					'className' => 'Faqs.Faq',
-					'field' => 'block_id',
-					'conditions' => array('language_id'),
 				),
 				'category_id' => array(
 					'className' => 'Categories.Category',
-					'conditions' => array('language_id'),
 				),
 			)
 		),
