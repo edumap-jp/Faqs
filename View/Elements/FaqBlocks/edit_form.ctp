@@ -14,6 +14,7 @@
 
 <?php echo $this->NetCommonsForm->hidden('Faq.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Faq.key'); ?>
+<?php echo $this->NetCommonsForm->hidden('Faq.language_id'); ?>
 <?php echo $this->NetCommonsForm->hidden('FaqSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('FaqSetting.faq_key'); ?>
 
