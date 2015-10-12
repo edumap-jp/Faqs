@@ -28,7 +28,20 @@ class FaqQuestion extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.OriginalKey',
+		//'NetCommons.OriginalKey',
+		'M17n.M17n' => array(
+			'associations' => array(
+				'faq_id' => array(
+					'className' => 'Faqs.Faq',
+					'field' => 'block_id',
+					'conditions' => array('language_id'),
+				),
+				'category_id' => array(
+					'className' => 'Categories.Category',
+					'conditions' => array('language_id'),
+				),
+			)
+		),
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
 	);
@@ -69,13 +82,13 @@ class FaqQuestion extends FaqsAppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'CategoryOrder' => array(
-			'className' => 'Categories.CategoryOrder',
-			'foreignKey' => false,
-			'conditions' => 'CategoryOrder.category_key=Category.key',
-			'fields' => '',
-			'order' => ''
-		)
+		//'CategoryOrder' => array(
+		//	'className' => 'Categories.CategoryOrder',
+		//	'foreignKey' => false,
+		//	'conditions' => 'CategoryOrder.category_key=Category.key',
+		//	'fields' => '',
+		//	'order' => ''
+		//)
 	);
 
 /**
@@ -140,28 +153,29 @@ class FaqQuestion extends FaqsAppModel {
 	}
 
 /**
- * Called after each successful save operation.
+ * Called before each save operation, after validation. Return a non-true result
+ * to halt the save.
  *
- * @param bool $created True if this save created a new record
  * @param array $options Options passed from Model::save().
- * @return void
+ * @return bool True if the operation should continue, false if it should abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforesave
  * @throws InternalErrorException
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
  * @see Model::save()
  */
-	public function afterSave($created, $options = array()) {
+	public function beforeSave($options = array()) {
 		//FaqQuestionOrder登録
-		if (isset($this->FaqQuestionOrder->data['FaqQuestionOrder'])) {
-			if (! $this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key']) {
-				$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $this->data[$this->alias]['key'];
-				$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($this->data['Faq']['key']) + 1;
-			}
+		if (isset($this->data['FaqQuestionOrder'])) {
+			$this->FaqQuestionOrder->set($this->data['FaqQuestionOrder']);
+		}
+		if (isset($this->FaqQuestionOrder->data['FaqQuestionOrder']) && ! $this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key']) {
+			$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $this->data[$this->alias]['key'];
+			$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($this->data['Faq']['key']) + 1;
 			if (! $this->FaqQuestionOrder->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 		}
 
-		parent::afterSave($created, $options);
+		return true;
 	}
 
 /**

@@ -44,7 +44,8 @@ class Faq extends FaqsAppModel {
 			)
 		),
 		'Categories.Category',
-		'NetCommons.OriginalKey',
+		//'NetCommons.OriginalKey',
+		'M17n.M17n',
 		'Workflow.WorkflowComment',
 	);
 
@@ -57,7 +58,7 @@ class Faq extends FaqsAppModel {
  */
 	public $belongsTo = array(
 		'Block' => array(
-			'className' => 'Block',
+			'className' => 'Blocks.Block',
 			'foreignKey' => 'block_id',
 			'conditions' => '',
 			'fields' => '',
@@ -72,7 +73,7 @@ class Faq extends FaqsAppModel {
  */
 	public $hasMany = array(
 		'FaqQuestion' => array(
-			'className' => 'FaqQuestion',
+			'className' => 'Faqs.FaqQuestion',
 			'foreignKey' => 'faq_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -140,27 +141,28 @@ class Faq extends FaqsAppModel {
 	}
 
 /**
- * Called after each successful save operation.
+ * Called before each save operation, after validation. Return a non-true result
+ * to halt the save.
  *
- * @param bool $created True if this save created a new record
  * @param array $options Options passed from Model::save().
- * @return void
+ * @return bool True if the operation should continue, false if it should abort
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforesave
  * @throws InternalErrorException
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#aftersave
  * @see Model::save()
  */
-	public function afterSave($created, $options = array()) {
+	public function beforeSave($options = array()) {
 		//FaqSetting登録
-		if (isset($this->FaqSetting->data['FaqSetting'])) {
-			if (! $this->FaqSetting->data['FaqSetting']['faq_key']) {
-				$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
-			}
+		if (isset($this->data['FaqSetting'])) {
+			$this->FaqSetting->set($this->data['FaqSetting']);
+		}
+		if (isset($this->FaqSetting->data['FaqSetting']) && ! $this->FaqSetting->data['FaqSetting']['faq_key']) {
+			$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
 			if (! $this->FaqSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 		}
 
-		parent::afterSave($created, $options);
+		return true;
 	}
 
 /**

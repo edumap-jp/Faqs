@@ -143,7 +143,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 	public function dataProviderSaveOnExceptionError() {
 		return array(
 			array($this->__getData(), 'Faqs.FaqQuestion', 'save'),
-			array($this->__getData(), 'Faqs.FaqQuestionOrder', 'save'),
+			array($this->__getData(null), 'Faqs.FaqQuestionOrder', 'save'),
 		);
 	}
 
