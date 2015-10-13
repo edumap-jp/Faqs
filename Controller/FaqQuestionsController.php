@@ -102,12 +102,6 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function view() {
-		//参照権限チェック
-		if (! $this->FaqQuestion->canReadWorkflowContent()) {
-			$this->throwBadRequest();
-			return false;
-		}
-
 		$faqQuestionKey = null;
 		if (isset($this->params['pass'][1])) {
 			$faqQuestionKey = $this->params['pass'][1];
