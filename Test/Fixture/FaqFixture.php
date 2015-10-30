@@ -14,6 +14,7 @@
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Fixture
+ * @codeCoverageIgnore
  */
 class FaqFixture extends CakeTestFixture {
 
@@ -70,6 +71,25 @@ class FaqFixture extends CakeTestFixture {
 			'key' => 'faq_3',
 			'name' => 'Faq name 2',
 		),
+
+		//101-200まで、ページ遷移のためのテスト
 	);
+
+/**
+ * Initialize the fixture.
+ *
+ * @return void
+ */
+	public function init() {
+		for ($i = 101; $i <= 200; $i++) {
+			$this->records[$i] = array(
+				'id' => $i,
+				'block_id' => $i,
+				'key' => 'faq_' . $i,
+				'name' => 'faq_name_' . $i,
+			);
+		}
+		parent::init();
+	}
 
 }
