@@ -202,7 +202,7 @@ class FaqQuestionsControllerIndexTest extends WorkflowControllerIndexTest {
 		//--編集ボタンチェック
 		array_push($results, Hash::merge($results[$base], array(
 			'urlOptions' => array('frame_id' => $data['Frame']['id'], 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
-			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
+			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => true, 'url' => array()),
 		)));
 		//フレームID指定なしテスト
 		array_push($results, Hash::merge($results[$base], array(
@@ -214,14 +214,18 @@ class FaqQuestionsControllerIndexTest extends WorkflowControllerIndexTest {
 	}
 
 /**
- * index()のテスト（順序変更ボタン確認）
+ * index()の順序変更ボタン（ロールごと）テスト
  *
+ * @param string $role ロール名
+ * @param bool $isException Exceptionの有無
+ * @dataProvider dataProviderIndexOrders
  * @return void
  */
-	public function testIndexOrders() {
+	public function testIndexOrders($role, $isException) {
 		//ログイン
-		TestAuthGeneral::login($this);
-
+		if (isset($role)) {
+			TestAuthGeneral::login($this, $role);
+		}
 		//テスト実施
 		$frameId = '6';
 		$url = array(
@@ -239,15 +243,39 @@ class FaqQuestionsControllerIndexTest extends WorkflowControllerIndexTest {
 		$editLink['controller'] = 'faq_question_orders';
 		$editLink['action'] = 'edit';
 		$editLink['block_id'] = $blockId;
-		$this->assertRegExp(
-			'/<a href=".*?' . preg_quote(NetCommonsUrl::actionUrl($editLink), '/') . '.*?".*?>/', $result
-		);
-
-		//--カレントブロックラジオボタン
-		//$this->assertInput('input', 'data[Frame][block_id]', null, $result);
+		if ($isException === true) {
+			$this->assertRegExp(
+				'/<a href=".*?' . preg_quote(NetCommonsUrl::actionUrl($editLink), '/') . '.*?".*?>/', $result
+			);
+		} else {
+			$this->assertNotRegExp(
+				'/<a href=".*?' . preg_quote(NetCommonsUrl::actionUrl($editLink), '/') . '.*?".*?>/', $result
+			);
+		}
 
 		//ログアウト
 		TestAuthGeneral::logout($this);
+	}
+
+/**
+ * index順序変更ボタン(ロールごと)チェックDataProvider
+ *
+ * ### 戻り値
+ *  - role: ロール
+ *  - isException: Exceptionの有無
+ *
+ * @return array
+ */
+	public function dataProviderIndexOrders() {
+		$data = array(
+			array(Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR, true),
+			array(Role::ROOM_ROLE_KEY_CHIEF_EDITOR, true),
+			array(Role::ROOM_ROLE_KEY_EDITOR, true),
+			array(Role::ROOM_ROLE_KEY_GENERAL_USER, false),
+			array(Role::ROOM_ROLE_KEY_VISITOR, false),
+			array(null, false),
+		);
+		return $data;
 	}
 
 }
