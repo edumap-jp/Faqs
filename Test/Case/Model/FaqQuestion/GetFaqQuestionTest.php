@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
+App::uses('WorkflowGetTest', 'Workflow.TestSuite');
 
 /**
  * FaqQuestion::getFaqQuestion()のテスト
@@ -19,7 +19,7 @@ App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model\FaqQuestion
  */
-class FaqQuestionGetFaqQuestionTest extends NetCommonsGetTest {
+class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 
 /**
  * Fixtures

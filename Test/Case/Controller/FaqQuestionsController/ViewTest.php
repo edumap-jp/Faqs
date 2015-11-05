@@ -144,6 +144,19 @@ class FaqQuestionsControllerViewTest extends WorkflowControllerViewTest {
 		//	'exception' => null, 'return' => 'viewFile'
 		//);
 
+		//--FAQなし
+		$results[10] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '12', 'key' => 'faq_xx'),
+			'assert' => 'null',
+			'exception' => 'BadRequestException',
+		);
+		$results[11] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '12', 'key' => 'faq_xx'),
+			'assert' => 'null',
+			'exception' => 'BadRequestException',
+			'return' => 'json'
+		);
+
 		return $results;
 	}
 
