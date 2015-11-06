@@ -28,7 +28,7 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  *
  * @var array
  */
-	public $plugin = 'access_counters';
+	public $plugin = 'faqs';
 
 /**
  * Fixtures
