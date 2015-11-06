@@ -60,7 +60,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $faqQuestionKey faqQuestionKey
+ * @param string $faqKey faqKey
  * @return array
  */
 	private function __getData($faqKey = 'faq_1') {
@@ -168,8 +168,8 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 			array($this->__getData(), 'block_id', '',
 				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'name', '',
-			//	sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))), PENDING1 Fail「-'FAQを入力してください' +'FAQ名を入力してください'」
-			sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))), //FAQ名のほうが合っているかな？と思いましたがいかがでしょうか？
+				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))),
+			//sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))),
 		);
 	}
 
