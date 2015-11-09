@@ -86,8 +86,20 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  * @return array
  */
 	public function dataProviderDelete() {
+		$association = array(
+			'FaqSetting' => array(
+				'faq_key' => 'faq_1',
+			),
+			'FaqQuestion' => array(
+				'faq_id' => '2',
+			),
+			'FaqQuestionOrder' => array(
+				'faq_key' => 'faq_1',
+			),
+		);
+
 		return array(
-			array($this->__data )
+			array($this->__data, $association )
 		);
 	}
 
