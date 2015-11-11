@@ -119,8 +119,8 @@ class FaqBlocksControllerEditTest extends BlocksControllerEditTest {
 			'validationError' => array(
 				'field' => 'Faq.name',
 				'value' => '',
-				//'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ NAME')) PENDING
-				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))
+				//'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))
 			)
 		);
 
@@ -148,8 +148,8 @@ class FaqBlocksControllerEditTest extends BlocksControllerEditTest {
 			'validationError' => array(
 				'field' => 'Faq.name',
 				'value' => '',
-			//	'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ NAME')) PENDING
-				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))
+				'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))
+			//	'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))
 			)
 		);
 
