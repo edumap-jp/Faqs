@@ -120,15 +120,14 @@ class FaqQuestionsControllerViewTest extends WorkflowControllerViewTest {
 			'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
 		));
 		//作成権限のみ(他人が書いた質問＆公開前)
-		//PENDING ⇒エラーになりました「Undefined index: FaqQuestion」
-		//	/var/www/app/app/Plugin/Faqs/View/Elements/FaqQuestions/article.ctp:16
-		//$results[6] = array(
-		//	'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'faq_question_5'),
-		//	'assert' => array('method' => 'assertNotEmpty'),
-		//);
-		//$results[7] = Hash::merge($results[6], array(
-		//	'assert' => array('method' => 'assertActionLink', 'action' => 'edit', 'linkExist' => false, 'url' => array()),
-		//));
+		$results[6] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'faq_question_5'),
+			'assert' => null,
+			'exception' => 'BadRequestException',
+		);
+		$results[7] = Hash::merge($results[6], array(
+			'exception' => 'BadRequestException', 'return' => 'json'
+		));
 		//--コンテンツなし
 		$results[8] = array(
 			'urlOptions' => array('frame_id' => '14', 'block_id' => null, 'key' => null),
@@ -136,13 +135,11 @@ class FaqQuestionsControllerViewTest extends WorkflowControllerViewTest {
 			'exception' => null, 'return' => 'viewFile'
 		);
 		//--パラメータ不正(keyに該当する質問が存在しない)
-		//PENDING ⇒エラーになりました「Undefined index: FaqQuestion」
-		//	/var/www/app/app/Plugin/Faqs/View/Elements/FaqQuestions/article.ctp:16
-		//$results[9] = array(
-		//	'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'faq_question_99'),
-		//	'assert' => array('method' => 'assertEquals', 'expected' => 'emptyRender'),
-		//	'exception' => null, 'return' => 'viewFile'
-		//);
+		$results[9] = array(
+			'urlOptions' => array('frame_id' => '6', 'block_id' => '2', 'key' => 'faq_question_99'),
+			'assert' => null,
+			'exception' => 'BadRequestException',
+		);
 
 		//--FAQなし
 		$results[10] = array(
