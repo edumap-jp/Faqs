@@ -85,6 +85,10 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 				return;
 			}
 			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
+			$this->request->data['BlockRolePermission'] = Hash::merge(
+				$permissions['BlockRolePermissions'],
+				$this->request->data['BlockRolePermission']
+			);
 
 		} else {
 			$this->request->data['FaqSetting'] = $faq['FaqSetting'];
