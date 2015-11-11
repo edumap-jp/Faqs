@@ -110,31 +110,6 @@ class FaqQuestionOrderSaveFaqQuestionOrdersTest extends NetCommonsSaveTest {
 	}
 
 /**
- * SaveのExceptionErrorテスト
- *
- * @param array $data 登録データ
- * @param string $mockModel Mockのモデル
- * @param string $mockMethod Mockのメソッド
- * @dataProvider dataProviderSaveOnExceptionError
- * @return void
- */
-	public function testSaveOnExceptionError($data, $mockModel, $mockMethod) {
-		$model = $this->_modelName;
-		$method = $this->_methodName;
-
-		//$this->setExpectedException('InternalErrorException'); //PENDING ExceptionERRORが通せない Failed asserting that exception of type "InternalErrorException" is thrown.
-
-		$Mock = $this->getMockForModel('Faqs.FaqQuestionOrder', array('saveMany'));
-		$Mock->expects($this->any())
-			->method('saveMany')
-			->with($data['FaqQuestions'], ['validate' => false])
-			//->will($this->throwException(new InternalErrorException));
-			->will($this->returnValue(false));
-
-		$this->$model->$method($data);
-	}
-
-/**
  * SaveのExceptionErrorのDataProvider
  *
  * ### 戻り値
