@@ -169,7 +169,6 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'name', '',
 				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))),
-			//sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ'))),
 		);
 	}
 

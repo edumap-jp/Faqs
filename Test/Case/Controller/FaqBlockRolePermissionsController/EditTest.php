@@ -182,17 +182,6 @@ class FaqBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCont
  */
 	public function testEditPostSaveError($data, $exception = null, $return = 'view') {
 		$data['BlockRolePermission']['content_creatable'][Role::ROOM_ROLE_KEY_GENERAL_USER]['roles_room_id'] = 'aaaa';
-		//PENDING VIEWでエラーになるが
-		//ファイル「FaqBlockRolePermissionsController.php」の 88行目（handleValidationErrorの次の行）に、以下4行を追加するとOKになった。↓
-		//    $this->request->data['BlockRolePermission'] = Hash::merge(//TEST ADD!!
-		//        $permissions['BlockRolePermissions'],
-		//       $this->request->data['BlockRolePermission']
-		//  );
-
-		//1) FaqBlockRolePermissionsControllerEditTest::testEditPostSaveError with data set #0 (array(array(2, 'faq_2', true)))
-		//	Undefined index: fixed
-		///var/www/app/app/Plugin/Blocks/View/Helper/BlockRolePermissionFormHelper.php:52
-		///var/www/app/app/Plugin/Blocks/View/Elements/block_creatable_setting.ctp:41
 
 		//テスト実施
 		$result = $this->testEditPost($data, false, $return);
