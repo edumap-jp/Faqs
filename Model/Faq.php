@@ -122,7 +122,7 @@ class Faq extends FaqsAppModel {
 			'name' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ')),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name')),
 					'allowEmpty' => false,
 					'required' => true,
 				),

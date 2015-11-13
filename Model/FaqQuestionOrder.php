@@ -143,7 +143,7 @@ class FaqQuestionOrder extends FaqsAppModel {
 		try {
 			//登録処理
 			if (! $this->saveMany($data['FaqQuestions'], ['validate' => false])) {
-				return false;
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit

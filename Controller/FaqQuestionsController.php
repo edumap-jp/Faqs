@@ -106,7 +106,6 @@ class FaqQuestionsController extends FaqsAppController {
 		if (isset($this->params['pass'][1])) {
 			$faqQuestionKey = $this->params['pass'][1];
 		}
-
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
@@ -114,7 +113,10 @@ class FaqQuestionsController extends FaqsAppController {
 				$this->FaqQuestion->alias . '.key' => $faqQuestionKey
 			)
 		));
-
+		if (! $faqQuestion) {
+			$this->setAction('throwBadRequest');
+			return false;
+		}
 		$this->set('faqQuestion', $faqQuestion);
 	}
 

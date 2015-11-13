@@ -62,6 +62,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'is_latest' => false,
 			'question' => 'Question value',
 			'answer' => 'Answer value',
+			'created_user' => '1'
 		),
 		array(
 			'id' => '2',
@@ -74,6 +75,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'question' => 'Question value 2',
 			'answer' => 'Answer value 2',
+			'created_user' => '1'
 		),
 		//質問2(一般が書いた質問＆一度も公開していない)
 		array(
@@ -101,6 +103,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'is_latest' => true,
 			'question' => 'Question value 4',
 			'answer' => 'Answer value 4',
+			'created_user' => '4'
 		),
 		//質問4(一般が書いた質問＆一度公開している)
 		array(
@@ -128,6 +131,20 @@ class FaqQuestionFixture extends CakeTestFixture {
 			'question' => 'Question value 6',
 			'answer' => 'Answer value 6',
 			'created_user' => '4'
+		),
+		//質問5(chief_userが書いた質問＆一度も公開していない)
+		array(
+			'id' => '7',
+			'faq_id' => '2',
+			'key' => 'faq_question_5',
+			'language_id' => '2',
+			'category_id' => '1',
+			'status' => '3',
+			'is_active' => false,
+			'is_latest' => true,
+			'question' => 'Question value 3',
+			'answer' => 'Answer value 3',
+			'created_user' => '3'
 		),
 	);
 

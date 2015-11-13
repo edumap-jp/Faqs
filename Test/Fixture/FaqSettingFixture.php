@@ -51,6 +51,15 @@ class FaqSettingFixture extends CakeTestFixture {
 			'modified_user' => '1',
 			'modified' => '2015-04-22 15:26:21'
 		),
+		array(
+			'id' => '2',
+			'faq_key' => 'faq_2',
+			'use_workflow' => '1',
+			'created_user' => '1',
+			'created' => '2015-04-22 15:26:21',
+			'modified_user' => '1',
+			'modified' => '2015-04-22 15:26:21'
+		),
 	);
 
 }
