@@ -164,7 +164,13 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 		$results[3] = Hash::merge($results[2], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
+			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => $data['Frame']['id']),
+		));
+		$results[4] = Hash::merge($results[2], array(
+			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Block][id]', 'value' => $data['Block']['id']),
+		));
+		$results[5] = Hash::merge($results[2], array(
+			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => '_method', 'value' => 'DELETE'),
 		));
 
 		return $results;
@@ -250,11 +256,13 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 			'assert' => array('method' => 'assertNotEmpty'),
 		);
 		array_push($results, Hash::merge($results[0], array(
-			'urlOptions' => array('frame_id' => null, 'block_id' => $data['Block']['id'], 'key' => $data['FaqQuestion']['key']),
 			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Frame][id]', 'value' => null),
 		)));
 		array_push($results, Hash::merge($results[0], array(
-			'assert' => array('method' => 'assertActionLink', 'action' => 'delete', 'linkExist' => true, 'url' => array()),
+			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => 'data[Block][id]', 'value' => null),
+		)));
+		array_push($results, Hash::merge($results[0], array(
+			'assert' => array('method' => 'assertInput', 'type' => 'input', 'name' => '_method', 'value' => 'DELETE'),
 		)));
 
 		return $results;
