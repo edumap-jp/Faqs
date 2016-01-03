@@ -12,14 +12,7 @@
 
 <?php echo $this->NetCommonsForm->create('FaqQuestion', array(
 			'type' => 'delete',
-			'controller' => 'faq_questions',
-			'action' => NetCommonsUrl::actionUrl(array(
-				'controller' => $this->params['controller'],
-				'action' => 'delete',
-				'block_id' => Current::read('Block.id'),
-				'frame_id' => Current::read('Frame.id'),
-				'key' => h($this->data['FaqQuestion']['key'])
-			))
+			'action' => 'delete'
 		)); ?>
 
 	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
