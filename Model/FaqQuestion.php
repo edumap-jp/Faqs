@@ -215,7 +215,6 @@ class FaqQuestion extends FaqsAppModel {
 		//バリデーション
 		$this->set($data);
 		if (! $this->validates()) {
-			$this->rollback();
 			return false;
 		}
 

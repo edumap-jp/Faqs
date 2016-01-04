@@ -136,7 +136,6 @@ class FaqQuestionOrder extends FaqsAppModel {
 
 		//バリデーション
 		if (! $this->validateMany($data['FaqQuestions'])) {
-			$this->rollback();
 			return false;
 		}
 

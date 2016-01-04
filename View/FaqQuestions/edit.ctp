@@ -29,7 +29,6 @@ $faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('FaqQuestion'); ?>
 				<div class="panel-body">
-
 					<?php echo $this->element('FaqQuestions/edit_form'); ?>
 
 					<hr />
