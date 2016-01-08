@@ -22,6 +22,13 @@ App::uses('WorkflowGetTest', 'Workflow.TestSuite');
 class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array
@@ -87,6 +94,28 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 			'name' => 'Category 1',
 		),
 	);
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
 
 /**
  * getFaqQuestionのテスト

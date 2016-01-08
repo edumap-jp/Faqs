@@ -62,7 +62,7 @@ class FaqBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCont
 					'id' => 2,
 					'faq_key' => 'faq_2',
 					'use_workflow' => true,
-			//		'use_comment_approval' => true,
+					//'use_comment_approval' => true,
 					'approval_type' => true,
 				)
 			);
@@ -70,7 +70,7 @@ class FaqBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCont
 			$data = array(
 				'FaqSetting' => array(
 					'use_workflow',
-			//		'use_comment_approval',
+					//'use_comment_approval',
 					'approval_type',
 				)
 			);

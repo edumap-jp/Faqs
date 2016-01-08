@@ -22,13 +22,6 @@ App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
 class FaqSaveFaqTest extends NetCommonsSaveTest {
 
 /**
- * Plugin name
- *
- * @var array
- */
-	public $plugin = 'faqs';
-
-/**
  * Fixtures
  *
  * @var array
@@ -44,6 +37,13 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 	);
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Model name
  *
  * @var array
@@ -56,6 +56,28 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
  * @var array
  */
 	protected $_methodName = 'saveFaq';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
 
 /**
  * テストDataの取得
@@ -146,29 +168,6 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 	public function dataProviderSaveOnValidationError() {
 		return array(
 			array($this->__getData(), 'Faqs.Faq'),
-			array($this->__getData(), 'Faqs.FaqSetting'),
-		);
-	}
-
-/**
- * ValidationErrorのDataProvider
- *
- * ### 戻り値
- *  - field フィールド名
- *  - value セットする値
- *  - message エラーメッセージ
- *  - overwrite 上書きするデータ
- *
- * @return void
- */
-	public function dataProviderValidationError() {
-		return array(
-			array($this->__getData(), 'key', '',
-				__d('net_commons', 'Invalid request.')),
-			array($this->__getData(), 'block_id', '',
-				__d('net_commons', 'Invalid request.')),
-			array($this->__getData(), 'name', '',
-				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))),
 		);
 	}
 

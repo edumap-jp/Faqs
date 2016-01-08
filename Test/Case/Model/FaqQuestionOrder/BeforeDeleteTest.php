@@ -22,6 +22,13 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 class FaqQuestionOrderBeforeDeleteTest extends NetCommonsModelTestCase {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array
@@ -49,6 +56,28 @@ class FaqQuestionOrderBeforeDeleteTest extends NetCommonsModelTestCase {
  * @var array
  */
 	protected $_methodName = 'beforeDelete';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
 
 /**
  * beforeDeleteのテスト

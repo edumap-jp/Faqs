@@ -1,8 +1,8 @@
 <?php
 /**
- * FaqSetting::saveFaqSetting()のテスト
+ * Faq::saveFaq()のテスト
  *
- * @property FaqSetting $FaqSetting
+ * @property Faq $Faq
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -11,22 +11,15 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
+App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 
 /**
- * Faq::saveFaqSetting()のテスト
+ * Faq::saveFaq()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\Faqs\Test\Case\Model\FaqSetting
+ * @package NetCommons\Faqs\Test\Case\Model\Faq
  */
-class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
-
-/**
- * Plugin name
- *
- * @var array
- */
-	public $plugin = 'faqs';
+class FaqValidateFaqTest extends NetCommonsValidateTest {
 
 /**
  * Fixtures
@@ -44,18 +37,25 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 	);
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Model name
  *
  * @var array
  */
-	protected $_modelName = 'FaqSetting';
+	protected $_modelName = 'Faq';
 
 /**
  * Method name
  *
  * @var array
  */
-	protected $_methodName = 'saveFaqSetting';
+	protected $_methodName = '';
 
 /**
  * setUp method
@@ -82,63 +82,46 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $faqQuestionKey faqQuestionKey
+ * @param string $faqKey faqKey
  * @return array
  */
-	private function __getData() {
+	private function __getData($faqKey = 'faq_1') {
+		$frameId = '6';
+		$blockId = '2';
+		$blockKey = 'block_1';
+		$faqId = '2';
+		if ($faqKey === 'faq_1') {
+			$faqId = '2';
+			$faqSettingId = '1';
+		} else {
+			$faqId = null;
+			$faqSettingId = null;
+		}
+
 		$data = array(
+			'Frame' => array(
+				'id' => $frameId
+			),
+			'Block' => array(
+				'id' => $blockId,
+				'key' => $blockKey,
+				'language_id' => '2',
+				'room_id' => '1',
+				'plugin_key' => $this->plugin,
+			),
+			'Faq' => array(
+				'id' => $faqId,
+				'key' => $faqKey,
+				'name' => 'FaqName',
+				'block_id' => $blockId,
+			),
 			'FaqSetting' => array(
-				'id' => '1',
-				'faq_key' => 'faq_1',
+				'id' => $faqSettingId,
+				'faq_key' => $faqKey,
 			),
 		);
 
 		return $data;
-	}
-
-/**
- * SaveのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *
- * @return void
- */
-	public function dataProviderSave() {
-		return array(
-			array($this->__getData()),
-		);
-	}
-
-/**
- * SaveのExceptionErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *  - mockMethod Mockのメソッド
- *
- * @return void
- */
-	public function dataProviderSaveOnExceptionError() {
-		return array(
-			array($this->__getData(), 'Faqs.FaqSetting', 'save'),
-		);
-	}
-
-/**
- * SaveのValidationErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *
- * @return void
- */
-	public function dataProviderSaveOnValidationError() {
-		return array(
-			array($this->__getData(), 'Faqs.FaqSetting'),
-		);
 	}
 
 /**
@@ -154,11 +137,28 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  */
 	public function dataProviderValidationError() {
 		return array(
-			array($this->__getData(), 'faq_key', '',
+			array($this->__getData(), 'key', '',
 				__d('net_commons', 'Invalid request.')),
-			array($this->__getData(), 'use_workflow', 'a',
+			array($this->__getData(), 'block_id', '',
 				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'name', '',
+				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))),
 		);
+	}
+
+/**
+ * FaqSettingのValidationErrorテスト
+ *
+ * @return void
+ */
+	public function testValidateOnValidationError() {
+		$model = $this->_modelName;
+		$data = $this->__getData();
+
+		$this->_mockForReturnFalse($model, 'Faqs.FaqSetting', 'validates');
+		$this->$model->set($data);
+		$result = $this->$model->validates();
+		$this->assertFalse($result);
 	}
 
 }

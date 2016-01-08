@@ -11,7 +11,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Faqs', 'Faqs.Model');
 App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 
 /**
@@ -23,13 +22,6 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 class FaqCreateFaqTest extends NetCommonsModelTestCase {
 
 /**
- * Plugin name
- *
- * @var array
- */
-	public $plugin = 'faqs';
-
-/**
  * Fixtures
  *
  * @var array
@@ -37,12 +29,19 @@ class FaqCreateFaqTest extends NetCommonsModelTestCase {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
-		//'plugin.workflow.workflow_comment',
+		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);
+
+/**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
 
 /**
  * Model name
@@ -59,9 +58,31 @@ class FaqCreateFaqTest extends NetCommonsModelTestCase {
 	protected $_methodName = 'createFaq';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
+
+/**
  * createFaqのテスト
  *
- * @param array $keydata 生成するキー情報
+ * @param array $keyData 生成するキー情報
  * @dataProvider dataProviderCreate
  * @return void
  */
@@ -74,12 +95,11 @@ class FaqCreateFaqTest extends NetCommonsModelTestCase {
 		Current::$current = Hash::merge(Current::$current, $testCurrentData);
 
 		//期待値
-		$expected = array();
 		$expected = Hash::merge(
 			$this->$model->createAll(array(
 					'Block' => array('plugin_key' => 'blocks'),
 			)),
-			$this->FaqSetting->create()
+			$this->$model->FaqSetting->create()
 		);
 
 		//テスト実行

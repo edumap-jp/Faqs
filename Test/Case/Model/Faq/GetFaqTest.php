@@ -27,8 +27,13 @@ class FaqGetFaqTest extends NetCommonsGetTest {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.categories.category',
+		'plugin.categories.category_order',
+		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
+		'plugin.faqs.faq_question',
+		'plugin.faqs.faq_question_order',
 	);
 
 /**
@@ -44,6 +49,28 @@ class FaqGetFaqTest extends NetCommonsGetTest {
  * @var array
  */
 	protected $_methodName = 'getFaq';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
 
 /**
  * Getのテスト

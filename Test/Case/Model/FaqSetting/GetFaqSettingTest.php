@@ -22,6 +22,13 @@ App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
 class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array
@@ -44,6 +51,28 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
  * @var array
  */
 	protected $_methodName = 'getFaqSetting';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		$model = $this->_modelName;
+		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
+		parent::setUp();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		$model = $this->_modelName;
+		unset($this->$model);
+		parent::tearDown();
+	}
 
 /**
  * GetFaqSettingのテスト

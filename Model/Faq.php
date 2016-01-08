@@ -88,6 +88,26 @@ class Faq extends FaqsAppModel {
 	);
 
 /**
+ * Constructor. Binds the model's database table to the object.
+ *
+ * @param bool|int|string|array $id Set this ID for this model on startup,
+ * can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
+ * @see Model::__construct()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->loadModels([
+			'Faq' => 'Faqs.Faq',
+			'FaqSetting' => 'Faqs.FaqSetting',
+			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
+		]);
+	}
+
+/**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
  *
@@ -97,10 +117,6 @@ class Faq extends FaqsAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->loadModels([
-			'FaqSetting' => 'Faqs.FaqSetting',
-		]);
-
 		$this->validate = Hash::merge($this->validate, array(
 			'key' => array(
 				'notBlank' => array(
@@ -171,8 +187,6 @@ class Faq extends FaqsAppModel {
  * @return array
  */
 	public function createFaq() {
-		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
-
 		$faq = $this->createAll(array(
 			'Faq' => array(
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
@@ -189,8 +203,6 @@ class Faq extends FaqsAppModel {
  * @return array
  */
 	public function getFaq() {
-		$this->FaqSetting = ClassRegistry::init('Faqs.FaqSetting');
-
 		$faq = $this->find('all', array(
 			'recursive' => -1,
 			'fields' => array(
@@ -233,11 +245,6 @@ class Faq extends FaqsAppModel {
  * @throws InternalErrorException
  */
 	public function saveFaq($data) {
-		$this->loadModels([
-			'Faq' => 'Faqs.Faq',
-			'FaqSetting' => 'Faqs.FaqSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
@@ -271,13 +278,6 @@ class Faq extends FaqsAppModel {
  * @throws InternalErrorException
  */
 	public function deleteFaq($data) {
-		$this->loadModels([
-			'Faq' => 'Faqs.Faq',
-			'FaqSetting' => 'Faqs.FaqSetting',
-			'FaqQuestion' => 'Faqs.FaqQuestion',
-			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 
