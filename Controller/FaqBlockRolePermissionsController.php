@@ -79,7 +79,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 		);
 		$this->set('roles', $permissions['Roles']);
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			if ($this->FaqSetting->saveFaqSetting($this->request->data)) {
 				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
 				return;

@@ -199,21 +199,21 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 
 		//FaqQuestionOrderのテスト前のデータ取得
 		if (isset($data['FaqQuestionOrder']['id'])) {
-			$before = $this->FaqQuestionOrder->find('first', array(
+			$before = $this->$model->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('faq_question_key' => $data[$this->$model->alias]['key']),
 			));
 			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified');
 			$before['FaqQuestionOrder'] = Hash::remove($before['FaqQuestionOrder'], 'modified_user');
 		} else {
-			$max = $this->FaqQuestionOrder->find('first', array(
+			$max = $this->$model->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'fields' => 'id',
 				'order' => array('id' => 'desc')
 			));
 			$maxId = $max['FaqQuestionOrder']['id'] + 1;
 
-			$max = $this->FaqQuestionOrder->find('first', array(
+			$max = $this->$model->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'fields' => 'weight',
 				'conditions' => array('faq_key' => $data['FaqQuestionOrder']['faq_key']),
@@ -231,7 +231,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 
 		//登録処理後のFaqQuestionOrderのチェック
 		if (isset($data['FaqQuestionOrder']['id'])) {
-			$after = $this->FaqQuestionOrder->find('first', array(
+			$after = $this->$model->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('faq_question_key' => $data[$this->$model->alias]['key']),
 			));
@@ -239,7 +239,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 		} else {
 			$before['FaqQuestionOrder']['faq_question_key'] = $latest[$this->$model->alias]['key'];
 
-			$after = $this->FaqQuestionOrder->find('first', array(
+			$after = $this->$model->FaqQuestionOrder->find('first', array(
 				'recursive' => -1,
 				'order' => array('id' => 'desc')
 			));

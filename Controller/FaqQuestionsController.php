@@ -128,7 +128,7 @@ class FaqQuestionsController extends FaqsAppController {
 	public function add() {
 		$this->view = 'edit';
 
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			//登録処理
 			$data = $this->data;
 			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
@@ -164,7 +164,7 @@ class FaqQuestionsController extends FaqsAppController {
 	public function edit() {
 		//データ取得
 		$faqQuestionKey = $this->params['pass'][1];
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			$faqQuestionKey = $this->data['FaqQuestion']['key'];
 		}
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
@@ -181,7 +181,7 @@ class FaqQuestionsController extends FaqsAppController {
 			return false;
 		}
 
-		if ($this->request->isPut()) {
+		if ($this->request->is('put')) {
 			//登録処理
 			$data = $this->data;
 			$data['FaqQuestion']['status'] = $this->Workflow->parseStatus();
@@ -211,7 +211,7 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->request->isDelete()) {
+		if (! $this->request->is('delete')) {
 			$this->throwBadRequest();
 			return;
 		}

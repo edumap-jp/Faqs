@@ -22,6 +22,13 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 class FaqQuestionOrderBeforeDeleteTest extends NetCommonsModelTestCase {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array

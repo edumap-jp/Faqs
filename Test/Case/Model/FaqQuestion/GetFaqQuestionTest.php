@@ -22,6 +22,13 @@ App::uses('WorkflowGetTest', 'Workflow.TestSuite');
 class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array

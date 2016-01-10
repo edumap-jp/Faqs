@@ -11,8 +11,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Faqs', 'Faqs.Model');
-App::uses('FaqFrameSetting', 'Faqs.Model');
 App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
 
 /**
@@ -22,13 +20,6 @@ App::uses('NetCommonsDeleteTest', 'NetCommons.TestSuite');
  * @package NetCommons\Faqs\Test\Case\Model\Faq
  */
 class FaqDeleteFaqTest extends NetCommonsDeleteTest {
-
-/**
- * Plugin name
- *
- * @var array
- */
-	public $plugin = 'faqs';
 
 /**
  * Fixtures
@@ -44,6 +35,13 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);
+
+/**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
 
 /**
  * Model name
@@ -65,15 +63,15 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  * @var array
  */
 	private $__data = array(
-			'Block' => array(
-				'id' => '2',
-				'key' => 'block_1',
-			),
-			'Faq' => array(
-				'id' => '2',
-				'block_key' => 'block_1',
-				'key' => 'faq_1',
-			),
+		'Block' => array(
+			'id' => '2',
+			'key' => 'block_1',
+		),
+		'Faq' => array(
+			'id' => '2',
+			'block_key' => 'block_1',
+			'key' => 'faq_1',
+		),
 	);
 
 /**
@@ -99,7 +97,7 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 		);
 
 		return array(
-			array($this->__data, $association )
+			array($this->__data, $association)
 		);
 	}
 

@@ -81,14 +81,14 @@ class FaqFixture extends CakeTestFixture {
  * @return void
  */
 	public function init() {
-		for ($i = 101; $i <= 200; $i++) {
-			$this->records[$i] = array(
-				'id' => $i,
-				'block_id' => $i,
-				'key' => 'faq_' . $i,
-				'name' => 'faq_name_' . $i,
-			);
-		}
+		//for ($i = 101; $i <= 200; $i++) {
+		//	$this->records[$i] = array(
+		//		'id' => $i,
+		//		'block_id' => $i,
+		//		'key' => 'faq_' . $i,
+		//		'name' => 'faq_name_' . $i,
+		//	);
+		//}
 		parent::init();
 	}
 

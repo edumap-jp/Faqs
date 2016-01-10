@@ -22,6 +22,13 @@ App::uses('NetCommonsGetTest', 'NetCommons.TestSuite');
 class FaqQuestionOrderGetMaxWeightTest extends NetCommonsGetTest {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
+
+/**
  * Fixtures
  *
  * @var array

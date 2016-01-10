@@ -72,7 +72,7 @@ class FaqQuestionOrdersController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if ($this->request->isPost()) {
+		if ($this->request->is('post')) {
 			if ($this->FaqQuestionOrder->saveFaqQuestionOrders($this->data)) {
 				$this->redirect(NetCommonsUrl::backToPageUrl());
 				return;

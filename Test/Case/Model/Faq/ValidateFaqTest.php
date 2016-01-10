@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
+App::uses('NetCommonsValidateTest', 'NetCommons.TestSuite');
 
 /**
  * Faq::saveFaq()のテスト
@@ -19,7 +19,7 @@ App::uses('NetCommonsSaveTest', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case\Model\Faq
  */
-class FaqSaveFaqTest extends NetCommonsSaveTest {
+class FaqValidateFaqTest extends NetCommonsValidateTest {
 
 /**
  * Fixtures
@@ -55,7 +55,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
  *
  * @var array
  */
-	protected $_methodName = 'saveFaq';
+	protected $_methodName = '';
 
 /**
  * テストDataの取得
@@ -103,50 +103,40 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 	}
 
 /**
- * SaveのDataProvider
+ * ValidationErrorのDataProvider
  *
  * ### 戻り値
- *  - data 登録データ
+ *  - field フィールド名
+ *  - value セットする値
+ *  - message エラーメッセージ
+ *  - overwrite 上書きするデータ
  *
  * @return void
  */
-	public function dataProviderSave() {
+	public function dataProviderValidationError() {
 		return array(
-			array($this->__getData()), //修正
-			array($this->__getData(null)), //新規
+			array($this->__getData(), 'key', '',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'block_id', '',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'name', '',
+				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'FAQ Name'))),
 		);
 	}
 
 /**
- * SaveのExceptionErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *  - mockMethod Mockのメソッド
+ * FaqSettingのValidationErrorテスト
  *
  * @return void
  */
-	public function dataProviderSaveOnExceptionError() {
-		return array(
-			array($this->__getData(), 'Faqs.Faq', 'save'),
-			array($this->__getData(null), 'Faqs.FaqSetting', 'save'),
-		);
-	}
+	public function testValidateOnValidationError() {
+		$model = $this->_modelName;
+		$data = $this->__getData();
 
-/**
- * SaveのValidationErrorのDataProvider
- *
- * ### 戻り値
- *  - data 登録データ
- *  - mockModel Mockのモデル
- *
- * @return void
- */
-	public function dataProviderSaveOnValidationError() {
-		return array(
-			array($this->__getData(), 'Faqs.Faq'),
-		);
+		$this->_mockForReturnFalse($model, 'Faqs.FaqSetting', 'validates');
+		$this->$model->set($data);
+		$result = $this->$model->validates();
+		$this->assertFalse($result);
 	}
 
 }
