@@ -53,28 +53,6 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 	protected $_methodName = 'getFaqSetting';
 
 /**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		$model = $this->_modelName;
-		$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
-		parent::setUp();
-	}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		$model = $this->_modelName;
-		unset($this->$model);
-		parent::tearDown();
-	}
-
-/**
  * GetFaqSettingのテスト
  *
  * @param string $getkey 取得するキー情報($faqkey)
