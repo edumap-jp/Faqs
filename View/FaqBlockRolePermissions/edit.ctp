@@ -1,6 +1,6 @@
 <?php
 /**
- * BbsSettings edit template
+ * 権限設定テンプレート
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

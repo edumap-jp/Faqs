@@ -27,12 +27,10 @@
 					)); ?>
 			</div>
 			<div class="pull-right">
-				<?php if (Current::permission('content_editable')) : ?>
-					<span class="nc-tooltip " tooltip="<?php echo __d('faqs', 'Sort question'); ?>">
-						<a href="<?php echo $this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit')); ?>" class="btn btn-default">
-							<span class="glyphicon glyphicon-sort"> </span>
-						</a>
-					</span>
+				<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
+					<?php echo $this->LinkButton->sort('',
+							$this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit'))
+						); ?>
 				<?php endif; ?>
 
 				<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>

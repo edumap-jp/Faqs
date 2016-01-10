@@ -1,6 +1,6 @@
 <?php
 /**
- * Faq edit template
+ * 権限設定Element
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
