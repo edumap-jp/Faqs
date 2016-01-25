@@ -2,6 +2,7 @@
 /**
  * Faqs All Test Suite
  *
+ * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -13,7 +14,6 @@ App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 /**
  * Faqs All Test Suite
  *
- * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Test\Case
  * @codeCoverageIgnore
  */
@@ -22,7 +22,7 @@ class AllFaqsTest extends NetCommonsTestSuite {
 /**
  * All test suite
  *
- * @return CakeTestSuite
+ * @return NetCommonsTestSuite
  */
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
