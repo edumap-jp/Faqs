@@ -39,12 +39,14 @@ class Faq4paginatorFixture extends FaqFixture {
 			'block_id' => '1',
 			'key' => 'faq_1',
 			'name' => 'Faq name 1',
+			'language_id' => '1',
 		),
 		array(
 			'id' => '2',
 			'block_id' => '2',
 			'key' => 'faq_1',
 			'name' => 'Faq name 1',
+			'language_id' => '2',
 		),
 		//FAQ 2
 		array(
@@ -52,6 +54,7 @@ class Faq4paginatorFixture extends FaqFixture {
 			'block_id' => '4',
 			'key' => 'faq_2',
 			'name' => 'Faq name 2',
+			'language_id' => '2',
 		),
 		//FAQ 3
 		array(
@@ -59,6 +62,7 @@ class Faq4paginatorFixture extends FaqFixture {
 			'block_id' => '6',
 			'key' => 'faq_3',
 			'name' => 'Faq name 2',
+			'language_id' => '2',
 		),
 
 		//101-200まで、ページ遷移のためのテスト
@@ -76,6 +80,7 @@ class Faq4paginatorFixture extends FaqFixture {
 				'block_id' => $i,
 				'key' => 'faq_' . $i,
 				'name' => 'faq_name_' . $i,
+				'language_id' => '2',
 			);
 		}
 		parent::init();

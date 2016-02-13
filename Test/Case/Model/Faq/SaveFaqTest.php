@@ -92,6 +92,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 				'key' => $faqKey,
 				'name' => 'FaqName',
 				'block_id' => $blockId,
+				'language_id' => '2',
 			),
 			'FaqSetting' => array(
 				'id' => $faqSettingId,

@@ -86,12 +86,14 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 			'key' => 'faq_1',
 			'block_id' => '2',
 			'name' => 'Faq name 1',
+			'language_id' => '2',
 		),
 		'Category' => array(
 			'id' => '1',
 			'block_id' => '2',
 			'key' => 'category_1',
 			'name' => 'Category 1',
+			'language_id' => '2',
 		),
 	);
 

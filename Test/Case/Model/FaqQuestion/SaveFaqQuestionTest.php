@@ -91,6 +91,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 			'Faq' => array(
 				'id' => $faqId,
 				'key' => $faqKey,
+				'language_id' => '2',
 			),
 			'FaqQuestion' => array(
 				'id' => $faqQuestionId,
