@@ -12,7 +12,7 @@
 
 <?php echo $this->NetCommonsForm->create('FaqQuestion', array(
 			'type' => 'delete',
-			'action' => 'delete'
+			'url' => $this->NetCommonsHtml->url(array('action' => 'delete', 'key' => $this->data['FaqQuestion']['key']))
 		)); ?>
 
 	<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>

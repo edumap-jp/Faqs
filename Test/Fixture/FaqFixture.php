@@ -24,18 +24,19 @@ class FaqFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
-		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'faq key | FAQキー | Hash値 | ', 'charset' => 'utf8'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID | | | '),
+		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'FAQ name | FAQ名称 | | ', 'charset' => 'utf8'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
+		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'faq key | FAQキー | Hash値 | ', 'charset' => 'utf8'),
+		'language_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6, 'unsigned' => false, 'comment' => 'language id | 言語ID | languages.id | '),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'created user | 作成者 | users.id | '),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created datetime | 作成日時 | | '),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'comment' => 'modified user | 更新者 | users.id | '),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified datetime | 更新日時 | | '),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 	);
 
 /**
@@ -50,12 +51,14 @@ class FaqFixture extends CakeTestFixture {
 			'block_id' => '1',
 			'key' => 'faq_1',
 			'name' => 'Faq name 1',
+			'language_id' => '1',
 		),
 		array(
 			'id' => '2',
 			'block_id' => '2',
 			'key' => 'faq_1',
 			'name' => 'Faq name 1',
+			'language_id' => '2',
 		),
 		//FAQ 2
 		array(
@@ -63,6 +66,7 @@ class FaqFixture extends CakeTestFixture {
 			'block_id' => '4',
 			'key' => 'faq_2',
 			'name' => 'Faq name 2',
+			'language_id' => '2',
 		),
 		//FAQ 3
 		array(
@@ -70,6 +74,7 @@ class FaqFixture extends CakeTestFixture {
 			'block_id' => '6',
 			'key' => 'faq_3',
 			'name' => 'Faq name 2',
+			'language_id' => '2',
 		),
 
 		//101-200まで、ページ遷移のためのテスト
