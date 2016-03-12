@@ -10,7 +10,6 @@
  */
 
 echo $this->NetCommonsHtml->script(array(
-	'/net_commons/js/wysiwyg.js',
 	'/faqs/js/faqs.js'
 ));
 
