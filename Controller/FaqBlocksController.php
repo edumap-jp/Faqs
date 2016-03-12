@@ -42,13 +42,8 @@ class FaqBlocksController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'Categories.CategoryEdit',
 		'NetCommons.Permission' => array(
-			//アクセスの権限
 			'allow' => array(
 				'index,add,edit,delete' => 'block_editable',
 			),
@@ -63,6 +58,10 @@ class FaqBlocksController extends FaqsAppController {
  */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 	);
 
 /**
