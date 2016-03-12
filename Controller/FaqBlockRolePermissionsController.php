@@ -42,12 +42,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $components = array(
-		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
-		),
 		'NetCommons.Permission' => array(
-			//アクセスの権限
 			'allow' => array(
 				'edit' => 'block_permission_editable',
 			),
@@ -60,7 +55,11 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $helpers = array(
-		'Blocks.BlockRolePermissionForm'
+		'Blocks.BlockRolePermissionForm',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index'),
+			'blockTabs' => array('block_settings', 'role_permissions'),
+		),
 	);
 
 /**
