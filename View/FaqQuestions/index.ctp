@@ -21,10 +21,12 @@
 
 		<div class="clearfix">
 			<div class="pull-left">
-				<?php echo $this->Category->dropDownToggle(array(
-						'empty' => true,
-						'displayMenu' => true,
-					)); ?>
+				<?php if ($categories) : ?>
+					<?php echo $this->Category->dropDownToggle(array(
+							'empty' => true,
+							'displayMenu' => true,
+						)); ?>
+				<?php endif; ?>
 			</div>
 			<div class="pull-right">
 				<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
