@@ -141,7 +141,9 @@ class FaqQuestion extends FaqsAppModel {
 		if (isset($this->data['FaqQuestionOrder'])) {
 			$this->FaqQuestionOrder->set($this->data['FaqQuestionOrder']);
 			if (! $this->FaqQuestionOrder->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqQuestionOrder->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->FaqQuestionOrder->validationErrors
+				);
 				return false;
 			}
 		}
@@ -164,9 +166,14 @@ class FaqQuestion extends FaqsAppModel {
 		if (isset($this->data['FaqQuestionOrder'])) {
 			$this->FaqQuestionOrder->set($this->data['FaqQuestionOrder']);
 		}
-		if (isset($this->FaqQuestionOrder->data['FaqQuestionOrder']) && ! $this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key']) {
-			$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $this->data[$this->alias]['key'];
-			$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $this->FaqQuestionOrder->getMaxWeight($this->data['Faq']['key']) + 1;
+		if (isset($this->FaqQuestionOrder->data['FaqQuestionOrder']) &&
+				! $this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key']) {
+
+			$faqQuestionKey = $this->data[$this->alias]['key'];
+			$this->FaqQuestionOrder->data['FaqQuestionOrder']['faq_question_key'] = $faqQuestionKey;
+
+			$weight = $this->FaqQuestionOrder->getMaxWeight($this->data['Faq']['key']) + 1;
+			$this->FaqQuestionOrder->data['FaqQuestionOrder']['weight'] = $weight;
 			if (! $this->FaqQuestionOrder->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

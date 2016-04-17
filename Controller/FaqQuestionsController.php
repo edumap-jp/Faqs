@@ -201,7 +201,9 @@ class FaqQuestionsController extends FaqsAppController {
 			$this->request->data['Block'] = Current::read('Block');
 		}
 
-		$comments = $this->FaqQuestion->getCommentsByContentKey($this->request->data['FaqQuestion']['key']);
+		$comments = $this->FaqQuestion->getCommentsByContentKey(
+			$this->request->data['FaqQuestion']['key']
+		);
 		$this->set('comments', $comments);
 	}
 
