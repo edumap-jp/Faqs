@@ -148,7 +148,9 @@ class Faq extends FaqsAppModel {
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
 			if (! $this->FaqSetting->validates()) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->FaqSetting->validationErrors);
+				$this->validationErrors = Hash::merge(
+					$this->validationErrors, $this->FaqSetting->validationErrors
+				);
 				return false;
 			}
 		}
@@ -171,7 +173,9 @@ class Faq extends FaqsAppModel {
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
 		}
-		if (isset($this->FaqSetting->data['FaqSetting']) && ! $this->FaqSetting->data['FaqSetting']['faq_key']) {
+		if (isset($this->FaqSetting->data['FaqSetting']) &&
+				! $this->FaqSetting->data['FaqSetting']['faq_key']) {
+
 			$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
 			if (! $this->FaqSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
@@ -295,15 +299,18 @@ class Faq extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->FaqSetting->deleteAll(array($this->FaqSetting->alias . '.faq_key' => $data['Faq']['key']), false)) {
+			$conditions = array($this->FaqSetting->alias . '.faq_key' => $data['Faq']['key']);
+			if (! $this->FaqSetting->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->FaqQuestion->deleteAll(array($this->FaqQuestion->alias . '.faq_id' => $faqs), false)) {
+			$conditions = array($this->FaqQuestion->alias . '.faq_id' => $faqs);
+			if (! $this->FaqQuestion->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			if (! $this->FaqQuestionOrder->deleteAll(array($this->FaqQuestionOrder->alias . '.faq_key' => $data['Faq']['key']), false)) {
+			$conditions = array($this->FaqQuestionOrder->alias . '.faq_key' => $data['Faq']['key']);
+			if (! $this->FaqQuestionOrder->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
