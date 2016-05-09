@@ -117,6 +117,9 @@ class FaqQuestionsController extends FaqsAppController {
 			return $this->throwBadRequest();
 		}
 		$this->set('faqQuestion', $faqQuestion);
+
+		//新着データを既読にする
+		$this->FaqQuestion->saveTopicUserStatus($faqQuestion);
 	}
 
 /**
