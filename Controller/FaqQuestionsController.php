@@ -114,8 +114,7 @@ class FaqQuestionsController extends FaqsAppController {
 			)
 		));
 		if (! $faqQuestion) {
-			$this->setAction('throwBadRequest');
-			return false;
+			return $this->setAction('throwBadRequest');
 		}
 		$this->set('faqQuestion', $faqQuestion);
 	}
@@ -135,8 +134,7 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
@@ -177,8 +175,7 @@ class FaqQuestionsController extends FaqsAppController {
 
 		//編集権限チェック
 		if (! $this->FaqQuestion->canEditWorkflowContent($faqQuestion)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if ($this->request->is('put')) {
@@ -188,8 +185,7 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				$this->redirect(NetCommonsUrl::backToPageUrl());
-				return;
+				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
@@ -214,8 +210,7 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public function delete() {
 		if (! $this->request->is('delete')) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		//データ取得
@@ -229,13 +224,11 @@ class FaqQuestionsController extends FaqsAppController {
 
 		//削除権限チェック
 		if (! $this->FaqQuestion->canDeleteWorkflowContent($faqQuestion)) {
-			$this->throwBadRequest();
-			return false;
+			return $this->throwBadRequest();
 		}
 
 		if (! $this->FaqQuestion->deleteFaqQuestion($this->data)) {
-			$this->throwBadRequest();
-			return;
+			return $this->throwBadRequest();
 		}
 
 		$this->redirect(NetCommonsUrl::backToPageUrl());
