@@ -13,51 +13,57 @@
 <article class="block-setting-body">
 	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
+	<?php echo $this->BlockIndex->description(); ?>
+
 	<div class="tab-content">
-		<div class="text-right">
-			<?php echo $this->Button->addLink(); ?>
-		</div>
+		<?php echo $this->BlockIndex->create(); ?>
+			<?php echo $this->BlockIndex->addLink(); ?>
 
-		<?php echo $this->NetCommonsForm->create('', array(
-				'url' => NetCommonsUrl::actionUrl(array('plugin' => 'frames', 'controller' => 'frames', 'action' => 'edit'))
-			)); ?>
-
-			<?php echo $this->NetCommonsForm->hidden('Frame.id'); ?>
-
-			<table class="table table-hover">
+			<?php echo $this->BlockIndex->startTable(); ?>
 				<thead>
 					<tr>
-						<th></th>
-						<th>
-							<?php echo $this->Paginator->sort('Block.name', __d('faqs', 'FAQ Name')); ?>
-						</th>
-						<th>
-							<?php echo $this->Paginator->sort('Block.modified', __d('net_commons', 'Updated date')); ?>
-						</th>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Frame.block_id'
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Block.name', __d('faqs', 'FAQ Name'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								array('sort' => true, 'type' => 'handle')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Block.modified', __d('net_commons', 'Modified datetime'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($faqs as $faq) : ?>
-						<tr<?php echo ($this->data['Frame']['block_id'] === $faq['Block']['id'] ? ' class="active"' : ''); ?>>
-							<td>
-								<?php echo $this->BlockForm->displayFrame('Frame.block_id', $faq['Block']['id']); ?>
-							</td>
-							<td>
-								<?php echo $this->NetCommonsHtml->editLink($faq['Block']['name'], array('block_id' => $faq['Block']['id'])); ?>
-							</td>
-							<td>
-								<?php echo $this->Date->dateFormat($faq['Block']['modified']); ?>
-							</td>
-						</tr>
+						<?php echo $this->BlockIndex->startTableRow($faq['Block']['id']); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Frame.block_id', $faq['Block']['id']
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.name', $faq['Block']['name'],
+									array('editUrl' => array('block_id' => $faq['Block']['id']))
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableCreator', $faq,
+									array('type' => 'handle')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Block.modified', $faq['Block']['modified'],
+									array('type' => 'datetime')
+								); ?>
+						<?php echo $this->BlockIndex->endTableRow(); ?>
 					<?php endforeach; ?>
 				</tbody>
-			</table>
-		<?php echo $this->NetCommonsForm->end(); ?>
+			<?php echo $this->BlockIndex->endTable(); ?>
+
+		<?php echo $this->BlockIndex->end(); ?>
 
 		<?php echo $this->element('NetCommons.paginator'); ?>
 	</div>
 </article>
-
-
-
-

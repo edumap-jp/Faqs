@@ -16,23 +16,15 @@
 	<div class="tab-content">
 		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_SETTING); ?>
 
-		<?php echo $this->element('Blocks.edit_form', array(
+		<?php echo $this->BlockForm->displayEditForm(array(
 				'model' => 'Faq',
 				'callback' => 'Faqs.FaqBlocks/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+				'displayModified' => true,
 			)); ?>
 
-		<?php if ($this->request->params['action'] === 'edit') : ?>
-			<?php echo $this->element('Blocks.delete_form', array(
-					'model' => 'FaqBlock',
-					'action' => NetCommonsUrl::actionUrl(array(
-						'controller' => $this->params['controller'],
-						'action' => 'delete',
-						'block_id' => Current::read('Block.id'),
-						'frame_id' => Current::read('Frame.id')
-					)),
-					'callback' => 'Faqs.FaqBlocks/delete_form'
-				)); ?>
-		<?php endif; ?>
+		<?php echo $this->BlockForm->displayDeleteForm(array(
+				'callback' => 'Faqs.FaqBlocks/delete_form',
+			)); ?>
 	</div>
 </article>

@@ -207,22 +207,20 @@ class Faq extends FaqsAppModel {
  * @return array
  */
 	public function getFaq() {
-		$faq = $this->find('all', array(
-			'recursive' => -1,
-			'fields' => array(
+		$fields = Hash::merge(
+			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
 				$this->FaqSetting->alias . '.*',
 			),
+			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
+			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
+		);
+
+		$faq = $this->find('all', array(
+			'recursive' => 0,
+			'fields' => $fields,
 			'joins' => array(
-				array(
-					'table' => $this->Block->table,
-					'alias' => $this->Block->alias,
-					'type' => 'INNER',
-					'conditions' => array(
-						$this->alias . '.block_id' . ' = ' . $this->Block->alias . ' .id',
-					),
-				),
 				array(
 					'table' => $this->FaqSetting->table,
 					'alias' => $this->FaqSetting->alias,

@@ -58,6 +58,7 @@ class FaqBlocksController extends FaqsAppController {
  */
 	public $helpers = array(
 		'Blocks.BlockForm',
+		'Blocks.BlockIndex',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index'),
 			'blockTabs' => array('block_settings', 'role_permissions'),

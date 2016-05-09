@@ -117,6 +117,17 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 	}
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		$model = $this->_modelName;
+		$this->$model->Behaviors->unload('Topics');
+	}
+
+/**
  * SaveのDataProvider
  *
  * ### 戻り値
