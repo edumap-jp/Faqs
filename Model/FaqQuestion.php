@@ -41,6 +41,13 @@ class FaqQuestion extends FaqsAppModel {
 		//),
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Topics.Topics' => array(
+			'fields' => array(
+				'title' => 'FaqQuestion.question',
+				'summary' => 'FaqQuestion.answer',
+				'path' => '/:plugin_key/faq_questions/view/:block_id/:content_key',
+			),
+		),
 	);
 
 /**
