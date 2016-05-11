@@ -12,40 +12,36 @@
 <?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
-	<article>
-		<h1>
-			<small>
-				<?php echo h($faq['name']); ?>
-			</small>
-		</h1>
+	<h1>
+		<?php echo h($faq['name']); ?>
+	</h1>
 
-		<div class="clearfix">
-			<div class="pull-left">
-				<?php if ($categories) : ?>
-					<?php echo $this->Category->dropDownToggle(array(
-							'empty' => true,
-							'displayMenu' => true,
-						)); ?>
-				<?php endif; ?>
-			</div>
-			<div class="pull-right">
-				<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
-					<?php echo $this->LinkButton->sort('',
-							$this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit'))
-						); ?>
-				<?php endif; ?>
-
-				<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
-			</div>
+	<div class="clearfix">
+		<div class="pull-left">
+			<?php if ($categories) : ?>
+				<?php echo $this->Category->dropDownToggle(array(
+						'empty' => true,
+						'displayMenu' => true,
+					)); ?>
+			<?php endif; ?>
 		</div>
+		<div class="pull-right">
+			<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
+				<?php echo $this->LinkButton->sort('',
+						$this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit'))
+					); ?>
+			<?php endif; ?>
+
+			<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
+		</div>
+	</div>
+
+	<hr>
+	<?php foreach($faqQuestions as $faqQuestion): ?>
+		<?php echo $this->element('FaqQuestions/article', array(
+				'faqQuestion' => $faqQuestion,
+			)); ?>
 
 		<hr>
-		<?php foreach($faqQuestions as $faqQuestion): ?>
-			<?php echo $this->element('FaqQuestions/article', array(
-					'faqQuestion' => $faqQuestion,
-				)); ?>
-
-			<hr>
-		<?php endforeach; ?>
-	</article>
+	<?php endforeach; ?>
 </div>
