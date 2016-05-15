@@ -40,7 +40,6 @@ class Faq extends FaqsAppModel {
 			'loadModels' => array(
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
-				'WorkflowComment' => 'Workflow.WorkflowComment',
 			)
 		),
 		'Categories.Category',
@@ -302,8 +301,9 @@ class Faq extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
+			$this->FaqQuestion->blockKey = $data['Block']['key'];
 			$conditions = array($this->FaqQuestion->alias . '.faq_id' => $faqs);
-			if (! $this->FaqQuestion->deleteAll($conditions, false)) {
+			if (! $this->FaqQuestion->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

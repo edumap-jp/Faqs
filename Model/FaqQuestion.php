@@ -266,7 +266,9 @@ class FaqQuestion extends FaqsAppModel {
 		$this->begin();
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['FaqQuestion']['key']), false)) {
+			$this->contentKey = $data['FaqQuestion']['key'];
+			$conditions = array($this->alias . '.key' => $data['FaqQuestion']['key']);
+			if (! $this->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
@@ -274,9 +276,6 @@ class FaqQuestion extends FaqsAppModel {
 			if (! $this->FaqQuestionOrder->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			//コメントの削除
-			$this->deleteCommentsByContentKey($data['FaqQuestion']['key']);
 
 			//トランザクションCommit
 			$this->commit();
