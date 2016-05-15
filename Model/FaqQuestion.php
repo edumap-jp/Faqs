@@ -277,9 +277,6 @@ class FaqQuestion extends FaqsAppModel {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			//コメントの削除
-			$this->deleteCommentsByContentKey($data['FaqQuestion']['key']);
-
 			//トランザクションCommit
 			$this->commit();
 
