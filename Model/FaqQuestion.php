@@ -266,7 +266,9 @@ class FaqQuestion extends FaqsAppModel {
 		$this->begin();
 
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['FaqQuestion']['key']), false)) {
+			$this->contentKey = $data['FaqQuestion']['key'];
+			$conditions = array($this->alias . '.key' => $data['FaqQuestion']['key']);
+			if (! $this->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
