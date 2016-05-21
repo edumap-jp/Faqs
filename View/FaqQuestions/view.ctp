@@ -13,6 +13,10 @@ echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
 ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
+	<header>
+		<?php echo $this->BackTo->listLinkButton(); ?>
+	</header>
+
 	<article>
 		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
