@@ -10,7 +10,7 @@
  * @param {string} Controller name
  * @param {function($scope)} Controller
  */
-NetCommonsApp.controller('FaqIndex', function($scope) {
+NetCommonsApp.controller('FaqIndex', ['$scope', function($scope) {
 
   /**
    * Switching display of answer
@@ -26,7 +26,7 @@ NetCommonsApp.controller('FaqIndex', function($scope) {
     }
   };
 
-});
+}]);
 
 
 /**
@@ -35,24 +35,25 @@ NetCommonsApp.controller('FaqIndex', function($scope) {
  * @param {string} Controller name
  * @param {function($scope, NetCommonsWysiwyg)} Controller
  */
-NetCommonsApp.controller('FaqQuestions', function($scope, NetCommonsWysiwyg) {
+NetCommonsApp.controller('FaqQuestions',
+    ['$scope', 'NetCommonsWysiwyg', function($scope, NetCommonsWysiwyg) {
 
-  /**
-   * tinymce
-   *
-   * @type {object}
-   */
-  $scope.tinymce = NetCommonsWysiwyg.new();
+      /**
+       * tinymce
+       *
+       * @type {object}
+       */
+      $scope.tinymce = NetCommonsWysiwyg.new();
 
-  /**
-   * initialize
-   *
-   * @return {void}
-   */
-  $scope.initialize = function(data) {
-    $scope.faqQuestion = data.faqQuestion;
-  };
-});
+      /**
+       * initialize
+       *
+       * @return {void}
+       */
+      $scope.initialize = function(data) {
+        $scope.faqQuestion = data.faqQuestion;
+      };
+    }]);
 
 
 /**
@@ -61,7 +62,7 @@ NetCommonsApp.controller('FaqQuestions', function($scope, NetCommonsWysiwyg) {
  * @param {string} Controller name
  * @param {function($scope)} Controller
  */
-NetCommonsApp.controller('FaqQuestionOrders', function($scope) {
+NetCommonsApp.controller('FaqQuestionOrders', ['$scope', function($scope) {
 
   /**
    * FaqQuestions
@@ -106,4 +107,4 @@ NetCommonsApp.controller('FaqQuestionOrders', function($scope) {
     return $scope.faqQuestionsMap[key];
   };
 
-});
+}]);
