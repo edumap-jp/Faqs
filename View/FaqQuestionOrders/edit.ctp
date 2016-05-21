@@ -19,9 +19,7 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions, 'faqQuestionsMap' => $faqQuestionsMap])); ?>)">
 
 	<article>
-		<h1>
-			<small><?php echo h($faq['name']); ?></small>
-		</h1>
+		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
 		<?php echo $this->NetCommonsForm->create('FaqQuestionOrder'); ?>
 			<?php foreach ($faqQuestionsMap as $key => $value) : ?>
@@ -40,42 +38,44 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 				<p><?php echo __d('net_commons', 'Not found.'); ?></p>
 			</div>
 
-			<table class="table table-condensed" ng-show="faqQuestions.length">
-				<thead>
-					<tr>
-						<th></th>
-						<th>
-							<?php echo $this->Paginator->sort('FaqQuestion.question', __d('faqs', 'Question')); ?>
-						</th>
-						<th>
-							<?php echo $this->Paginator->sort('CategoryOrder.weight', __d('categories', 'Category')); ?>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="q in faqQuestions track by $index">
-						<td>
-							<button type="button" class="btn btn-default btn-sm"
-									ng-click="move('up', $index)" ng-disabled="$first">
-								<span class="glyphicon glyphicon-arrow-up"></span>
-							</button>
+			<div class="table-responsive" ng-show="faqQuestions.length">
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th></th>
+							<th>
+								<?php echo $this->Paginator->sort('FaqQuestion.question', __d('faqs', 'Question')); ?>
+							</th>
+							<th>
+								<?php echo $this->Paginator->sort('CategoryOrder.weight', __d('categories', 'Category')); ?>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="q in faqQuestions track by $index">
+							<td>
+								<button type="button" class="btn btn-default btn-sm"
+										ng-click="move('up', $index)" ng-disabled="$first">
+									<span class="glyphicon glyphicon-arrow-up"></span>
+								</button>
 
-							<button type="button" class="btn btn-default btn-sm"
-									ng-click="move('down', $index)" ng-disabled="$last">
-								<span class="glyphicon glyphicon-arrow-down"></span>
-							</button>
+								<button type="button" class="btn btn-default btn-sm"
+										ng-click="move('down', $index)" ng-disabled="$last">
+									<span class="glyphicon glyphicon-arrow-down"></span>
+								</button>
 
-							<input type="hidden" name="data[FaqQuestions][{{getIndex(q.faqQuestion.key)}}][FaqQuestionOrder][weight]" ng-value="{{$index + 1}}">
-						</td>
-						<td>
-							{{q.faqQuestion.question}}
-						</td>
-						<td>
-							{{q.category.name}}
-						</td>
-					</tr>
-				</tbody>
-			</table>
+								<input type="hidden" name="data[FaqQuestions][{{getIndex(q.faqQuestion.key)}}][FaqQuestionOrder][weight]" ng-value="{{$index + 1}}">
+							</td>
+							<td>
+								{{q.faqQuestion.question}}
+							</td>
+							<td>
+								{{q.category.name}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
 			<div class="text-center">
 				<?php echo $this->Button->cancelAndSave(__d('net_commons', 'Cancel'), __d('net_commons', 'OK')); ?>

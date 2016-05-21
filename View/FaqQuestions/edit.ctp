@@ -21,9 +21,7 @@ $faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 	ng-init="initialize(<?php echo h(json_encode(array('faqQuestion' => $faqQuestion))); ?>)">
 
 	<article>
-		<h1>
-			<?php echo h($faq['name']); ?>
-		</h1>
+		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('FaqQuestion'); ?>
