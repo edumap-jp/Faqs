@@ -61,7 +61,7 @@ class FaqBlocksController extends FaqsAppController {
 		'Blocks.BlockIndex',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index'),
-			'blockTabs' => array('block_settings', 'role_permissions'),
+			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
 	);
 

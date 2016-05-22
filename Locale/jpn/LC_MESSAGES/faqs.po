@@ -49,3 +49,10 @@ msgstr "順序変更"
 #: Faqs/View/FaqQuestions/index.ctp:35
 msgid "Create question"
 msgstr "質問の作成"
+
+#
+#: メール関連
+#
+
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-FAQ_NAME} : FAQ名<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-QUESTION} : 質問<br>{X-ANSWER} : 回答<br>{X-URL} : 質問内容のURL"
