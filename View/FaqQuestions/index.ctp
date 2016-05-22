@@ -12,9 +12,7 @@
 <?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
-	<h1>
-		<?php echo h($faq['name']); ?>
-	</h1>
+	<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
 	<div class="clearfix">
 		<div class="pull-left">

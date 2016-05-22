@@ -10,6 +10,7 @@
  */
 
 App::uses('FaqsAppController', 'Faqs.Controller');
+App::uses('MailSend', 'Mails.Utility');
 
 /**
  * FaqQuestions Controller
@@ -137,6 +138,9 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
@@ -188,6 +192,9 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
+				// キューからメール送信
+				MailSend::send();
+
 				return $this->redirect(NetCommonsUrl::backToPageUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);

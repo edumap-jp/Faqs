@@ -41,6 +41,14 @@ class FaqQuestion extends FaqsAppModel {
 		//),
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
+		'Mails.MailQueue' => array(
+			'embedTags' => array(
+				'X-QUESTION' => 'FaqQuestion.question',
+				'X-ANSWER' => 'FaqQuestion.answer',
+				'X-FAQ_NAME' => 'Faq.name',
+				'X-URL' => array('controller' => 'faq_questions'),
+			),
+		),
 		'Topics.Topics' => array(
 			'fields' => array(
 				'title' => 'FaqQuestion.question',
