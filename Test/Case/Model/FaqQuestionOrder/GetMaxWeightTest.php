@@ -60,7 +60,7 @@ class FaqQuestionOrderGetMaxWeightTest extends NetCommonsGetTest {
 /**
  * getMaxWeightのテスト
  *
- * @param string $faqKey faqs.key
+ * @param string $keyData faqs.key
  * @param array $expected 期待値
  * @dataProvider dataProviderGetMaxWeight
  *
