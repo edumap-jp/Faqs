@@ -18,7 +18,7 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 ?>
 
 <article>
-	<h2>
+	<h3>
 		<a href="<?php echo $this->NetCommonsHtml->url(array('action' => 'view', 'key' => $faqQuestion['FaqQuestion']['key'])); ?>"
 			onclick="return false;"
 			ng-click="displayAnswer('#<?php echo $answerKey; ?>')">
@@ -27,10 +27,8 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 			<?php echo h($faqQuestion['FaqQuestion']['question']); ?>
 		</a>
 
-		<small>
-			<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
-		</small>
-	</h2>
+		<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
+	</h3>
 
 	<div id="<?php echo $answerKey; ?>"
 			class="<?php echo $hidden; ?>">

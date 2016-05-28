@@ -51,6 +51,14 @@ msgid "Create question"
 msgstr "質問の作成"
 
 #
+#: FAQ一覧
+#
+
+msgid "No faq found."
+msgstr "一件も該当するFAQがありません。"
+
+
+#
 #: メール関連
 #
 

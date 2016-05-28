@@ -35,11 +35,16 @@
 	</div>
 
 	<hr>
-	<?php foreach($faqQuestions as $faqQuestion): ?>
-		<?php echo $this->element('FaqQuestions/article', array(
-				'faqQuestion' => $faqQuestion,
-			)); ?>
+	<?php if ($faqQuestions) : ?>
+		<?php foreach($faqQuestions as $faqQuestion): ?>
+			<?php echo $this->element('FaqQuestions/article', array(
+					'faqQuestion' => $faqQuestion,
+				)); ?>
 
-		<hr>
-	<?php endforeach; ?>
+			<hr>
+		<?php endforeach; ?>
+	<?php else : ?>
+		<?php echo __d('faqs', 'No faq found.') ?>
+	<?php endif; ?>
+
 </div>

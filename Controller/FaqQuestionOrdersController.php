@@ -87,7 +87,8 @@ class FaqQuestionOrdersController extends FaqsAppController {
 					'conditions' => $this->FaqQuestion->getWorkflowConditions(array(
 						'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
 					)),
-					'limit' => PHP_INT_MAX
+					'limit' => PHP_INT_MAX,
+					'maxLimit' => PHP_INT_MAX
 				)
 			);
 			$this->request->data['FaqQuestions'] = $this->Paginator->paginate('FaqQuestion');
