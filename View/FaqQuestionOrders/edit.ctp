@@ -16,7 +16,7 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 ?>
 
 <div ng-controller="FaqQuestionOrders" class="nc-content-list"
-	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions, 'faqQuestionsMap' => $faqQuestionsMap])); ?>)">
+	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions, 'faqQuestionsMap' => $faqQuestionsMap])); ?>)" ng-cloak>
 
 	<article>
 		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
@@ -54,23 +54,28 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 					<tbody>
 						<tr ng-repeat="q in faqQuestions track by $index">
 							<td>
-								<button type="button" class="btn btn-default btn-sm"
-										ng-click="move('up', $index)" ng-disabled="$first">
-									<span class="glyphicon glyphicon-arrow-up"></span>
-								</button>
+								<div class="text-nowrap">
+									<button type="button" class="btn btn-default btn-sm"
+											ng-click="move('up', $index)" ng-disabled="$first">
+										<span class="glyphicon glyphicon-arrow-up"></span>
+									</button>
 
-								<button type="button" class="btn btn-default btn-sm"
-										ng-click="move('down', $index)" ng-disabled="$last">
-									<span class="glyphicon glyphicon-arrow-down"></span>
-								</button>
+									<button type="button" class="btn btn-default btn-sm"
+											ng-click="move('down', $index)" ng-disabled="$last">
+										<span class="glyphicon glyphicon-arrow-down"></span>
+									</button>
 
-								<input type="hidden" name="data[FaqQuestions][{{getIndex(q.faqQuestion.key)}}][FaqQuestionOrder][weight]" ng-value="{{$index + 1}}">
+									<input type="hidden" name="data[FaqQuestions][{{getIndex(q.faqQuestion.key)}}][FaqQuestionOrder][weight]"
+											ng-value="{{$index + 1}}">
+								</div>
 							</td>
 							<td>
 								{{q.faqQuestion.question}}
 							</td>
 							<td>
-								{{q.category.name}}
+								<div class="text-nowrap">
+									{{q.category.name}}
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -78,7 +83,11 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 			</div>
 
 			<div class="text-center">
-				<?php echo $this->Button->cancelAndSave(__d('net_commons', 'Cancel'), __d('net_commons', 'OK')); ?>
+				<?php echo $this->Button->cancelAndSave(
+						__d('net_commons', 'Cancel'),
+						__d('net_commons', 'OK'),
+						NetCommonsUrl::backToIndexUrl()
+					); ?>
 			</div>
 
 		<?php echo $this->NetCommonsForm->end(); ?>
