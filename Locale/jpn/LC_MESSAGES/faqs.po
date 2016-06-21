@@ -55,7 +55,7 @@ msgstr "質問の作成"
 #
 
 msgid "No faq found."
-msgstr "一件も該当するFAQがありません。"
+msgstr "FAQがありません。"
 
 
 #

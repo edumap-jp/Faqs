@@ -86,10 +86,7 @@ class FaqBlocksController extends FaqsAppController {
  */
 	public function index() {
 		$this->Paginator->settings = array(
-			'Faq' => array(
-				'order' => array('Block.id' => 'desc'),
-				'conditions' => $this->Faq->getBlockConditions(),
-			)
+			'Faq' => $this->Faq->getBlockIndexSettings()
 		);
 
 		$faqs = $this->Paginator->paginate('Faq');
