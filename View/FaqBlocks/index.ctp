@@ -30,7 +30,11 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								'Block.public_type', __d('blocks', 'Publishing setting'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -50,7 +54,10 @@
 									array('editUrl' => array('block_id' => $faq['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'TrackableCreator', $faq,
+									'Block.public_type', $faq
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableUpdater', $faq,
 									array('type' => 'handle')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
