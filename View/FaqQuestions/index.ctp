@@ -14,7 +14,7 @@
 <div class="nc-content-list" ng-controller="FaqIndex">
 	<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
-	<div class="clearfix">
+	<header class="clearfix">
 		<div class="pull-left">
 			<?php if ($categories) : ?>
 				<?php echo $this->Category->dropDownToggle(array(
@@ -32,19 +32,18 @@
 
 			<?php echo $this->Workflow->addLinkButton('', null, array('tooltip' => __d('faqs', 'Create question'))); ?>
 		</div>
-	</div>
+	</header>
 
-	<hr>
 	<?php if ($faqQuestions) : ?>
 		<?php foreach($faqQuestions as $faqQuestion): ?>
 			<?php echo $this->element('FaqQuestions/article', array(
 					'faqQuestion' => $faqQuestion,
 				)); ?>
-
-			<hr>
 		<?php endforeach; ?>
 	<?php else : ?>
-		<?php echo __d('faqs', 'No faq found.') ?>
+		<article>
+			<?php echo __d('faqs', 'No faq found.') ?>
+		</article>
 	<?php endif; ?>
 
 </div>
