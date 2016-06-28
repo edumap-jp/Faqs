@@ -101,6 +101,16 @@ class FaqQuestion extends FaqsAppModel {
 		//	'fields' => '',
 		//	'order' => ''
 		//)
+		'Block' => array(
+			'className' => 'Blocks.Block',
+			'foreignKey' => 'block_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'counterCache' => array(
+				'content_count' => array('FaqQuestion.is_latest' => 1),
+			),
+		),
 	);
 
 /**
