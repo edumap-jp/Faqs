@@ -97,6 +97,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 				'id' => $faqQuestionId,
 				'key' => $faqQuestionKey,
 				'faq_id' => $faqId,
+				'block_id' => $blockId,
 				'language_id' => '2',
 				'category_id' => '2',
 				'status' => WorkflowComponent::STATUS_PUBLISHED,

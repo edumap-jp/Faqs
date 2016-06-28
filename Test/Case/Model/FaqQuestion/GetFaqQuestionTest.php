@@ -66,6 +66,7 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 		'FaqQuestion' => array(
 			'id' => '1',
 			'faq_id' => '2',
+			'block_id' => '2',
 			'key' => 'faq_question_1',
 			'language_id' => '2',
 			'category_id' => '1',
@@ -94,6 +95,18 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 			'key' => 'category_1',
 			'name' => 'Category 1',
 			'language_id' => '2',
+		),
+		'Block' => array(
+			'id' => '2',
+			'language_id' => '2',
+			'room_id' => '1',
+			'plugin_key' => 'faqs',
+			'key' => 'block_1',
+			'name' => 'Block name 1',
+			'public_type' => '1',
+			'publish_start' => null,
+			'publish_end' => null,
+			'content_count' => '0',
 		),
 	);
 
