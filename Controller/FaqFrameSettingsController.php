@@ -1,6 +1,6 @@
 <?php
 /**
- * BlockRolePermissions Controller
+ * FaqFrameSettings Controller
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,12 +12,12 @@
 App::uses('FaqsAppController', 'Faqs.Controller');
 
 /**
- * BlockRolePermissions Controller
+ * FaqFrameSettings Controller
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Controller
  */
-class FaqBlockRolePermissionsController extends FaqsAppController {
+class FaqFrameSettingsController extends FaqsAppController {
 
 /**
  * layout
@@ -32,8 +32,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $uses = array(
-		'Faqs.Faq',
-		'Faqs.FaqSetting'
+		'Faqs.FaqFrameSetting',
 	);
 
 /**
@@ -44,7 +43,7 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
 	public $components = array(
 		'NetCommons.Permission' => array(
 			'allow' => array(
-				'edit' => 'block_permission_editable',
+				'edit' => 'page_editable',
 			),
 		),
 	);
@@ -55,11 +54,12 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @var array
  */
 	public $helpers = array(
-		'Blocks.BlockRolePermissionForm',
+		'Blocks.BlockForm',
 		'Blocks.BlockTabs' => array(
 			'mainTabs' => array('block_index', 'frame_settings'),
 			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
+		'NetCommons.DisplayNumber',
 	);
 
 /**
@@ -68,31 +68,15 @@ class FaqBlockRolePermissionsController extends FaqsAppController {
  * @return void
  */
 	public function edit() {
-		if (! $faq = $this->Faq->getFaq()) {
-			$this->throwBadRequest();
-			return false;
-		}
-
-		$permissions = $this->Workflow->getBlockRolePermissions(
-			array('content_creatable', 'content_publishable')
-		);
-		$this->set('roles', $permissions['Roles']);
-
-		if ($this->request->is('post')) {
-			if ($this->FaqSetting->saveFaqSetting($this->request->data)) {
-				$this->redirect(NetCommonsUrl::backToIndexUrl('default_setting_action'));
+		if ($this->request->is('put') || $this->request->is('post')) {
+			if ($this->FaqFrameSetting->saveFaqFrameSetting($this->data)) {
+				$this->redirect(NetCommonsUrl::backToPageUrl(true));
 				return;
 			}
-			$this->NetCommons->handleValidationError($this->FaqSetting->validationErrors);
-			$this->request->data['BlockRolePermission'] = Hash::merge(
-				$permissions['BlockRolePermissions'],
-				$this->request->data['BlockRolePermission']
-			);
+			$this->NetCommons->handleValidationError($this->FaqFrameSetting->validationErrors);
 
 		} else {
-			$this->request->data['FaqSetting'] = $faq['FaqSetting'];
-			$this->request->data['Block'] = $faq['Block'];
-			$this->request->data['BlockRolePermission'] = $permissions['BlockRolePermissions'];
+			$this->request->data = $this->FaqFrameSetting->getFaqFrameSetting(true);
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
