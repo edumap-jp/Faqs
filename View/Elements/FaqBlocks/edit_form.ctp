@@ -26,4 +26,6 @@
 
 <?php echo $this->element('Blocks.public_type'); ?>
 
+<?php echo $this->Like->setting('FaqSetting.use_like', 'FaqSetting.use_unlike'); ?>
+
 <?php echo $this->element('Categories.edit_form');

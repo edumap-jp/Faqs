@@ -36,6 +36,8 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
@@ -124,6 +126,11 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 	public function testGetFaqQuestion($expected, $faqId, $faqQuestionKey, $conditions = []) {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
+
+		$this->$model->Behaviors->unload('Likes.Like');
+		$this->$model->unbindModel(
+			array('belongsTo' => ['Like', 'LikesUser']), false
+		);
 
 		//テスト実行
 		$result = $this->$model->$method($faqId, $faqQuestionKey, $conditions);

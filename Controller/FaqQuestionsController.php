@@ -51,6 +51,7 @@ class FaqQuestionsController extends FaqsAppController {
  * @var array
  */
 	public $helpers = array(
+		'Likes.Like',
 		'Workflow.Workflow',
 	);
 
@@ -72,6 +73,7 @@ class FaqQuestionsController extends FaqsAppController {
 			return false;
 		}
 		$this->set('faq', $faq['Faq']);
+		$this->set('faqSetting', $faq['FaqSetting']);
 	}
 
 /**

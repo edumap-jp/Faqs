@@ -28,6 +28,7 @@ class FaqQuestion extends FaqsAppModel {
  * @var array
  */
 	public $actsAs = array(
+		'Likes.Like',
 		'NetCommons.OriginalKey',
 		//'M17n.M17n' => array(
 		//	'associations' => array(
