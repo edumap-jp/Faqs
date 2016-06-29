@@ -36,6 +36,8 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 	public $fixtures = array(
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**

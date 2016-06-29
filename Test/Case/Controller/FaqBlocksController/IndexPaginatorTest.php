@@ -34,6 +34,8 @@ class FaqBlocksControllerIndexPaginatorTest extends BlocksControllerPaginatorTes
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq4paginator',
 		'plugin.faqs.faq_setting',

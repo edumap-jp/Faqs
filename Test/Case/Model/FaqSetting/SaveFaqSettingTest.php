@@ -36,6 +36,8 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.faq_setting',
@@ -135,6 +137,10 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 			array($this->__getData(), 'faq_key', '',
 				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'use_workflow', 'a',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'use_like', 'a',
+				__d('net_commons', 'Invalid request.')),
+			array($this->__getData(), 'use_unlike', 'a',
 				__d('net_commons', 'Invalid request.')),
 		);
 	}

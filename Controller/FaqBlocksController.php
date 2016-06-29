@@ -63,6 +63,7 @@ class FaqBlocksController extends FaqsAppController {
 			'mainTabs' => array('block_index', 'frame_settings'),
 			'blockTabs' => array('block_settings', 'mail_settings', 'role_permissions'),
 		),
+		'Likes.Like',
 	);
 
 /**

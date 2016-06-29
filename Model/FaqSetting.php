@@ -61,6 +61,18 @@ class FaqSetting extends FaqsAppModel {
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
 			),
+			'use_like' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
+			'use_unlike' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+				),
+			),
 		));
 
 		return parent::beforeValidate($options);
@@ -93,10 +105,6 @@ class FaqSetting extends FaqsAppModel {
  * @throws InternalErrorException
  */
 	public function saveFaqSetting($data) {
-		$this->loadModels([
-			'FaqSetting' => 'Faqs.FaqSetting',
-		]);
-
 		//トランザクションBegin
 		$this->begin();
 

@@ -33,17 +33,22 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 	<div id="<?php echo $answerKey; ?>"
 			class="<?php echo $hidden; ?>">
 
-		<div>
+		<article>
 			<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
-		</div>
+		</article>
 
-		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
-			<div class="text-right">
-				<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key']), array(
-						'tooltip' => true,
-						'iconSize' => 'btn-xs'
-					)); ?>
+		<footer class="clearfix">
+			<div class="pull-left">
+				<?php echo $this->Like->buttons('FaqQuestion', $faqSetting, $faqQuestion); ?>
 			</div>
-		<?php endif; ?>
+			<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
+				<div class="pull-right">
+					<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key']), array(
+							'tooltip' => true,
+							'iconSize' => 'btn-xs'
+						)); ?>
+				</div>
+			<?php endif; ?>
+		</footer>
 	</div>
 </article>
