@@ -76,7 +76,7 @@ class FaqFrameSettingsController extends FaqsAppController {
 			$this->NetCommons->handleValidationError($this->FaqFrameSetting->validationErrors);
 
 		} else {
-			$this->request->data = $this->FaqFrameSetting->getFaqFrameSetting(true);
+			$this->request->data = $this->FaqFrameSetting->getFaqFrameSetting();
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
