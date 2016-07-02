@@ -33,6 +33,15 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 	<div id="<?php echo $answerKey; ?>"
 			class="<?php echo $hidden; ?>">
 
+		<?php if ($faqQuestion['Category']['id']) : ?>
+			<div class="text-muted">
+				<?php echo __d('categories', 'Category'); ?>:
+				<?php echo $this->NetCommonsHtml->link($faqQuestion['Category']['name'],
+						array('action' => 'index', 'category_id' => $faqQuestion['Category']['id'])
+					); ?>
+			</div>
+		<?php endif; ?>
+
 		<article>
 			<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
 		</article>
