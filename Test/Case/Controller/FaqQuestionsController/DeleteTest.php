@@ -32,6 +32,7 @@ class FaqQuestionsControllerDeleteTest extends WorkflowControllerDeleteTest {
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
+		'plugin.faqs.faq_frame_setting',
 		'plugin.faqs.faq_setting',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',

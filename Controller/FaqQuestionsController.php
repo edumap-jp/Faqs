@@ -26,6 +26,7 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public $uses = array(
 		'Faqs.Faq',
+		'Faqs.FaqFrameSetting',
 		'Faqs.FaqQuestion',
 		'Faqs.FaqQuestionOrder',
 	);
@@ -43,6 +44,7 @@ class FaqQuestionsController extends FaqsAppController {
 			),
 		),
 		'Categories.Categories',
+		'Paginator',
 	);
 
 /**
@@ -52,6 +54,7 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public $helpers = array(
 		'Likes.Like',
+		'NetCommons.DisplayNumber',
 		'Workflow.Workflow',
 	);
 
@@ -74,6 +77,9 @@ class FaqQuestionsController extends FaqsAppController {
 		}
 		$this->set('faq', $faq['Faq']);
 		$this->set('faqSetting', $faq['FaqSetting']);
+
+		$faqFrameSetting = $this->FaqFrameSetting->getFaqFrameSetting();
+		$this->set('faqFrameSetting', $faqFrameSetting['FaqFrameSetting']);
 	}
 
 /**
@@ -82,6 +88,8 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function index() {
+		$query = array();
+
 		//条件
 		$conditions = array(
 			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
@@ -89,12 +97,17 @@ class FaqQuestionsController extends FaqsAppController {
 		if (isset($this->params['named']['category_id'])) {
 			$conditions['FaqQuestion.category_id'] = $this->params['named']['category_id'];
 		}
+		$query['conditions'] = $this->FaqQuestion->getWorkflowConditions($conditions);
 
-		//取得
-		$faqQuestions = $this->FaqQuestion->getWorkflowContents('all', array(
-			'recursive' => 0,
-			'conditions' => $conditions
-		));
+		//表示件数
+		if (isset($this->params['named']['limit'])) {
+			$query['limit'] = (int)$this->params['named']['limit'];
+		} else {
+			$query['limit'] = $this->viewVars['faqFrameSetting']['content_per_page'];
+		}
+
+		$this->Paginator->settings = $query;
+		$faqQuestions = $this->Paginator->paginate('FaqQuestion');
 		$this->set('faqQuestions', $faqQuestions);
 	}
 

@@ -22,6 +22,8 @@
 						'displayMenu' => true,
 					)); ?>
 			<?php endif; ?>
+
+			<?php echo $this->DisplayNumber->dropDownToggle(); ?>
 		</div>
 		<div class="pull-right">
 			<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
@@ -40,6 +42,9 @@
 					'faqQuestion' => $faqQuestion,
 				)); ?>
 		<?php endforeach; ?>
+
+		<?php echo $this->element('NetCommons.paginator'); ?>
+
 	<?php else : ?>
 		<article>
 			<?php echo __d('faqs', 'No faq found.') ?>
