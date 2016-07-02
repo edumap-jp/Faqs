@@ -50,6 +50,7 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 			<div class="pull-left">
 				<?php echo $this->Like->buttons('FaqQuestion', $faqSetting, $faqQuestion); ?>
 			</div>
+
 			<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
 				<div class="pull-right">
 					<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key']), array(

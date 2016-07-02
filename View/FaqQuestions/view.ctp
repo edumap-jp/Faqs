@@ -16,9 +16,11 @@
 			<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
 		</div>
 
-		<div class="pull-right">
-			<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key'])); ?>
-		</div>
+		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
+			<div class="pull-right">
+				<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key'])); ?>
+			</div>
+		<?php endif; ?>
 	</header>
 
 	<h1>
