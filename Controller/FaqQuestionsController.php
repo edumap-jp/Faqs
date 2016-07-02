@@ -80,7 +80,6 @@ class FaqQuestionsController extends FaqsAppController {
 
 		$faqFrameSetting = $this->FaqFrameSetting->getFaqFrameSetting();
 		$this->set('faqFrameSetting', $faqFrameSetting['FaqFrameSetting']);
-
 	}
 
 /**
