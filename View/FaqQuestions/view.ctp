@@ -8,23 +8,40 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-
-echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
 ?>
 
-<div class="nc-content-list" ng-controller="FaqIndex">
-	<header>
-		<?php echo $this->BackTo->listLinkButton(); ?>
+<article class="nc-content-list">
+	<header class="clearfix">
+		<div class="pull-left">
+			<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
+		</div>
+
+		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
+			<div class="pull-right">
+				<?php echo $this->Button->editLink('', array('key' => $faqQuestion['FaqQuestion']['key'])); ?>
+			</div>
+		<?php endif; ?>
 	</header>
 
-	<article>
-		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
+	<h1>
+		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"> </span>
+		<?php echo h($faqQuestion['FaqQuestion']['question']); ?>
+	</h1>
 
-		<hr>
-		<?php echo $this->element('FaqQuestions/article', array(
-				'faqQuestion' => $faqQuestion,
-			)); ?>
+	<?php if ($faqQuestion['Category']['id']) : ?>
+		<div class="text-muted">
+			<?php echo __d('categories', 'Category'); ?>:
+			<?php echo $this->NetCommonsHtml->link($faqQuestion['Category']['name'],
+					array('action' => 'index', 'category_id' => $faqQuestion['Category']['id'])
+				); ?>
+		</div>
+	<?php endif; ?>
 
-		<hr>
-	</article>
-</div>
+	<div>
+		<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
+	</div>
+
+	<footer>
+		<?php echo $this->Like->buttons('FaqQuestion', $faqSetting, $faqQuestion); ?>
+	</footer>
+</article>
