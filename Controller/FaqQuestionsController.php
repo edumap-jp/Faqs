@@ -117,10 +117,7 @@ class FaqQuestionsController extends FaqsAppController {
  * @return void
  */
 	public function view() {
-		$faqQuestionKey = null;
-		if (isset($this->params['pass'][1])) {
-			$faqQuestionKey = $this->params['pass'][1];
-		}
+		$faqQuestionKey = Hash::get($this->request->params, 'key', null);
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
@@ -179,7 +176,7 @@ class FaqQuestionsController extends FaqsAppController {
  */
 	public function edit() {
 		//データ取得
-		$faqQuestionKey = $this->params['pass'][1];
+		$faqQuestionKey = $this->params['key'];
 		if ($this->request->is('put')) {
 			$faqQuestionKey = $this->data['FaqQuestion']['key'];
 		}
