@@ -169,17 +169,9 @@ class Faq extends FaqsAppModel {
  * @see Model::save()
  */
 	public function beforeSave($options = array()) {
-		//FaqSetting登録
-		//		if (isset($this->data['FaqSetting'])) {
-		//			$this->FaqSetting->set($this->data['FaqSetting']);
-		//		}
-//		if (isset($this->FaqSetting->data['FaqSetting']) &&
-//				! $this->FaqSetting->data['FaqSetting']['faq_key']) {
-
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
 
-//			$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
 			if (! $this->FaqSetting->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
@@ -199,7 +191,6 @@ class Faq extends FaqsAppModel {
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
 			),
 		));
-		//$faq = Hash::merge($faq, $this->FaqSetting->create());
 		$faq = Hash::merge($faq, $this->FaqSetting->createFaqSetting());
 
 		return $faq;
@@ -215,7 +206,6 @@ class Faq extends FaqsAppModel {
 			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
-				//$this->FaqSetting->alias . '.*',
 			),
 			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
 			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
@@ -224,23 +214,12 @@ class Faq extends FaqsAppModel {
 		$faq = $this->find('all', array(
 			'recursive' => 0,
 			'fields' => $fields,
-			//			'joins' => array(
-			//				array(
-			//					'table' => $this->FaqSetting->table,
-			//					'alias' => $this->FaqSetting->alias,
-			//					'type' => 'INNER',
-			//					'conditions' => array(
-			//						$this->alias . '.key' . ' = ' . $this->FaqSetting->alias . ' .faq_key',
-			//					),
-			//				),
-			//			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 
 		if (! $faq) {
 			return false;
 		}
-		//return $faq[0];
 		return Hash::merge($faq[0], $this->FaqSetting->getFaqSetting());
 	}
 
