@@ -48,49 +48,6 @@ class FaqSetting extends FaqsAppModel {
 		),
 	);
 
-	///**
-	// * Called during validation operations, before validation. Please note that custom
-	// * validation rules can be defined in $validate.
-	// *
-	// * @param array $options Options passed from Model::save().
-	// * @return bool True if validate operation should continue, false to abort
-	// * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
-	// * @see Model::save()
-	// */
-	//	public function beforeValidate($options = array()) {
-	//		$this->validate = Hash::merge($this->validate, array(
-	//			'faq_key' => array(
-	//				'notBlank' => array(
-	//					'rule' => array('notBlank'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//					'allowEmpty' => false,
-	//					'required' => true,
-	//					'on' => 'update', // Limit validation to 'create' or 'update' operations
-	//				),
-	//			),
-	//			'use_workflow' => array(
-	//				'boolean' => array(
-	//					'rule' => array('boolean'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//				),
-	//			),
-	//			'use_like' => array(
-	//				'boolean' => array(
-	//					'rule' => array('boolean'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//				),
-	//			),
-	//			'use_unlike' => array(
-	//				'boolean' => array(
-	//					'rule' => array('boolean'),
-	//					'message' => __d('net_commons', 'Invalid request.'),
-	//				),
-	//			),
-	//		));
-	//
-	//		return parent::beforeValidate($options);
-	//	}
-
 /**
  * FaqSettingデータ新規作成
  *
@@ -109,15 +66,8 @@ class FaqSetting extends FaqsAppModel {
  * @return array
  */
 	public function getFaqSetting() {
-		//public function getFaqSetting($faqKey) {
-		//* @param string $faqKey faq.key
-		//		$conditions = array(
-		//			'faq_key' => $faqKey
-		//		);
-
 		$faqSetting = $this->find('first', array(
 			'recursive' => -1,
-			//'conditions' => $conditions,
 			'conditions' => array(
 				$this->alias . '.key' => Current::read('Block.key'),
 				$this->alias . '.language_id' => Current::read('Language.id'),
