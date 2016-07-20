@@ -55,43 +55,39 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 	protected $_methodName = 'getFaqSetting';
 
 /**
- * GetFaqSettingのテスト
- *
- * @param string $getkey 取得するキー情報($faqkey)
- * @param array $expected 期待値（取得する情報）
- * @dataProvider dataProviderGet
+ * GetFaqSettingのテスト - データあり
  *
  * @return void
  */
-	public function testGet($getkey, $expected) {
+	public function testGet() {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
+		Current::write('Block.key', 'block_1');
+		Current::write('Language.id', '2');
 
 		//テスト実行
-		$result = $this->$model->$method($getkey);
+		$result = $this->$model->$method();
 
-		foreach ($expected as $key => $val) {
-			$this->assertEquals($result[$model][$key], $val);
-		}
+		//debug($result);
+		$this->assertCount(1, $result);
 	}
 
 /**
- * getFaqSettingのDataProvider
+ * GetFaqSettingのテスト - データなし
  *
- * #### 戻り値
- *  - array 取得するキー情報
- *  - array 期待値 （取得する情報）
- *
- * @return array
+ * @return void
  */
-	public function dataProviderGet() {
-		$existData = 'faq_1'; // データあり
-		$notExistData = 'faq_xx'; // データなし
+	public function testGetEmpty() {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+		Current::write('Block.key', 'block_xxx');
+		Current::write('Language.id', '2');
 
-		return array(
-			array($existData, array('id' => '1')), // 存在する
-			array($notExistData, array()), // 存在しない
-		);
+		//テスト実行
+		$result = $this->$model->$method();
+
+		//debug($result);
+		$this->assertEmpty($result);
 	}
 
 }

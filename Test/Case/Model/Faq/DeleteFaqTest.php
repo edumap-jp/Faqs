@@ -34,6 +34,8 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
+		'plugin.likes.like',
+		'plugin.likes.likes_user',
 	);
 
 /**
@@ -85,9 +87,9 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  */
 	public function dataProviderDelete() {
 		$association = array(
-			'FaqSetting' => array(
-				'faq_key' => 'faq_1',
-			),
+			//'FaqSetting' => array(
+			//	'faq_key' => 'faq_1',
+			//),
 			'FaqQuestion' => array(
 				'faq_id' => '2',
 			),
@@ -114,7 +116,7 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 	public function dataProviderDeleteOnExceptionError() {
 		return array(
 			array($this->__data, 'Faqs.Faq', 'deleteAll'),
-			array($this->__data, 'Faqs.FaqSetting', 'deleteAll'),
+			//array($this->__data, 'Faqs.FaqSetting', 'deleteAll'),
 			array($this->__data, 'Faqs.FaqQuestion', 'deleteAll'),
 			array($this->__data, 'Faqs.FaqQuestionOrder', 'deleteAll'),
 		);

@@ -62,14 +62,12 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 /**
  * テストDataの取得
  *
- * @param string $faqQuestionKey faqQuestionKey
  * @return array
  */
 	private function __getData() {
 		$data = array(
 			'FaqSetting' => array(
 				'id' => '1',
-				'faq_key' => 'faq_1',
 			),
 		);
 
@@ -82,7 +80,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  * ### 戻り値
  *  - data 登録データ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSave() {
 		return array(
@@ -98,7 +96,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnExceptionError() {
 		return array(
@@ -113,7 +111,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - data 登録データ
  *  - mockModel Mockのモデル
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnValidationError() {
 		return array(
@@ -130,7 +128,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - message エラーメッセージ
  *  - overwrite 上書きするデータ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderValidationError() {
 		return array(
