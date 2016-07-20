@@ -170,13 +170,14 @@ class Faq extends FaqsAppModel {
  */
 	public function beforeSave($options = array()) {
 		//FaqSetting登録
-		if (isset($this->data['FaqSetting'])) {
-			$this->FaqSetting->set($this->data['FaqSetting']);
-		}
+		//		if (isset($this->data['FaqSetting'])) {
+		//			$this->FaqSetting->set($this->data['FaqSetting']);
+		//		}
 //		if (isset($this->FaqSetting->data['FaqSetting']) &&
 //				! $this->FaqSetting->data['FaqSetting']['faq_key']) {
-		if (isset($this->FaqSetting->data['FaqSetting']) &&
-			! $this->FaqSetting->data['FaqSetting']['id']) {
+
+		if (isset($this->data['FaqSetting'])) {
+			$this->FaqSetting->set($this->data['FaqSetting']);
 
 //			$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
 			if (! $this->FaqSetting->save(null, false)) {
