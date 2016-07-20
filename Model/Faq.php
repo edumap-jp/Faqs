@@ -223,7 +223,7 @@ class Faq extends FaqsAppModel {
 				array(
 					'table' => $this->FaqSetting->table,
 					'alias' => $this->FaqSetting->alias,
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array(
 						$this->alias . '.key' . ' = ' . $this->FaqSetting->alias . ' .faq_key',
 					),
@@ -234,6 +234,9 @@ class Faq extends FaqsAppModel {
 
 		if (! $faq) {
 			return false;
+		}
+		if (! Hash::get($faq[0], $this->FaqSetting->alias . '.id')) {
+			$faq[0] = Hash::merge($faq[0], $this->FaqSetting->create());
 		}
 		return $faq[0];
 	}
