@@ -112,27 +112,6 @@ class FaqsSchema extends CakeSchema {
 	);
 
 /**
- * faq_settings table
- *
- * @var array
- */
-	public $faq_settings = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary', 'comment' => 'ID'),
-		'faq_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'FAQキー', 'charset' => 'utf8'),
-		'use_workflow' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'コンテンツの承認機能 0:使わない 1:使う'),
-		'use_like' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'use_unlike' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '作成者'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '作成日時'),
-		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false, 'comment' => '更新者'),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => '更新日時'),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-
-/**
  * faqs table
  *
  * @var array
