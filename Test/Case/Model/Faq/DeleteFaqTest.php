@@ -87,9 +87,6 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  */
 	public function dataProviderDelete() {
 		$association = array(
-			//'FaqSetting' => array(
-			//	'faq_key' => 'faq_1',
-			//),
 			'FaqQuestion' => array(
 				'faq_id' => '2',
 			),
@@ -111,12 +108,11 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderDeleteOnExceptionError() {
 		return array(
 			array($this->__data, 'Faqs.Faq', 'deleteAll'),
-			//array($this->__data, 'Faqs.FaqSetting', 'deleteAll'),
 			array($this->__data, 'Faqs.FaqQuestion', 'deleteAll'),
 			array($this->__data, 'Faqs.FaqQuestionOrder', 'deleteAll'),
 		);
