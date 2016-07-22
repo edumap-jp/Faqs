@@ -77,7 +77,7 @@ class FaqCreateFaqTest extends NetCommonsModelTestCase {
 			$this->$model->createAll(array(
 					'Block' => array('plugin_key' => 'blocks'),
 			)),
-			$this->$model->FaqSetting->createFaqSetting()
+			$this->$model->FaqSetting->getFaqSetting()
 		);
 
 		//テスト実行

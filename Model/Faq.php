@@ -169,12 +169,10 @@ class Faq extends FaqsAppModel {
  * @see Model::save()
  */
 	public function beforeSave($options = array()) {
+		//FaqSetting登録
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
-
-			if (! $this->FaqSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->FaqSetting->save(null, false);
 		}
 
 		return true;
@@ -191,7 +189,7 @@ class Faq extends FaqsAppModel {
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
 			),
 		));
-		$faq = Hash::merge($faq, $this->FaqSetting->createFaqSetting());
+		$faq = Hash::merge($faq, $this->FaqSetting->getFaqSetting());
 
 		return $faq;
 	}
@@ -280,13 +278,6 @@ class Faq extends FaqsAppModel {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Faq']['key']), false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-
-			// FaqSettingはuseTable='blocks'のため、削除不要
-			// またBlockSettingは、BlockBehaviorのsettingのloadModelsに、'Blocks.BlockSetting'を指定したため削除される
-			//$conditions = array($this->FaqSetting->alias . '.faq_key' => $data['Faq']['key']);
-			//if (! $this->FaqSetting->deleteAll($conditions, false)) {
-			//	throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			//}
 
 			$this->FaqQuestion->blockKey = $data['Block']['key'];
 			$conditions = array($this->FaqQuestion->alias . '.faq_id' => $faqs);
