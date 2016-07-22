@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('FaqsAppModel', 'Faqs.Model');
+App::uses('BlockBaseModel', 'Blocks.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * FaqSetting Model
@@ -17,7 +18,14 @@ App::uses('FaqsAppModel', 'Faqs.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Faqs\Model
  */
-class FaqSetting extends FaqsAppModel {
+class FaqSetting extends BlockBaseModel {
+
+/**
+ * Custom database table name
+ *
+ * @var string
+ */
+	public $useTable = false;
 
 /**
  * Validation rules
@@ -33,68 +41,21 @@ class FaqSetting extends FaqsAppModel {
  */
 	public $actsAs = array(
 		'Blocks.BlockRolePermission',
+		'Blocks.BlockSetting' => array(
+			BlockSettingBehavior::FIELD_USE_WORKFLOW,
+			BlockSettingBehavior::FIELD_USE_LIKE,
+			BlockSettingBehavior::FIELD_USE_UNLIKE,
+		),
 	);
-
-/**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
- */
-	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
-			'faq_key' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => false,
-					'required' => true,
-					'on' => 'update', // Limit validation to 'create' or 'update' operations
-				),
-			),
-			'use_workflow' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_like' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-			'use_unlike' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-				),
-			),
-		));
-
-		return parent::beforeValidate($options);
-	}
 
 /**
  * Get faq setting data
  *
- * @param string $faqKey faq.key
  * @return array
+ * @see BlockSettingBehavior::getBlockSetting() 取得
  */
-	public function getFaqSetting($faqKey) {
-		$conditions = array(
-			'faq_key' => $faqKey
-		);
-
-		$faqSetting = $this->find('first', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-
-		return $faqSetting;
+	public function getFaqSetting() {
+		return $this->getBlockSetting();
 	}
 
 /**
@@ -114,9 +75,7 @@ class FaqSetting extends FaqsAppModel {
 		}
 
 		try {
-			if (! $this->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->save(null, false);
 
 			//トランザクションCommit
 			$this->commit();

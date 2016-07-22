@@ -38,7 +38,7 @@ class FaqQuestionOrderBeforeDeleteTest extends NetCommonsModelTestCase {
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
-		'plugin.faqs.faq_setting',
+		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);

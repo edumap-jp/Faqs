@@ -40,7 +40,7 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
-		'plugin.faqs.faq_setting',
+		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);

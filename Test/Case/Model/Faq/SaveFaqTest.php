@@ -31,7 +31,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 		'plugin.categories.category_order',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
-		'plugin.faqs.faq_setting',
+		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);
@@ -58,6 +58,25 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveFaq';
 
 /**
+ * block key
+ *
+ * @var string
+ */
+	public $blockKey = 'block_1';
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', $this->blockKey);
+	}
+
+/**
  * テストDataの取得
  *
  * @param string $faqKey faqKey
@@ -66,14 +85,11 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 	private function __getData($faqKey = 'faq_1') {
 		$frameId = '6';
 		$blockId = '2';
-		$blockKey = 'block_1';
-		$faqId = '2';
+		$blockKey = $this->blockKey;
 		if ($faqKey === 'faq_1') {
 			$faqId = '2';
-			$faqSettingId = '1';
 		} else {
 			$faqId = null;
-			$faqSettingId = null;
 		}
 
 		$data = array(
@@ -95,8 +111,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
 				'language_id' => '2',
 			),
 			'FaqSetting' => array(
-				'id' => $faqSettingId,
-				'faq_key' => $faqKey,
+				'use_workflow' => '0',
 			),
 		);
 
@@ -109,7 +124,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
  * ### 戻り値
  *  - data 登録データ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSave() {
 		return array(
@@ -126,12 +141,12 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnExceptionError() {
 		return array(
 			array($this->__getData(), 'Faqs.Faq', 'save'),
-			array($this->__getData(null), 'Faqs.FaqSetting', 'save'),
+			array($this->__getData(null), 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
 
@@ -142,7 +157,7 @@ class FaqSaveFaqTest extends NetCommonsSaveTest {
  *  - data 登録データ
  *  - mockModel Mockのモデル
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnValidationError() {
 		return array(

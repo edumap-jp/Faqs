@@ -38,6 +38,7 @@ class Faq extends FaqsAppModel {
 		'Blocks.Block' => array(
 			'name' => 'Faq.name',
 			'loadModels' => array(
+				'BlockSetting' => 'Blocks.BlockSetting',
 				'Category' => 'Categories.Category',
 				'CategoryOrder' => 'Categories.CategoryOrder',
 			)
@@ -171,14 +172,7 @@ class Faq extends FaqsAppModel {
 		//FaqSetting登録
 		if (isset($this->data['FaqSetting'])) {
 			$this->FaqSetting->set($this->data['FaqSetting']);
-		}
-		if (isset($this->FaqSetting->data['FaqSetting']) &&
-				! $this->FaqSetting->data['FaqSetting']['faq_key']) {
-
-			$this->FaqSetting->data['FaqSetting']['faq_key'] = $this->data[$this->alias]['key'];
-			if (! $this->FaqSetting->save(null, false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+			$this->FaqSetting->save(null, false);
 		}
 
 		return true;
@@ -195,7 +189,7 @@ class Faq extends FaqsAppModel {
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
 			),
 		));
-		$faq = Hash::merge($faq, $this->FaqSetting->create());
+		$faq = Hash::merge($faq, $this->FaqSetting->createBlockSetting());
 
 		return $faq;
 	}
@@ -210,7 +204,6 @@ class Faq extends FaqsAppModel {
 			array(
 				$this->alias . '.*',
 				$this->Block->alias . '.*',
-				$this->FaqSetting->alias . '.*',
 			),
 			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
 			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
@@ -219,26 +212,13 @@ class Faq extends FaqsAppModel {
 		$faq = $this->find('all', array(
 			'recursive' => 0,
 			'fields' => $fields,
-			'joins' => array(
-				array(
-					'table' => $this->FaqSetting->table,
-					'alias' => $this->FaqSetting->alias,
-					'type' => 'LEFT',
-					'conditions' => array(
-						$this->alias . '.key' . ' = ' . $this->FaqSetting->alias . ' .faq_key',
-					),
-				),
-			),
 			'conditions' => $this->getBlockConditionById(),
 		));
 
 		if (! $faq) {
 			return false;
 		}
-		if (! Hash::get($faq[0], $this->FaqSetting->alias . '.id')) {
-			$faq[0] = Hash::merge($faq[0], $this->FaqSetting->create());
-		}
-		return $faq[0];
+		return Hash::merge($faq[0], $this->FaqSetting->getFaqSetting());
 	}
 
 /**
@@ -296,11 +276,6 @@ class Faq extends FaqsAppModel {
 
 		try {
 			if (! $this->deleteAll(array($this->alias . '.key' => $data['Faq']['key']), false)) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-
-			$conditions = array($this->FaqSetting->alias . '.faq_key' => $data['Faq']['key']);
-			if (! $this->FaqSetting->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 

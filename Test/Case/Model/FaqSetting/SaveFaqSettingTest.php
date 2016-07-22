@@ -40,7 +40,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
-		'plugin.faqs.faq_setting',
+		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);
@@ -60,16 +60,26 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 	protected $_methodName = 'saveFaqSetting';
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+
+		Current::write('Plugin.key', $this->plugin);
+		Current::write('Block.key', 'block_1');
+	}
+
+/**
  * テストDataの取得
  *
- * @param string $faqQuestionKey faqQuestionKey
  * @return array
  */
 	private function __getData() {
 		$data = array(
 			'FaqSetting' => array(
-				'id' => '1',
-				'faq_key' => 'faq_1',
+				'use_workflow' => '0',
 			),
 		);
 
@@ -82,12 +92,34 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  * ### 戻り値
  *  - data 登録データ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSave() {
 		return array(
 			array($this->__getData()),
 		);
+	}
+
+/**
+ * Saveのテスト
+ *
+ * @param array $data 登録データ
+ * @dataProvider dataProviderSave
+ * @return void
+ */
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
+		//テスト実行
+		$result = $this->$model->$method($data);
+		$this->assertNotEmpty($result);
+
+		//登録データ取得
+		$actual = $this->$model->getFaqSetting();
+		$expected = $data;
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
@@ -98,11 +130,12 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - mockModel Mockのモデル
  *  - mockMethod Mockのメソッド
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnExceptionError() {
+		$data = $this->__getData();
 		return array(
-			array($this->__getData(), 'Faqs.FaqSetting', 'save'),
+			array($data[$this->_modelName], 'Blocks.BlockSetting', 'saveMany'),
 		);
 	}
 
@@ -113,7 +146,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - data 登録データ
  *  - mockModel Mockのモデル
  *
- * @return void
+ * @return array
  */
 	public function dataProviderSaveOnValidationError() {
 		return array(
@@ -130,12 +163,10 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
  *  - message エラーメッセージ
  *  - overwrite 上書きするデータ
  *
- * @return void
+ * @return array
  */
 	public function dataProviderValidationError() {
 		return array(
-			array($this->__getData(), 'faq_key', '',
-				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'use_workflow', 'a',
 				__d('net_commons', 'Invalid request.')),
 			array($this->__getData(), 'use_like', 'a',
