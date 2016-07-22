@@ -189,7 +189,7 @@ class Faq extends FaqsAppModel {
 				'name' => __d('faqs', 'New FAQ %s', date('YmdHis')),
 			),
 		));
-		$faq = Hash::merge($faq, $this->FaqSetting->getFaqSetting());
+		$faq = Hash::merge($faq, $this->FaqSetting->createBlockSetting());
 
 		return $faq;
 	}
