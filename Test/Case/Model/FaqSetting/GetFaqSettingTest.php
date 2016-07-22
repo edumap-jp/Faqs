@@ -73,7 +73,7 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 	}
 
 /**
- * GetFaqSettingのテスト - データなし
+ * GetFaqSettingのテスト - データなしの場合、新規登録データあり
  *
  * @return void
  */
@@ -87,7 +87,7 @@ class FaqSettingGetFaqSettingTest extends NetCommonsGetTest {
 		$result = $this->$model->$method();
 
 		//debug($result);
-		$this->assertEmpty($result);
+		$this->assertCount(1, $result);
 	}
 
 }
