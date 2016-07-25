@@ -57,6 +57,9 @@ class FaqQuestion extends FaqsAppModel {
 				'path' => '/:plugin_key/faq_questions/view/:block_id/:content_key',
 			),
 		),
+		'Wysiwyg.Wysiwyg' => array(
+			'fields' => array('answer'),
+		),
 	);
 
 /**
