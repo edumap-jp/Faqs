@@ -10,7 +10,6 @@
  */
 ?>
 
-<?php echo $this->NetCommonsForm->hidden('FaqSetting.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Block.key'); ?>
 
