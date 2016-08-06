@@ -28,7 +28,7 @@
 		<div class="pull-right">
 			<?php if (Current::permission('content_editable') && $faqQuestions) : ?>
 				<?php echo $this->LinkButton->sort('',
-						$this->NetCommonsHtml->url(array('controller' => 'faq_question_orders', 'action' => 'edit'))
+						array('controller' => 'faq_question_orders', 'action' => 'edit')
 					); ?>
 			<?php endif; ?>
 
