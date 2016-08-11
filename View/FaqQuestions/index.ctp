@@ -46,9 +46,9 @@
 		<?php echo $this->element('NetCommons.paginator'); ?>
 
 	<?php else : ?>
-		<div class="nc-not-found">
+		<article class="nc-not-found">
 			<?php echo __d('faqs', 'No faq found.') ?>
-		</div>
+		</article>
 	<?php endif; ?>
 
 </div>
