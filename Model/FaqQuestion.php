@@ -49,6 +49,7 @@ class FaqQuestion extends FaqsAppModel {
 				'X-FAQ_NAME' => 'Faq.name',
 				'X-URL' => array('controller' => 'faq_questions'),
 			),
+			'embedTagsWysiwyg' => array('X-ANSWER'),
 		),
 		'Topics.Topics' => array(
 			'fields' => array(
