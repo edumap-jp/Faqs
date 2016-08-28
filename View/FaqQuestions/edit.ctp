@@ -20,9 +20,9 @@ $faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 <div class="nc-content-list" ng-controller="FaqQuestions"
 	ng-init="initialize(<?php echo h(json_encode(array('faqQuestion' => $faqQuestion))); ?>)">
 
-	<article>
-		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
+	<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
+	<article>
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('FaqQuestion'); ?>
 				<div class="panel-body">
