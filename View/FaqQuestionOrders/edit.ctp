@@ -15,12 +15,12 @@ $faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQu
 $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQuestion.key')));
 ?>
 
-<div ng-controller="FaqQuestionOrders" class="nc-content-list"
+<div class="nc-content-list" ng-controller="FaqQuestionOrders" class="nc-content-list"
 	 ng-init="initialize(<?php echo h(json_encode(['faqQuestions' => $faqQuestions, 'faqQuestionsMap' => $faqQuestionsMap])); ?>)" ng-cloak>
 
-	<article>
-		<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
+	<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>
 
+	<article>
 		<?php echo $this->NetCommonsForm->create('FaqQuestionOrder'); ?>
 			<?php foreach ($faqQuestionsMap as $key => $value) : ?>
 				<?php echo $this->NetCommonsForm->hidden('FaqQuestions.' . $value . '.FaqQuestionOrder.id'); ?>
