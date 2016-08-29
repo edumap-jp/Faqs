@@ -13,7 +13,7 @@
 <article class="nc-content-list">
 	<header class="clearfix">
 		<div class="pull-left">
-			<?php echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']); ?>
+			<?php echo $this->LinkButton->toList(); ?>
 		</div>
 
 		<?php if ($this->Workflow->canEdit('FaqQuestion', $faqQuestion)) : ?>
@@ -23,9 +23,13 @@
 		<?php endif; ?>
 	</header>
 
-	<h1>
+	<h1 class="clearfix">
 		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"> </span>
-		<?php echo h($faqQuestion['FaqQuestion']['question']); ?>
+
+		<?php
+			echo $this->Workflow->label($faqQuestion['FaqQuestion']['status']) . '' .
+					h($faqQuestion['FaqQuestion']['question']);
+		?>
 	</h1>
 
 	<?php if ($faqQuestion['Category']['id']) : ?>
