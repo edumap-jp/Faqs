@@ -101,7 +101,7 @@ class FaqQuestionGetFaqQuestionTest extends WorkflowGetTest {
 		'Block' => array(
 			'id' => '2',
 			'language_id' => '2',
-			'room_id' => '1',
+			'room_id' => '2',
 			'plugin_key' => 'faqs',
 			'key' => 'block_1',
 			'name' => 'Block name 1',
