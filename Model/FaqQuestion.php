@@ -30,16 +30,6 @@ class FaqQuestion extends FaqsAppModel {
 	public $actsAs = array(
 		'Likes.Like',
 		'NetCommons.OriginalKey',
-		//'M17n.M17n' => array(
-		//	'associations' => array(
-		//		'faq_id' => array(
-		//			'className' => 'Faqs.Faq',
-		//		),
-		//		'category_id' => array(
-		//			'className' => 'Categories.Category',
-		//		),
-		//	)
-		//),
 		'Workflow.WorkflowComment',
 		'Workflow.Workflow',
 		'Mails.MailQueue' => array(
