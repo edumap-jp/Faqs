@@ -45,7 +45,6 @@ class Faq extends FaqsAppModel {
 		),
 		'Categories.Category',
 		'NetCommons.OriginalKey',
-		//'M17n.M17n',
 		'Workflow.WorkflowComment',
 	);
 
