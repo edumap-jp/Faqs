@@ -29,12 +29,20 @@ class FaqGetFaqTest extends NetCommonsGetTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
 	);
+
+/**
+ * Plugin name
+ *
+ * @var array
+ */
+	public $plugin = 'faqs';
 
 /**
  * Model name
@@ -90,11 +98,11 @@ class FaqGetFaqTest extends NetCommonsGetTest {
  * @return array
  */
 	public function dataProviderGet() {
-		$existData = array('Block.id' => '1', 'Room.id' => '2'); // データあり
+		$existData = array('Block.id' => '2', 'Room.id' => '2'); // データあり
 		$notExistData = array('Block.id' => '0', 'Room.id' => '0'); // データなし
 
 		return array(
-			array($existData, array('id' => '1')), // 存在する
+			array($existData, array('id' => '2')), // 存在する
 			array($notExistData, array('id' => '0')), // 存在しない
 		);
 	}

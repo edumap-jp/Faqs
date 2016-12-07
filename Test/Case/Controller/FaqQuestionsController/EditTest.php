@@ -28,6 +28,7 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
@@ -91,7 +92,7 @@ class FaqQuestionsControllerEditTest extends WorkflowControllerEditTest {
 			'FaqQuestion' => array(
 				'id' => $faqQuestionId,
 				'key' => $faqQuestionKey,
-				'faq_id' => $faqId,
+				'faq_key' => $faqKey,
 				'language_id' => '2',
 				'category_id' => '2',
 				'status' => null,

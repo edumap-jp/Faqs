@@ -36,6 +36,7 @@ class FaqQuestionOrderGetMaxWeightTest extends NetCommonsGetTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.block_setting_for_faq',

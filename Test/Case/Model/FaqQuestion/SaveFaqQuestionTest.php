@@ -36,6 +36,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',
@@ -98,7 +99,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 			'FaqQuestion' => array(
 				'id' => $faqQuestionId,
 				'key' => $faqQuestionKey,
-				'faq_id' => $faqId,
+				'faq_key' => $faqKey,
 				'block_id' => $blockId,
 				'language_id' => '2',
 				'category_id' => '2',
@@ -197,7 +198,7 @@ class FaqQuestionSaveFaqQuestionTest extends WorkflowSaveTest {
 				sprintf(__d('net_commons', 'Please input %s.'), __d('faqs', 'Answer'))),
 			array($this->__getData(), 'key', '',
 				__d('net_commons', 'Invalid request.')),
-			array($this->__getData(), 'faq_id', 'aaa',
+			array($this->__getData(), 'faq_key', '',
 				__d('net_commons', 'Invalid request.')),
 		);
 	}

@@ -36,6 +36,7 @@ class FaqSettingSaveFaqSettingTest extends NetCommonsSaveTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.likes.like',
 		'plugin.likes.likes_user',
 		'plugin.workflow.workflow_comment',

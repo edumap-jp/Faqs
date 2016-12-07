@@ -27,7 +27,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		//質問1
 		array(
 			'id' => '1',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_1',
 			'language_id' => '2',
@@ -41,7 +41,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '2',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_1',
 			'language_id' => '2',
@@ -56,7 +56,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		//質問2(一般が書いた質問＆一度も公開していない)
 		array(
 			'id' => '3',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_2',
 			'language_id' => '2',
@@ -71,7 +71,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		//質問3
 		array(
 			'id' => '4',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_3',
 			'language_id' => '2',
@@ -86,7 +86,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		//質問4(一般が書いた質問＆一度公開している)
 		array(
 			'id' => '5',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_4',
 			'language_id' => '2',
@@ -100,7 +100,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '6',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_4',
 			'language_id' => '2',
@@ -115,7 +115,7 @@ class FaqQuestionFixture extends CakeTestFixture {
 		//質問5(chief_userが書いた質問＆一度も公開していない)
 		array(
 			'id' => '7',
-			'faq_id' => '2',
+			'faq_key' => 'faq_1',
 			'block_id' => '2',
 			'key' => 'faq_question_5',
 			'language_id' => '2',

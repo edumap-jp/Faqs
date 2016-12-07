@@ -85,7 +85,7 @@ class FaqQuestionOrdersController extends FaqsAppController {
 					'recursive' => 0,
 					'order' => array('FaqQuestionOrder.weight' => 'asc'),
 					'conditions' => $this->FaqQuestion->getWorkflowConditions(array(
-						'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
+						'FaqQuestion.faq_key' => $this->viewVars['faq']['key'],
 					)),
 					'limit' => PHP_INT_MAX,
 					'maxLimit' => PHP_INT_MAX

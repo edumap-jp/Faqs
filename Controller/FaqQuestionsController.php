@@ -92,7 +92,7 @@ class FaqQuestionsController extends FaqsAppController {
 
 		//条件
 		$conditions = array(
-			'FaqQuestion.faq_id' => $this->viewVars['faq']['id'],
+			'FaqQuestion.faq_key' => $this->viewVars['faq']['key'],
 		);
 		if (isset($this->params['named']['category_id'])) {
 			$conditions['FaqQuestion.category_id'] = $this->params['named']['category_id'];
@@ -106,6 +106,7 @@ class FaqQuestionsController extends FaqsAppController {
 			$query['limit'] = $this->viewVars['faqFrameSetting']['content_per_page'];
 		}
 
+		$query['recursive'] = 0;
 		$this->Paginator->settings = $query;
 		$faqQuestions = $this->Paginator->paginate('FaqQuestion');
 		$this->set('faqQuestions', $faqQuestions);
@@ -121,7 +122,7 @@ class FaqQuestionsController extends FaqsAppController {
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->FaqQuestion->alias . '.faq_id' => $this->viewVars['faq']['id'],
+				$this->FaqQuestion->alias . '.faq_key' => $this->viewVars['faq']['key'],
 				$this->FaqQuestion->alias . '.key' => $faqQuestionKey
 			)
 		));
@@ -157,7 +158,7 @@ class FaqQuestionsController extends FaqsAppController {
 			//表示処理
 			$this->request->data = Hash::merge($this->request->data,
 				$this->FaqQuestion->create(array(
-					'faq_id' => $this->viewVars['faq']['id'],
+					'faq_key' => $this->viewVars['faq']['key'],
 				)),
 				$this->FaqQuestionOrder->create(array(
 					'faq_key' => $this->viewVars['faq']['key'],
@@ -183,7 +184,7 @@ class FaqQuestionsController extends FaqsAppController {
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
 			'recursive' => 0,
 			'conditions' => array(
-				$this->FaqQuestion->alias . '.faq_id' => $this->viewVars['faq']['id'],
+				$this->FaqQuestion->alias . '.faq_key' => $this->viewVars['faq']['key'],
 				$this->FaqQuestion->alias . '.key' => $faqQuestionKey
 			)
 		));
@@ -232,7 +233,7 @@ class FaqQuestionsController extends FaqsAppController {
 		$faqQuestion = $this->FaqQuestion->getWorkflowContents('first', array(
 			'recursive' => -1,
 			'conditions' => array(
-				$this->FaqQuestion->alias . '.faq_id' => $this->data['FaqQuestion']['faq_id'],
+				$this->FaqQuestion->alias . '.faq_key' => $this->data['FaqQuestion']['faq_key'],
 				$this->FaqQuestion->alias . '.key' => $this->data['FaqQuestion']['key']
 			)
 		));
