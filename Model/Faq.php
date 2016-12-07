@@ -46,6 +46,10 @@ class Faq extends FaqsAppModel {
 		'Categories.Category',
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
+		//多言語
+		'M17n.M17n' => array(
+			'keyField' => 'block_id'
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
