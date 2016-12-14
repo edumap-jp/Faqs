@@ -14,60 +14,54 @@ msgstr ""
 "POT-Creation-Date: \n"
 "X-Generator: Poedit 1.8.1\n"
 
-#: Faqs/Controller/FaqBlocksController.php:126
-msgid "New FAQ %s"
-msgstr "新規FAQ%s"
-
-#: Faqs/Model/Faq.php:110 Faqs/Test/Case/Model/FaqValidateFaqTest.php:149;178
-#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:14;28
-msgid "FAQ"
-msgstr ""
-
-#: Faqs/Model/FaqQuestion.php:115
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:357
-#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
-#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:89
-#: Faqs/View/FaqQuestionOrders/edit.ctp:51
-msgid "Question"
-msgstr "質問"
-
-#: Faqs/Model/FaqQuestion.php:123
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:390
-#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:114
-msgid "Answer"
-msgstr "回答"
-
-#: Faqs/View/Elements/FaqBlocks/edit_form.ctp:32
-#: Faqs/View/FaqBlocks/index.ctp:37
+#: Faqs/Model/Faq.php:140
+#: Faqs/Test/Case/Controller/FaqBlocksController/EditTest.php:124;152
+#: Faqs/Test/Case/Model/Faq/ValidateFaqTest.php:123
+#: Faqs/View/Elements/FaqBlocks/edit_form.ctp:22
+#: Faqs/View/FaqBlocks/index.ctp:29
 msgid "FAQ Name"
 msgstr "FAQ名"
 
-#: Faqs/View/FaqQuestions/index.ctp:28
-msgid "Sort question"
-msgstr "順序変更"
+#: Faqs/Model/Faq.php:188
+#: Faqs/Test/Case/Model/Faq/CreateFaqTest.php:87
+msgid "New FAQ %s"
+msgstr "新規FAQ%s"
+
+#: Faqs/Model/FaqQuestion.php:146
+#: Faqs/Test/Case/Controller/FaqQuestionsController/AddTest.php:247
+#: Faqs/Test/Case/Controller/FaqQuestionsController/EditTest.php:349
+#: Faqs/Test/Case/Model/FaqQuestion/SaveFaqQuestionTest.php:195
+#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:27
+#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:32
+#: Faqs/View/FaqQuestionOrders/edit.ctp:47
+msgid "Question"
+msgstr "質問"
+
+#: Faqs/Model/FaqQuestion.php:154
+#: Faqs/Test/Case/Controller/FaqQuestionsController/AddTest.php:254
+#: Faqs/Test/Case/Controller/FaqQuestionsController/EditTest.php:356
+#: Faqs/Test/Case/Model/FaqQuestion/SaveFaqQuestionTest.php:197
+#: Faqs/View/Elements/FaqQuestions/edit_form.ctp:38
+msgid "Answer"
+msgstr "回答"
+
+#: Faqs/View/Elements/FaqBlockRolePermissions/edit_form.ctp:18
+msgid "Content creatable roles"
+msgstr "FAQを追加できる権限"
+
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:14;23
+msgid "FAQ"
+msgstr ""
+
+#: Faqs/View/FaqMailSettings/edit.ctp:22
+msgid "MailSetting.mail_fixed_phrase_body.popover"
+msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-FAQ_NAME} : FAQ名<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-QUESTION} : 質問<br>{X-ANSWER} : 回答<br>{X-URL} : 質問内容のURL"
 
 #: Faqs/View/FaqQuestions/index.ctp:35
 msgid "Create question"
 msgstr "質問の作成"
 
-#
-#: FAQ一覧
-#
-
+#: Faqs/View/FaqQuestions/index.ctp:50
 msgid "No faq found."
 msgstr "FAQがありません。"
 
-
-#
-#: メール関連
-#
-
-msgid "MailSetting.mail_fixed_phrase_body.popover"
-msgstr "{X-SITE_NAME} : サイト名<br>{X-PLUGIN_NAME} : プラグイン名<br>{X-ROOM} : ルーム名<br>{X-BLOCK_NAME} : ブロック名<br>{X-FAQ_NAME} : FAQ名<br>{X-USER} : 投稿者<br>{X-TO_DATE} : 投稿日時<br>{X-QUESTION} : 質問<br>{X-ANSWER} : 回答<br>{X-URL} : 質問内容のURL"
-
-#
-#: 権限設定
-#
-
-msgid "Content creatable roles"
-msgstr "FAQを追加できる権限"
