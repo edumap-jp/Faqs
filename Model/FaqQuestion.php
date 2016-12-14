@@ -53,7 +53,7 @@ class FaqQuestion extends FaqsAppModel {
 		),
 		//多言語
 		'M17n.M17n' => array(
-			'allUpdateField' => array('category_id')
+			'commonFields' => array('category_id')
 		),
 	);
 
