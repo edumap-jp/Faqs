@@ -62,7 +62,6 @@ class FaqQuestionsControllerDeleteTest extends WorkflowControllerDeleteTest {
 	private function __getData($faqQuestionKey = 'faq_question_1') {
 		$frameId = '6';
 		$blockId = '2';
-		$faqId = '2';
 		$faqKey = 'faq_1';
 		if ($faqQuestionKey === 'faq_question_2') {
 			$faqQuestionId = '3';
