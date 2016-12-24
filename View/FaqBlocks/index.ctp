@@ -26,7 +26,7 @@
 								'Frame.block_id'
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Block.name', __d('faqs', 'FAQ Name'),
+								'BlocksLanguage.name', __d('faqs', 'FAQ Name'),
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
@@ -54,7 +54,7 @@
 									'Frame.block_id', $faq['Block']['id']
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Block.name', $faq['Block']['name'],
+									'BlocksLanguage.name', $faq['BlocksLanguage']['name'],
 									array('editUrl' => array('block_id' => $faq['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(

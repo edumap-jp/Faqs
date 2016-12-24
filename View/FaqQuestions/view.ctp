@@ -35,7 +35,7 @@
 	<?php if ($faqQuestion['Category']['id']) : ?>
 		<div class="text-muted">
 			<?php echo __d('categories', 'Category'); ?>:
-			<?php echo $this->NetCommonsHtml->link($faqQuestion['Category']['name'],
+			<?php echo $this->NetCommonsHtml->link($faqQuestion['CategoriesLanguage']['name'],
 					array('action' => 'index', 'category_id' => $faqQuestion['Category']['id'])
 				); ?>
 		</div>

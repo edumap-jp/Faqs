@@ -74,7 +74,7 @@ $faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQu
 							</td>
 							<td>
 								<div class="text-nowrap">
-									{{q.category.name}}
+									{{q.categoriesLanguage.name}}
 								</div>
 							</td>
 						</tr>

@@ -46,6 +46,10 @@ class Faq extends FaqsAppModel {
 		'Categories.Category',
 		'NetCommons.OriginalKey',
 		'Workflow.WorkflowComment',
+		//多言語
+		'M17n.M17n' => array(
+			'keyField' => 'block_id'
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -66,27 +70,6 @@ class Faq extends FaqsAppModel {
 	);
 
 /**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'FaqQuestion' => array(
-			'className' => 'Faqs.FaqQuestion',
-			'foreignKey' => 'faq_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
-/**
  * Constructor. Binds the model's database table to the object.
  *
  * @param bool|int|string|array $id Set this ID for this model on startup,
@@ -102,6 +85,7 @@ class Faq extends FaqsAppModel {
 		$this->loadModels([
 			'Faq' => 'Faqs.Faq',
 			'FaqSetting' => 'Faqs.FaqSetting',
+			'FaqQuestion' => 'Faqs.FaqQuestion',
 			'FaqQuestionOrder' => 'Faqs.FaqQuestionOrder',
 		]);
 	}
@@ -199,18 +183,8 @@ class Faq extends FaqsAppModel {
  * @return array
  */
 	public function getFaq() {
-		$fields = Hash::merge(
-			array(
-				$this->alias . '.*',
-				$this->Block->alias . '.*',
-			),
-			Hash::get($this->belongsTo, 'TrackableCreator.fields', array()),
-			Hash::get($this->belongsTo, 'TrackableUpdater.fields', array())
-		);
-
 		$faq = $this->find('all', array(
 			'recursive' => 0,
-			'fields' => $fields,
 			'conditions' => $this->getBlockConditionById(),
 		));
 
@@ -264,27 +238,25 @@ class Faq extends FaqsAppModel {
 		//トランザクションBegin
 		$this->begin();
 
-		$conditions = array(
-			$this->alias . '.key' => $data['Faq']['key']
-		);
-		$faqs = $this->find('list', array(
-			'recursive' => -1,
-			'conditions' => $conditions,
-		));
-		$faqs = array_keys($faqs);
-
 		try {
-			if (! $this->deleteAll(array($this->alias . '.key' => $data['Faq']['key']), false)) {
+			$conditions = array(
+				$this->alias . '.key' => $data['Faq']['key']
+			);
+			if (! $this->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			$this->FaqQuestion->blockKey = $data['Block']['key'];
-			$conditions = array($this->FaqQuestion->alias . '.faq_id' => $faqs);
+			$conditions = array(
+				$this->FaqQuestion->alias . '.faq_key' => $data['Faq']['key']
+			);
 			if (! $this->FaqQuestion->deleteAll($conditions, false, true)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
-			$conditions = array($this->FaqQuestionOrder->alias . '.faq_key' => $data['Faq']['key']);
+			$conditions = array(
+				$this->FaqQuestionOrder->alias . '.faq_key' => $data['Faq']['key']
+			);
 			if (! $this->FaqQuestionOrder->deleteAll($conditions, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}

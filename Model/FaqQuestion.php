@@ -51,6 +51,10 @@ class FaqQuestion extends FaqsAppModel {
 		'Wysiwyg.Wysiwyg' => array(
 			'fields' => array('answer'),
 		),
+		//多言語
+		'M17n.M17n' => array(
+			'commonFields' => array('category_id')
+		),
 	);
 
 /**
@@ -75,13 +79,13 @@ class FaqQuestion extends FaqsAppModel {
 			'fields' => '',
 			'order' => array('FaqQuestionOrder.weight' => 'ASC')
 		),
-		'Faq' => array(
-			'className' => 'Faqs.Faq',
-			'foreignKey' => 'faq_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+		//'Faq' => array(
+		//	'className' => 'Faqs.Faq',
+		//	'foreignKey' => 'faq_id',
+		//	'conditions' => '',
+		//	'fields' => '',
+		//	'order' => ''
+		//),
 		'Category' => array(
 			'className' => 'Categories.Category',
 			'foreignKey' => 'category_id',
@@ -103,10 +107,31 @@ class FaqQuestion extends FaqsAppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => array(
-				'content_count' => array('FaqQuestion.is_latest' => 1),
+				'content_count' => array(
+					'FaqQuestion.is_origin' => true,
+					'FaqQuestion.is_latest' => true
+				),
 			),
 		),
 	);
+
+/**
+ * Called before each find operation. Return false if you want to halt the find
+ * call, otherwise return the (modified) query data.
+ *
+ * @param array $query Data used to execute this query, i.e. conditions, order, etc.
+ * @return mixed true if the operation should continue, false if it should abort; or, modified
+ *  $query to continue with new $query
+ * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforefind
+ */
+	public function beforeFind($query) {
+		//$this->idがある場合、登録処理として判断する
+		if (Hash::get($query, 'recursive') > -1 && ! $this->id) {
+			$belongsTo = $this->Category->bindModelCategoryLang('FaqQuestion.category_id');
+			$this->bindModel($belongsTo, true);
+		}
+		return true;
+	}
 
 /**
  * Called during validation operations, before validation. Please note that custom
@@ -119,13 +144,12 @@ class FaqQuestion extends FaqsAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'faq_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
+			'faq_key' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
-					//'on' => 'update', // Limit validation to 'create' or 'update' operations
 				),
 			),
 			'key' => array(
@@ -200,27 +224,6 @@ class FaqQuestion extends FaqsAppModel {
 		}
 
 		return true;
-	}
-
-/**
- * Get FaqQuestion
- *
- * @param int $faqId faqs.id
- * @param string $faqQuestionKey faq_qestions.key
- * @param array $conditions find conditions
- * @return array FaqQuestion
- */
-	public function getFaqQuestion($faqId, $faqQuestionKey, $conditions = []) {
-		$conditions[$this->alias . '.faq_id'] = $faqId;
-		$conditions[$this->alias . '.key'] = $faqQuestionKey;
-
-		$faqQuestion = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
-
-		return $faqQuestion;
 	}
 
 /**

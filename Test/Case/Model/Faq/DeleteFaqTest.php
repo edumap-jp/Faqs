@@ -29,6 +29,7 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 	public $fixtures = array(
 		'plugin.categories.category',
 		'plugin.categories.category_order',
+		'plugin.categories.categories_language',
 		'plugin.workflow.workflow_comment',
 		'plugin.faqs.faq',
 		'plugin.faqs.block_setting_for_faq',
@@ -88,7 +89,7 @@ class FaqDeleteFaqTest extends NetCommonsDeleteTest {
 	public function dataProviderDelete() {
 		$association = array(
 			'FaqQuestion' => array(
-				'faq_id' => '2',
+				'faq_key' => 'faq_1',
 			),
 			'FaqQuestionOrder' => array(
 				'faq_key' => 'faq_1',
