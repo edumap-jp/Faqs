@@ -41,9 +41,9 @@
 		</div>
 	<?php endif; ?>
 
-	<div>
+	<article>
 		<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
-	</div>
+	</article>
 
 	<footer>
 		<?php echo $this->Like->buttons('FaqQuestion', $faqSetting, $faqQuestion); ?>
