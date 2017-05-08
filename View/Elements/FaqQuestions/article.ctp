@@ -42,7 +42,7 @@ $hidden = $this->params['action'] === 'index' ? 'hidden' : '';
 			</div>
 		<?php endif; ?>
 
-		<article>
+		<article class="clearfix">
 			<?php echo $faqQuestion['FaqQuestion']['answer']; ?>
 		</article>
 
