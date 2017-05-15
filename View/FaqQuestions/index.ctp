@@ -10,6 +10,7 @@
  */
 ?>
 <?php echo $this->NetCommonsHtml->script('/faqs/js/faqs.js'); ?>
+<?php echo $this->NetCommonsHtml->css('/faqs/css/style.css'); ?>
 
 <div class="nc-content-list" ng-controller="FaqIndex">
 	<?php echo $this->NetCommonsHtml->blockTitle($faq['name']); ?>

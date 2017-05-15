@@ -9,6 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
+<?php echo $this->NetCommonsHtml->css('/faqs/css/style.css'); ?>
 
 <article class="nc-content-list">
 	<header class="clearfix">
@@ -33,7 +34,7 @@
 	</h1>
 
 	<?php if ($faqQuestion['Category']['id']) : ?>
-		<div class="text-muted">
+		<div class="text-muted faqs-category">
 			<?php echo __d('categories', 'Category'); ?>:
 			<?php echo $this->NetCommonsHtml->link($faqQuestion['CategoriesLanguage']['name'],
 					array('action' => 'index', 'category_id' => $faqQuestion['Category']['id'])
