@@ -26,7 +26,7 @@ $faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 		<div class="panel panel-default">
 			<?php echo $this->NetCommonsForm->create('FaqQuestion'); ?>
 				<div class="panel-body">
-					<?php echo $this->element('FaqQuestions/edit_form'); ?>
+					<?php echo $this->element('Faqs.FaqQuestions/edit_form'); ?>
 
 					<hr />
 
@@ -38,7 +38,7 @@ $faqQuestion['answer'] = $this->data['FaqQuestion']['answer'];
 
 			<?php if ($this->request->params['action'] === 'edit' && $this->Workflow->canDelete('FaqQuestion', $this->data)) : ?>
 				<div class="panel-footer text-right">
-					<?php echo $this->element('FaqQuestions/delete_form'); ?>
+					<?php echo $this->element('Faqs.FaqQuestions/delete_form'); ?>
 				</div>
 			<?php endif; ?>
 		</div>
