@@ -71,7 +71,8 @@ class FaqQuestionsController extends FaqsAppController {
 			return false;
 		}
 
-		if (! $faq = $this->Faq->getFaq()) {
+		$faq = $this->Faq->getFaq();
+		if (! $faq) {
 			$this->setAction('throwBadRequest');
 			return false;
 		}

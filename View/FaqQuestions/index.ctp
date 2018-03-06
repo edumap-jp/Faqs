@@ -39,7 +39,7 @@
 
 	<?php if ($faqQuestions) : ?>
 		<?php foreach($faqQuestions as $faqQuestion): ?>
-			<?php echo $this->element('FaqQuestions/article', array(
+			<?php echo $this->element('Faqs.FaqQuestions/article', array(
 					'faqQuestion' => $faqQuestion,
 				)); ?>
 		<?php endforeach; ?>
