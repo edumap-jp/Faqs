@@ -12,7 +12,13 @@
 echo $this->NetCommonsHtml->script('/faqs/js/faqs.js');
 
 $faqQuestions = NetCommonsAppController::camelizeKeyRecursive($this->data['FaqQuestions']);
-$faqQuestionsMap = array_flip(array_keys(Hash::combine($faqQuestions, '{n}.faqQuestion.key')));
+$faqQuestionsMap = [];
+$i = 0;
+foreach ($faqQuestions as $question) {
+	$key = $question['faqQuestion']['key'];
+	$faqQuestionsMap[$key] = $i;
+	$i++;
+}
 ?>
 
 <div class="nc-content-list" ng-controller="FaqQuestionOrders" class="nc-content-list"
