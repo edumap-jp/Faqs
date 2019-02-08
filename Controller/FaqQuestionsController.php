@@ -151,7 +151,7 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				return $this->redirect(NetCommonsUrl::backToPageUrl());
+				return $this->redirect(NetCommonsUrl::backToIndexUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
@@ -202,7 +202,7 @@ class FaqQuestionsController extends FaqsAppController {
 			unset($data['FaqQuestion']['id']);
 
 			if ($this->FaqQuestion->saveFaqQuestion($data)) {
-				return $this->redirect(NetCommonsUrl::backToPageUrl());
+				return $this->redirect(NetCommonsUrl::backToIndexUrl());
 			}
 			$this->NetCommons->handleValidationError($this->FaqQuestion->validationErrors);
 
@@ -248,6 +248,6 @@ class FaqQuestionsController extends FaqsAppController {
 			return $this->throwBadRequest();
 		}
 
-		$this->redirect(NetCommonsUrl::backToPageUrl());
+		$this->redirect(NetCommonsUrl::backToIndexUrl());
 	}
 }
