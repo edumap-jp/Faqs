@@ -34,6 +34,8 @@ class FaqQuestionOrdersControllerEditTest extends NetCommonsControllerTestCase {
 		'plugin.faqs.block_setting_for_faq',
 		'plugin.faqs.faq_question',
 		'plugin.faqs.faq_question_order',
+		'plugin.likes.like',
+		'plugin.likes.likes_user'
 	);
 
 /**
@@ -80,6 +82,20 @@ class FaqQuestionOrdersControllerEditTest extends NetCommonsControllerTestCase {
 			),
 			'FaqQuestions' => array(
 				0 => array(
+					'FaqQuestion' => [
+						'id' => '2',
+						'faq_key' => 'faq_1',
+						'block_id' => '2',
+						'key' => 'faq_question_1',
+						'language_id' => '2',
+						'category_id' => '1',
+						'status' => '4',
+						'is_active' => false,
+						'is_latest' => true,
+						'question' => 'Question value 2',
+						'answer' => 'Answer value 2',
+						'created_user' => '1'
+					],
 					'FaqQuestionOrder' => array(
 						'id' => 1,
 						'faq_key' => $faqKey,
@@ -88,6 +104,21 @@ class FaqQuestionOrdersControllerEditTest extends NetCommonsControllerTestCase {
 					),
 				),
 				1 => array(
+					'FaqQuestion' => [
+						'id' => '3',
+						'faq_key' => 'faq_1',
+						'block_id' => '2',
+						'key' => 'faq_question_2',
+						'language_id' => '2',
+						'category_id' => '1',
+						'status' => '3',
+						'is_active' => false,
+						'is_latest' => true,
+						'question' => 'Question value 3',
+						'answer' => 'Answer value 3',
+						'created_user' => '4'
+
+					],
 					'FaqQuestionOrder' => array(
 						'id' => '2',
 						'faq_key' => $faqKey,
