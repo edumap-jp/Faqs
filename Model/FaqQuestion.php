@@ -143,7 +143,7 @@ class FaqQuestion extends FaqsAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = ValidateMerge::merge($this->validate, array(
 			'faq_key' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
