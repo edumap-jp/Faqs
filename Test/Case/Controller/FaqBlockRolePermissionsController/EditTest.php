@@ -62,9 +62,9 @@ class FaqBlockRolePermissionsControllerEditTest extends BlockRolePermissionsCont
 				'FaqSetting' => array(
 					'id' => 2,
 					'faq_key' => 'faq_2',
-					'use_workflow' => true,
+					'use_workflow' => '1',
 					//'use_comment_approval' => true,
-					'approval_type' => true,
+					'approval_type' => '1',
 				)
 			);
 		} else {
