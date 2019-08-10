@@ -55,7 +55,7 @@ class FaqBlocksControllerEditTest extends BlocksControllerEditTest {
 		$frameId = '6';
 
 		if ($isEdit) {
-			$blockId = '4';
+			$blockId = '2';
 			$blockKey = 'block_2';
 			$faqId = '3';
 			$faqKey = 'faq_2';
