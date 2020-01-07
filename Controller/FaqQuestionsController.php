@@ -134,6 +134,12 @@ class FaqQuestionsController extends FaqsAppController {
 
 		//新着データを既読にする
 		$this->FaqQuestion->saveTopicUserStatus($faqQuestion);
+
+		//Model表示
+		if ($this->request->is('ajax')) {
+			$this->viewClass = 'View';
+			$this->layout = 'Faqs.modal';
+		}
 	}
 
 /**
